@@ -1,0 +1,21 @@
+
+table .name {
+	width: 200px;
+}
+
+#title {
+	border: 0;
+	text-align: center;
+	height: 27px;
+	width: 800px;
+	background-color: #E9E8EF;
+}
+
+.name:hover {
+	font-weight: bold;
+	cursor: pointer;
+}
+
+
+
+
