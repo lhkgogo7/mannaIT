@@ -1,0 +1,130 @@
+select {
+	border: 1px solid #E9DDDD;
+	
+}
+
+button {
+	border: 1px solid #E9DDDD;
+	background-color: #ffffff;
+}
+
+button:hover {
+	cursor: pointer;
+	background-color: #E9E8EF;
+}
+
+#clear {
+	clear: both;
+}
+
+a {
+	text-decoration: overline;
+}
+
+div.main {
+	position: relative;
+	width: 800px;
+}
+
+div .search_box select#color {
+	width: 100%;
+	height: 40px;
+	min-height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	opacity: 0;
+	filter: alpha(opacity = 0); /* IE 8 */
+}
+
+div .search_box option {
+	font-size: 14px;
+	color: #a97228;
+	top: 13px;
+	left: 12px;
+	letter-spacing: 1px;
+}
+
+div.search_box {
+	position: relative;
+	float: left;
+	width: 800px;
+	height: 40px;
+	text-align: right;
+	margin-right: 10px;
+	border: 1px solid #E9DDDD;
+	/* 	background-color: red; */
+	opacity: 0.5;
+}
+
+div .content_body {
+	position: relative;
+	/* position: relative; */
+	float: left;
+	overflow:  auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	/* 	background-color: orange; */
+	opacity: 0.5;
+	width: 800px;
+}
+
+div #content_list {
+	clear: both;
+	position: relative;
+	/* //position: relative; */
+	float: left;
+	overflow: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	/* 	background-color: black; */
+	opacity: 0.5;
+	width: 800px;
+}
+
+table {
+	border-collapse: collapse;
+	border: 1px solid #E9DDDD;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	cellpadding: 5px;
+	cellspacing: 0px;
+	width: 800px;
+}
+table.mem_add {
+	border-collapse: collapse;
+	border: 1px solid #E9DDDD;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	cellpadding: 5px;
+	cellspacing: 0px;
+	width: 400px;
+}
+table.m_table input{
+	width :90px;
+	border: none;
+	
+}
+table.m_table input.m_extension{
+	width :50px;
+	border: none;
+	
+}
+table.m_table input.m_id{
+	width :50px;
+	border: none;
+	
+}
+table.m_table input.m_pwd{
+	width :50px;
+	border: none;
+	
+}
+table.m_table  input.m_name{
+	width : 50px;
+	border: none;
+	
+}
