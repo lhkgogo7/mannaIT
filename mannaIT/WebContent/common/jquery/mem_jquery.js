@@ -61,7 +61,11 @@ function mem_list_ajax(dep_code, pos_code) {
 function mem_modify(){
 	
 	$(".mod").click(function(){
+<<<<<<< HEAD
 		//alert("modify");
+=======
+		alert("modify");
+>>>>>>> origin/master
 		var m_code = $(this).parent().parent().children().children('.m_code').val();
 		
 		var m_name = $(this).parent().parent().children().children('.m_name').val();
@@ -73,7 +77,11 @@ function mem_modify(){
 		var m_mail = $(this).parent().parent().children().children('.m_mail').val();
 		var m_id = $(this).parent().parent().children().children('.m_id').val();
 		var m_pwd = $(this).parent().parent().children().children('.m_pwd').val();
+<<<<<<< HEAD
 		//alert(m_code+"/"+m_name+"/"+m_depcode+"/"+m_extension+"/"+m_phone+"/"+  m_mobile+"/"+m_poscode +"/"+m_mail +"/"+m_id+"/"+m_pwd  );
+=======
+		alert(m_code+"/"+m_name+"/"+m_depcode+"/"+m_extension+"/"+m_phone+"/"+  m_mobile+"/"+m_poscode +"/"+m_mail +"/"+m_id+"/"+m_pwd  );
+>>>>>>> origin/master
 	
 	
 			$.ajax({
