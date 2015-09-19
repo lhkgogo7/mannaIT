@@ -73,7 +73,7 @@
 				success : function(eq_list) {
 					var eqList = eval(eq_list);
 					var table = '<table class="m_table"><tr class="title">'
-								+'<td>No</td><td>장비코드</td><td>장비명</td><td >제조사</td><td>장비분류</td><td>날짜</td><td>수정</td><td>삭제</td>'
+								+'<td>No</td><td>장비코드</td><td>장비명</td><td >제조사</td><td>장비분류</td><td>날짜</td><td>첨부파일</td><td>수정</td><td>삭제</td>'
 								+'</tr>';
 					$.each(eqList, function(index) {
 						var eq_obj = eqList[index];
@@ -85,6 +85,8 @@
 						table += "<td><select name='eq_ca_list' class='eq_ca_list'>" 
 									+"<option value="+ eq_obj.eq_ca_code+" selected>"+ eq_obj.eq_ca_name+ "</option></td>";
 						table += "<td ><input class='eq_date' type='text' value='" + eq_obj.eq_date_s + "'/></td>";
+						table += "<td>"+eq_obj.eq_picture+"</td>";
+						
 						table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
 									+"<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
 					});

@@ -44,7 +44,7 @@
 		<div id="title"
 			style="float: center; margin-top: 15px; font-family: 굴림; font-size: 10pt;">
 			<%-- <c:set var="co" value='<%=Equipment.getEquipmentCategoryList()%>' /> --%>
-			<form action="/equipmentAddAction.eq" method="post">
+			<form action="/equipmentAddAction.eq" method="post" enctype="multipart/form-data">
 
 				<table border=1 class="add">
 					<tr>
@@ -61,7 +61,7 @@
 							<select name="eq_category" id="eq_category" >
 							 	<option>선택하세요</option>
 								<c:forEach var="ec" items="<%=Equipment.getEquipmentCategoryList()%>" varStatus="status">
-		 							<option value="${ec.eq_ca_code}" >${ec.eq_category}</option>
+		 							<option value="${ec.eq_ca_code}" >${ec.eq_ca_name}</option>
 								</c:forEach>
 							</select>
 						</td>
@@ -70,6 +70,12 @@
 						<th>구입날짜</th>
 						<td>
 							<input type="text" id="eq_date" name= "eq_date">
+						</td>
+					</tr>
+					<tr>
+						<th>장비사진</th>
+						<td>
+							<input type="file" id="eq_picture" name= "eq_picture">
 						</td>
 					</tr>
 					<tr>

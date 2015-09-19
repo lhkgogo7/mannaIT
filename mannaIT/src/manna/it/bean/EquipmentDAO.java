@@ -63,7 +63,7 @@ public class EquipmentDAO {
 			return;
 		}
 	}
-	// 협조전 리스트 출력(
+	//장비 리스트 출력(
 	public Vector<EquipmentBean> getEquipmentList(int ca_code) {
 
 		String sql = "";
@@ -102,6 +102,7 @@ public class EquipmentDAO {
 				data.setEq_ca_code(rs.getInt(k++));
 				
 				data.setEq_date_s(rs.getString(k++));
+				
 		
 				list.addElement(data);
 			}
@@ -146,7 +147,7 @@ public class EquipmentDAO {
 		try {
 			
 
-			sql = "SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd')"
+			sql = "SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd'), EQ_PICTURE"
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
 					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE";
@@ -164,7 +165,7 @@ public class EquipmentDAO {
 				data.setEq_ca_name(rs.getString(k++));
 				data.setEq_ca_code(rs.getInt(k++));
 				data.setEq_date_s(rs.getString(k++));
-			
+				data.setEq_picture(rs.getString(k++));
 
 				list.addElement(data);
 			}
@@ -277,8 +278,8 @@ public class EquipmentDAO {
 
 			try {
 				System.out.println("진입");
-				sql = "INSERT INTO EQUIPMENT (EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_EQCACODE, EQ_DATE)"
-						+ " VALUES (TO_CHAR(SYSDATE, 'YYYY')||lpad(EQCODE_SEQ.NEXTVAL,4,0), ?, ?, ?, ?)";
+				sql = "INSERT INTO EQUIPMENT (EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_EQCACODE, EQ_DATE, EQ_PICTURE)"
+						+ " VALUES (TO_CHAR(SYSDATE, 'YYYY')||lpad(EQCODE_SEQ.NEXTVAL,4,0), ?, ?, ?, ?,?)";
 				
 				System.out.println("sql1"+sql);
 				
@@ -294,9 +295,9 @@ public class EquipmentDAO {
 				java.util.Date uDate = eb.getEq_date();
 				java.sql.Date sDate  = new java.sql.Date(uDate.getTime());
 				pstmt.setDate(4,sDate);
-				
+				pstmt.setString(5, eb.getEq_picture());
 				System.out.println("date"+sDate);
-				
+				System.out.println(" eb.getEq_picture()"+ eb.getEq_picture());
 				System.out.println("sql1"+sql);
 
 				res = pstmt.executeUpdate();
