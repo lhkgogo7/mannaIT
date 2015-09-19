@@ -77,8 +77,8 @@ table tr.title{
 					</tr>
 				</table>
 			</div> -->
-			<div id="tab_container"></div>
-			<div id="tab1" class="tab_content"></div>
+			<div id="tab_container" class="tab_content" ></div>
+
 
 		</div>
 	</div>

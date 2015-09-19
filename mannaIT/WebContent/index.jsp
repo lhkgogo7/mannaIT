@@ -20,17 +20,19 @@
 }
 
 #div_menu {
-	width: 20%;
+	width: 15%;
 	height: 300px;
 	float: left;
 	/* background-color: #E9DDDD; */
 	text-align: left;
+	
 }
 
 #div_menu ul {
 	list-style-type: none;
 	font-size: 20px;
 	color: #E5dddd;
+	padding-left: 5px;
 }
 
 #div_menu ul li {
@@ -40,9 +42,9 @@
 }
 
 #div_con {
-	width: 80%;
+	width: 85%;
 	height: 100%;
-	float: left;
+	float: right;
 	/* backfoutnd-image:url("image/bg_image02.jpg"); */
 	backgound-size: 100% 100%;
 	text-align: center;
@@ -101,15 +103,19 @@ $(document).ready(function(){
 
 	<div id="div_root">
 		<div id="div_top">div_top</div>
-		<div id="div_menu">div_menu
+		<nav id="div_menu">div_menu
 			<ul>
-				<li id="eq">장비</li>
+				<li id="eq">H/W</li>
+				<li id="s/w">S/W</li>
 				<li id="req">요청</li>
+				<li id="req">장비대여</li>
+				<li id="req">지출결의서</li>
+				<li id="req">기안서</li>
 				<li id="rep">업무일지</li>
-				<li id="mem">회원<li>
+				<li id="mem">Member<li>
 			</ul>
 
-		</div>
+		</nav>
 		<div id="div_con">
 			<font class="P1">div_con</font>
 		</div>

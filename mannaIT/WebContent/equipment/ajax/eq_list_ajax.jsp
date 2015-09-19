@@ -37,6 +37,7 @@
 			obj.put("eq_ca_code", eq_vector.get(i).getEq_ca_code());
 			obj.put("eq_ca_name", eq_vector.get(i).getEq_ca_name());			
 			obj.put("eq_date_s", eq_vector.get(i).getEq_date_s());
+			obj.put("eq_picture", eq_vector.get(i).getEq_picture());
 			System.out.println("obj"+i+obj);
 			eq_list.add(obj);
 			

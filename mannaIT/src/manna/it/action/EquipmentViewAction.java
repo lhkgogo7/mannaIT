@@ -21,8 +21,10 @@ public class EquipmentViewAction implements Action{
 		EquipmentDAO equipmentDao = new EquipmentDAO();
 		EquipmentBean equipment = new EquipmentBean();
 		
-		int num = Integer.parseInt(request.getParameter("num"));
-		equipment = equipmentDao.getEquipmentView(num);
+		String savePath = request.getRealPath("/upload");
+		int eq_code = Integer.parseInt(request.getParameter("eq_code"));
+		equipment = equipmentDao.getEquipmentView(eq_code);
+		String imgPath = "eqPicture/"+equipment.getEq_picture();
 		
 		if(equipment==null){
 			System.out.println("상세보기 실패");
@@ -30,7 +32,10 @@ public class EquipmentViewAction implements Action{
 		}
 		System.out.println("상세보기성공");
 		
+		
 		request.setAttribute("ev", equipment);
+		
+		request.setAttribute("eq_picture", imgPath );
 		forward.setRedirect(false);
 		forward.setPath("/equipment/equipment_view.jsp");
 		return forward;

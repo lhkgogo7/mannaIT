@@ -43,18 +43,14 @@
 
 
 		<div id="title"
-			style="float: center; margin-top: 15px; font-family: 굴림; font-size: 20pt;">
-			<h2>장비수정</h2>
-		</div>
-		<div id="title"
 			style="float: center; margin-top: 15px; font-family: 굴림; font-size: 10pt;">
 			
-			<form action="/equipmentModifyAction.eq" method="post">
+			<form action="/equipmentModifyAction.eq" method="post" enctype="multipart/form-data">
 
 				<table border=1 class="add">
 					<tr>
 						<th>장비코드</th>
-						<td><input type="text" id="eq_code" name="eq_code" value="${ev.num}"></td>
+						<td><input type="hidden" id="eq_code" name="eq_code" value="${ev.eq_code}" >${ev.eq_code}</td>
 					</tr>
 					<tr>
 						<th>장비명</th>
@@ -68,9 +64,9 @@
 						<th>장비분류</th>
 						<td>
 							<select name="eq_category" id="eq_category" >
-									<option selected value="${ev.eq_ca_code}" >${ev.eq_category}</option>
+									<option selected value="${ev.eq_ca_code}" >${ev.eq_ca_name}</option>
 							 	<c:forEach var="ec" items="<%=Equipment.getEquipmentCategoryList()%>" varStatus="status">
-		 							<option value="${ec.eq_ca_code}" >${ec.eq_category}</option>
+		 							<option value="${ec.eq_ca_code}" >${ec.eq_ca_name}</option>
 								</c:forEach>
 								
 							</select>
@@ -79,9 +75,16 @@
 					<tr>
 						<th>구입날짜</th>
 						<td>
-							<input type="text" id="eq_date" name= "eq_date" value="${ev.date}">
+							<input type="text" id="eq_date" name= "eq_date" value="${ev.eq_date}">
 						</td>
 					</tr>
+					<tr>
+						<th>장비사진</th>
+						<td>
+							<input type="file" id="eq_picture" name= "eq_picture"  value="${ev.eq_picture}">
+						</td>
+					</tr>
+					
 					<tr>
 						<td colspan=11 style="text-align: center">
 							<input type="submit" value="수정">

@@ -23,11 +23,11 @@ a {
 
 div.main {
 	position: relative;
-	width: 800px;
+	width: 100%;
 }
 
 div .search_box select#color {
-	width: 100%;
+
 	height: 40px;
 	min-height: 40px;
 	line-height: 40px;
@@ -47,10 +47,10 @@ div .search_box option {
 div.search_box {
 	position: relative;
 	float: left;
-	width: 800px;
+	width: 830px;
 	height: 40px;
 	text-align: right;
-	margin-right: 10px;
+	margin: 10px 10px 0px 10px;
 	border: 1px solid #E9DDDD;
 	/* 	background-color: red; */
 	opacity: 0.5;
@@ -66,7 +66,7 @@ div .content_body {
 	box-sizing: border-box;
 	/* 	background-color: orange; */
 	opacity: 0.5;
-	width: 800px;
+	width: 100%;
 }
 
 div #content_list {
@@ -80,18 +80,26 @@ div #content_list {
 	box-sizing: border-box;
 	/* 	background-color: black; */
 	opacity: 0.5;
-	width: 800px;
+	width: 850px;
 }
 
 table {
 	border-collapse: collapse;
 	border: 1px solid #E9DDDD;
 	text-align: center;
-	margin: 0px;
+	margin: 10px 10px 10px 10px; 
 	padding: 0px;
 	cellpadding: 5px;
 	cellspacing: 0px;
+	width: 830px;
+	
+}
+table tr#title {
+	border: 0;
+	text-align: center;
+	height: 27px;
 	width: 800px;
+	background-color: #E9E8EF;
 }
 table.mem_add {
 	border-collapse: collapse;
@@ -127,4 +135,7 @@ table.m_table  input.m_name{
 	width : 50px;
 	border: none;
 	
+}
+table.add{
+	margin :10px;
 }

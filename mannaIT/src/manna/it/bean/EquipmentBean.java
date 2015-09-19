@@ -11,6 +11,7 @@ public class EquipmentBean {
 	private String eq_ca_name; //분류명
 	private Date eq_date;	// 장비구입일 
 	private String eq_date_s;	// 장비구입일  문자타입
+	private String eq_picture;//장비 사진
 	
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
@@ -102,6 +103,18 @@ public class EquipmentBean {
 
 	public void setEq_date_s(String eq_date_s) {
 		this.eq_date_s = eq_date_s;
+	}
+
+
+
+	public String getEq_picture() {
+		return eq_picture;
+	}
+
+
+
+	public void setEq_picture(String eq_picture) {
+		this.eq_picture = eq_picture;
 	}
 	
 	

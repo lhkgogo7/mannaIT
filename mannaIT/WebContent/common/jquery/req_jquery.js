@@ -150,8 +150,8 @@ function req_list_ajax(res_code, req_code) {
 			});
 
 			table += "</table>";
-			$("#tab1").empty();
-			$("#tab1").append(table);
+			$("#tab_container").empty();
+			$("#tab_container").append(table);
 			res_ajax();
 			req_view();
 

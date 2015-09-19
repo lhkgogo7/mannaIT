@@ -21,8 +21,8 @@ public class EquipmentModifyView implements Action{
 		EquipmentDAO equipmentDao = new EquipmentDAO();
 		EquipmentBean equipment = new EquipmentBean();
 		
-		int num = Integer.parseInt(request.getParameter("num"));
-		equipment = equipmentDao.getEquipmentView(num);
+		int eq_code = Integer.parseInt(request.getParameter("eq_code"));
+		equipment = equipmentDao.getEquipmentView(eq_code);
 		
 		if(equipment==null){
 			System.out.println("(수정)상세보기 실패");
