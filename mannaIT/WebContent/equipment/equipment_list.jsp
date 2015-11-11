@@ -37,7 +37,40 @@
 			location.href(loc);
 		});
 
+
 	});
+
+			
+		function eq_list_ajax(eq_ca_code) {
+			$.ajax({
+				url : "/equipmentListAjax.eq",
+				dataType : "text",
+				data : {
+					eq_ca_code : eq_ca_code
+				},
+				success : function(eq_list) {
+					var eqList = eval(eq_list);
+					var table = '<table class="m_table"><tr class="title">'
+								+'<td>No</td><td>장비코드</td><td>장비명</td><td >제조사</td><td>장비분류</td><td>날짜</td><td>첨부파일</td><td>수정</td><td>삭제</td>'
+								+'</tr>';
+					$.each(eqList, function(index) {
+						var eq_obj = eqList[index];
+						table += "<tr>";
+						table += "<td>" + (index + 1) + "<input type='hidden' name='eq_code' class='eq_code'value='"+eq_obj.eq_code+"'></td>";
+						table += "<td >" + eq_obj.eq_code + "</td>";
+						table += "<td ><input class='eq_name' type='text' value='" + eq_obj.eq_name + "'/></td>";
+						table += "<td><input class='manufacturer' type='text' value='" + eq_obj.manufacturer + "'/></td>";
+						table += "<td><select name='eq_ca_list' class='eq_ca_list'>" 
+									+"<option value="+ eq_obj.eq_ca_code+" selected>"+ eq_obj.eq_ca_name+ "</option></td>";
+						table += "<td ><input class='eq_date' type='text' value='" + eq_obj.eq_date_s + "'/></td>";
+						table += "<td>"+eq_obj.eq_picture+"</td>";
+						
+						table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
+									+"<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
+					});
+				}
+			});
+		};
 
 	function add_click() {
 
@@ -154,13 +187,29 @@
 				});
 
 	};
-
+				
 </script>
 
 <style type="text/css">
- #modal_back { position:absolute; top:0; left:0; width:100%; height:100%; display:none; background:rgba(0,0,0,0.5); }
-   #modal { position:absolute; background:#FFF; color:#000; }
-   #modal a { color:#000; }
+#modal_back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+#modal {
+	position: absolute;
+	background: #FFF;
+	color: #000;
+}
+
+#modal a {
+	color: #000;
+}
 /* table {
 			border-collapse: collapse;
 			border : 1px;
