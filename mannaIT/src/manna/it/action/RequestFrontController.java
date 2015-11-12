@@ -34,6 +34,7 @@ public class RequestFrontController extends HttpServlet {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/request/request_list.jsp");
+			
 		}else if(command.equals("/requestListSearchAjax.rq")){
 			forward = new ActionForward();
 			forward.setRedirect(false);

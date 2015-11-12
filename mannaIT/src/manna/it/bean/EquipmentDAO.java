@@ -498,5 +498,67 @@ public class EquipmentDAO {
 		}
 		return false;
 	}
+	public boolean modifyFrontEquipment(EquipmentBean eb) {
+		try {
+			iscon = con.isClosed();
+			if(iscon){
+				connect();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String sql = "";
+		int res = 0;
+
+		try {
+			System.out.println("진입");
+			sql = " UPDATE EQUIPMENT"
+					+ " set EQ_NAME = ? ,"
+					+ " EQ_MANUFACTURER = ?,"
+					+ " EQ_EQCACODE = ?,"
+					+ " EQ_DATE = ?,"
+					+ " WHERE EQ_CODE=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, eb.getEq_name());
+			System.out.println(" eb.getEq_name()::"+ eb.getEq_name());
+			pstmt.setString(2, eb.getManufacturer());
+			System.out.println("  eb.getManufacturer()::"+  eb.getManufacturer());
+			pstmt.setInt(3, eb.getEq_ca_code());
+			System.out.println(" eb.getEq_ca_code()"+ eb.getEq_ca_code());
+			java.util.Date uDate= eb.getEq_date();
+			java.sql.Date sDate = new java.sql.Date(uDate.getTime()); //utilDate->sqlDate
+			pstmt.setDate(4, sDate);
+			System.out.println(" sDate::"+ sDate);
+			pstmt.setInt(5, eb.getEq_code());
+			System.out.println("Eq_code():::"+ eb.getEq_code());
+			
+			res = pstmt.executeUpdate();
+			System.out.println("res::"+res);
+			if (res != 0) {
+					return true;
+			}
+			
+			msg = sql;
+			return false;
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+			System.out.println("e::"+e);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+		return false;
+	}
 
 }// end_class	

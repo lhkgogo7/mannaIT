@@ -38,6 +38,8 @@ table tr.title{
 <body>
 	<div class="main">
 		<div class="search_box">
+		
+		<!-- <input type="text" id="mem_search"><button id="mem_search_button">search</button> -->
 			<button id="mem_add">추가</button>
 			<button id="mem_list_all">전체보기</button>
 			<select name="dep_search" id="dep_search">

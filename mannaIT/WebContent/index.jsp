@@ -71,7 +71,7 @@
 
 <script>
 $(document).ready(function(){
-	$("#div_con").load("/equipment.eq");
+ 	$("#div_con").load("/equipment.eq"); 
 	
 	$("#eq").click(function(){
 		
@@ -89,6 +89,13 @@ $(document).ready(function(){
 		$("#div_con").load("/member.mb");
 		
 	});
+	
+	$("#test").click(function(){
+		
+		$("#div_con").load("http://life.church");
+		
+	});
+	
 	$("#div_menu ul li").hover(function(){
 		$(this).css('color','#E9d11D');
 	},function(){
@@ -113,6 +120,7 @@ $(document).ready(function(){
 				<li id="req">기안서</li>
 				<li id="rep">업무일지</li>
 				<li id="mem">Member<li>
+				<li id="test">테스트</li>
 			</ul>
 
 		</nav>
