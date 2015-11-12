@@ -72,6 +72,14 @@ public class EquipmentFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(command.equals("/equipmentFrontModifyAction.eq")){
+			action = new EquimentFrontModifyAction();
+			try{
+				forward= action.execute(request,response);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 		}else if(command.equals("/equipmentView.eq")){
 			action = new EquipmentViewAction();
 			try{
@@ -83,6 +91,22 @@ public class EquipmentFrontController extends HttpServlet {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/equipment/ajax/eq_list_ajax.jsp");
+			
+			
+		}else if(command.equals("/equipmentCaListAjax.eq")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("/equipment/ajax/eq_ca_list_ajax.jsp");
+		
+		}else if(command.equals("/rental.eq")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./equipment/rental_list.jsp");
+			
+		}else if(command.equals("/rentalListAjax.eq")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("/equipment/ajax/rental_list_ajax.jsp");
 		}
 		
 		if(forward !=null){

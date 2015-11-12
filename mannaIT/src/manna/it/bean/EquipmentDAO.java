@@ -86,7 +86,7 @@ public class EquipmentDAO {
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
 					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
-					+ " WHERE EQ_CA_CODE="+ca_code;
+					+ " WHERE EQ_CA_CODE="+ca_code +" ORDER BY EQ_CODE ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -150,7 +150,7 @@ public class EquipmentDAO {
 			sql = "SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd'), EQ_PICTURE"
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
-					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE";
+					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE ORDER BY EQ_CODE ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -226,7 +226,7 @@ public class EquipmentDAO {
 		try {
 			
 
-			sql = "SELECT EQ_CA_NAME, EQ_CA_CODE FROM EQ_CATEGORY";
+			sql = "SELECT EQ_CA_NAME, EQ_CA_CODE FROM EQ_CATEGORY  ORDER BY EQ_CA_CODE ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -432,7 +432,7 @@ public class EquipmentDAO {
 		return null;
 	}
 
-	//장비 수정
+	//장비 view에서 수정
 	public boolean modifyEquipment(EquipmentBean eb) {
 		try {
 			iscon = con.isClosed();
@@ -497,6 +497,138 @@ public class EquipmentDAO {
 				}
 		}
 		return false;
+	}
+	
+	// 수정버튼눌러서 ajax통해 바로 수정
+	public boolean modifyFrontEquipment(EquipmentBean eb) {
+		try {
+			iscon = con.isClosed();
+			if(iscon){
+				connect();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String sql = "";
+		int res = 0;
+
+		try {
+			System.out.println("진입");
+			sql = " UPDATE EQUIPMENT"
+					+ " set EQ_NAME = ? ,"
+					+ " EQ_MANUFACTURER = ?,"
+					+ " EQ_EQCACODE = ?,"
+					+ " EQ_DATE = ?"
+					+ " WHERE EQ_CODE=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, eb.getEq_name());
+			System.out.println(" eb.getEq_name()::"+ eb.getEq_name());
+			pstmt.setString(2, eb.getManufacturer());
+			System.out.println("  eb.getManufacturer()::"+  eb.getManufacturer());
+			pstmt.setInt(3, eb.getEq_ca_code());
+			System.out.println(" eb.getEq_ca_code()"+ eb.getEq_ca_code());
+			java.util.Date uDate= eb.getEq_date();
+			java.sql.Date sDate = new java.sql.Date(uDate.getTime()); //utilDate->sqlDate
+			pstmt.setDate(4, sDate);
+			System.out.println(" sDate::"+ sDate);
+			pstmt.setInt(5, eb.getEq_code());
+			System.out.println("Eq_code():::"+ eb.getEq_code());
+			
+			res = pstmt.executeUpdate();
+			System.out.println("res::"+res);
+			if (res != 0) {
+					return true;
+			}
+			
+			msg = sql;
+			return false;
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+			System.out.println("e::"+e);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+		return false;
+	}
+	
+	public Vector<EquipmentBean> getRentalList() {
+
+		String sql = "";
+		int k = 1;
+		// 결과를 저정하는 벡터 변수
+		Vector<EquipmentBean> list = new Vector<EquipmentBean>();
+		try {
+			iscon = con.isClosed();
+			if(iscon){
+				connect();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			
+
+			sql = "SELECT RENT_CODE, EQ_NAME, M_NAME, RS_NAME, TO_CHAR(RENT_SDATE, 'yyyy-mm-dd'), TO_CHAR(RENT_EDATE, 'yyyy-mm-dd'), RENT_PURPOSE, TO_CHAR(RENT_DUEDATE, 'yyyy-mm-dd')  "
+					+ " FROM RENTAL R"
+					+ " INNER JOIN EQUIPMENT E"
+					+ " ON R.RENT_EQCODE=E.EQ_CODE"
+					+ " INNER JOIN MEMBER M "
+					+ " ON M.M_CODE = R.RENT_MCODE"
+					+ " INNER JOIN RENTAL_STATE RS"
+					+ " ON R.RENT_RSCODE = RS.RS_CODE";
+			msg = sql;
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			// 해당 값을 얻는다.
+			while (rs.next()) {
+				k = 1;
+				EquipmentBean data = new EquipmentBean();
+
+				data.setRt_code(rs.getString(k++));
+				data.setEq_name(rs.getString(k++));
+				data.setRt_m_name(rs.getString(k++));
+				data.setRs_name(rs.getString(k++));
+				data.setRt_sdate_s(rs.getString(k++));
+				data.setRt_edate_s(rs.getString(k++));
+				data.setRt_purpose(rs.getString(k++));
+				data.setRt_duedate_s(rs.getString(k++));
+				list.addElement(data);
+			}
+
+			if (rs != null)
+				rs.close();
+			return list;
+
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					
+				}
+		}
+
+		return null;
 	}
 
 }// end_class	

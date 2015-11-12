@@ -13,6 +13,23 @@ public class EquipmentBean {
 	private String eq_date_s;	// 장비구입일  문자타입
 	private String eq_picture;//장비 사진
 	
+	private String rt_code; // 대여 코드 
+	private String rt_m_code;//대여자 코드
+	private String rt_m_name; //대여자 이름
+	private int rs_code;//대여상태코드
+	private String rs_name; //대여상태이름
+	private Date rt_sdate; //대여시작일
+	private Date rt_edate; //대여반납일
+	private String rt_sdate_s; //대여시작일 문자타임
+	private String rt_edate_s; //대여반납일 문자타입
+	private String rt_purpose; //대여목적
+	private Date rt_duedate; //대여 반납예정일
+	private String rt_duedate_s; //대여 반납예정일 문자타입
+	
+	
+	
+	
+	
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
 	
@@ -115,6 +132,150 @@ public class EquipmentBean {
 
 	public void setEq_picture(String eq_picture) {
 		this.eq_picture = eq_picture;
+	}
+
+
+
+	public String getRt_code() {
+		return rt_code;
+	}
+
+
+
+	public void setRt_code(String rt_code) {
+		this.rt_code = rt_code;
+	}
+
+
+
+	public String getRt_m_code() {
+		return rt_m_code;
+	}
+
+
+
+	public void setRt_m_code(String rt_m_code) {
+		this.rt_m_code = rt_m_code;
+	}
+
+
+
+	public String getRt_m_name() {
+		return rt_m_name;
+	}
+
+
+
+	public void setRt_m_name(String rt_m_name) {
+		this.rt_m_name = rt_m_name;
+	}
+
+
+
+	public int getRs_code() {
+		return rs_code;
+	}
+
+
+
+	public void setRs_code(int rs_code) {
+		this.rs_code = rs_code;
+	}
+
+
+
+	public String getRs_name() {
+		return rs_name;
+	}
+
+
+
+	public void setRs_name(String rs_name) {
+		this.rs_name = rs_name;
+	}
+
+
+
+	public Date getRt_sdate() {
+		return rt_sdate;
+	}
+
+
+
+	public void setRt_sdate(Date rt_sdate) {
+		this.rt_sdate = rt_sdate;
+	}
+
+
+
+	public Date getRt_edate() {
+		return rt_edate;
+	}
+
+
+
+	public void setRt_edate(Date rt_edate) {
+		this.rt_edate = rt_edate;
+	}
+
+
+
+	public String getRt_purpose() {
+		return rt_purpose;
+	}
+
+
+
+	public void setRt_purpose(String rt_purpose) {
+		this.rt_purpose = rt_purpose;
+	}
+
+
+
+	public Date getRt_duedate() {
+		return rt_duedate;
+	}
+
+
+
+	public void setRt_duedate(Date rt_duedate) {
+		this.rt_duedate = rt_duedate;
+	}
+
+
+
+	public String getRt_sdate_s() {
+		return rt_sdate_s;
+	}
+
+
+
+	public void setRt_sdate_s(String rt_sdate_s) {
+		this.rt_sdate_s = rt_sdate_s;
+	}
+
+
+
+	public String getRt_edate_s() {
+		return rt_edate_s;
+	}
+
+
+
+	public void setRt_edate_s(String rt_edate_s) {
+		this.rt_edate_s = rt_edate_s;
+	}
+
+
+
+	public String getRt_duedate_s() {
+		return rt_duedate_s;
+	}
+
+
+
+	public void setRt_duedate_s(String rt_duedate_s) {
+		this.rt_duedate_s = rt_duedate_s;
 	}
 	
 	
