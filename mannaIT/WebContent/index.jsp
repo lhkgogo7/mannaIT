@@ -15,7 +15,7 @@
 #div_top {
 	width: 100%;
 	height: 100px;
-	background-color: #E9DDDD; 
+	background-color: #E9DDDD;
 	text-align: center;
 }
 
@@ -25,7 +25,6 @@
 	float: left;
 	/* background-color: #E9DDDD; */
 	text-align: left;
-	
 }
 
 #div_menu ul {
@@ -90,9 +89,15 @@ $(document).ready(function(){
 		
 	});
 	
+
 	$("#rt").click(function(){
 		
 		$("#div_con").load("/rental.eq");
+
+	$("#test").click(function(){
+		
+		$("#div_con").load("http://life.church");
+
 		
 	});
 	
@@ -102,15 +107,18 @@ $(document).ready(function(){
 		$(this).css('color','#E9Dddd');
 	}
 	);
+	});
 });
-
 </script>
 </head>
 <body>
 
 	<div id="div_root">
-		<div id="div_top"><!-- div_top --></div>
-		<nav id="div_menu"><!-- div_menu -->
+		<div id="div_top">
+			<!-- div_top -->
+		</div>
+		<nav id="div_menu">
+			<!-- div_menu -->
 			<ul>
 				<li id="eq">H/W</li>
 				<li id="s/w">S/W</li>
@@ -119,13 +127,15 @@ $(document).ready(function(){
 				<li id="req">지출결의서</li>
 				<li id="req">기안서</li>
 				<li id="rep">업무일지</li>
-				<li id="mem">Member<li>
+				<li id="mem">Member
+				<li>
 				<li id="test">테스트</li>
 			</ul>
 
 		</nav>
 		<div id="div_con">
-			<font class="P1"><!-- div_con --></font>
+			<font class="P1"> <!-- div_con -->
+			</font>
 		</div>
 		<div id="div_bottom">
 			<font class="P2">ⓒ 2015. mannaIT all rights reserved.</font>

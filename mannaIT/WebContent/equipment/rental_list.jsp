@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="/common/css/common.css">
 <script type="text/javascript">
 	$(document).ready(function() {
-		add_click();
+		rt_add_click();
 		rt_list_ajax();
 		eq_ca_search();
 		eq_list_all();
@@ -70,16 +70,16 @@
 			});
 		}; */
 
-	function add_click() {
+	function rt_add_click() {
 
-		$("#eq_add").click(function() {
+		$("#rt_add").click(function() {
 			alert('dd');
 			add_load();
 		});
 
 	};
 	function add_load() {
-		$("#content_body").load("/equipmentAdd.eq");
+		$("#content_body").load("/rentalAdd.eq");
 		$("#content_body").slideDown(100);
 		// div_slide();
 
@@ -111,9 +111,9 @@
 											var rt_obj = rtList[index];
 											table += "<tr height='20px'>";
 											table += "<td>"
-													+ (index + 1)
-													+ "<input type='hidden' name='rt_code' class='eq_code1'value='"+rt_obj.rt_code+"'></td>";
-											table += "<td  ><div class='eq_name'>" + rt_obj.eq_name	+ "</div></td>";
+													+ (index + 1)	+"</td>";
+											table += "<td  ><div class='rt_name'>" + rt_obj.eq_name	
+													+ "</div>"+ "<input type='hidden' name='rt_code' class='rt_code'value='"+rt_obj.rt_code+"'></td>";
 											table += "<td >" + rt_obj.rt_m_name + "</td>";
 											table += "<td>" + rt_obj.rs_name + "</td>";
 											table += "<td>" + rt_obj.rt_sdate + "</td>";
@@ -128,7 +128,7 @@
 						table += "</table>";
 						$("#tab_container").empty();
 						$("#tab_container").append(table);
-
+						rt_view();
 	/* 					eq_delete();
 						//eq_modify();
 						eq_view();
@@ -219,15 +219,15 @@
 		
 	};
 	
-	function eq_view(){
-		$(".eq_code").click(function() {
+	function rt_view(){
+		$(".rt_name").click(function() {
 			alert("click");
-			var eq_code = $(this).parent().children('.eq_code').html(); 
-			alert(eq_code);
+			var rt_code = $(this).parent().children('.rt_code').val(); 
+			alert(rt_code);
 		
-			var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
+	/* 		var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
 			
-			window.open(eq_mod, "_blank", "width=450, height=400, toolbar=no,location=no, menubar=no, scrollbars=no, resizable=yes" );
+			window.open(eq_mod, "_blank", "width=450, height=400, toolbar=no,location=no, menubar=no, scrollbars=no, resizable=yes" ); */
 		});
 	}
 				
@@ -293,47 +293,7 @@ div.eq_name {
 	 width:140px;
 
 }
-/* table {
-			border-collapse: collapse;
-			border : 1px;
-			text-align: center;
-			margin:0px;
-			padding :0px;
-			cellpadding:5px;
-			cellspacing:0px;
-		}
-		
-		a {
-			text-decoration: overline;
-		}
-		
-		.input_box {
-			height: 20px;
-			width: 150px;
-			border: 1px solid #333;
-			border-radius: 10px;
-			background-color: #FEFDED;
-		}
-		
-		.pulldown_box {
-			height: 20px;
-			width: 55px;
-			border: 1px solid #333;
-			border-radius: 3px;
-		}
-		#title {
-			border:0;
-			text-align : center;
-			height:27px;
-			width:670px;
-			background-color :#f5bf78;
-			
-		}
-		.name:hover{
-			font-weight: bold;
-			cursor: pointer;
-		}
-		 */
+
 </style>
 </head>
 
@@ -342,8 +302,8 @@ div.eq_name {
 <body>
 	<div class="main">
 		<div class="search_box">
-			<button id="eq_add">추가</button>
-			<button id="eq_list_all">전체보기</button>
+			<button id="rt_add">추가</button>
+			<button id="rt_list_all">전체보기</button>
 			<select name="eq_ca_search" id="eq_ca_search">
 				<option value="0" selected>장비 분류별</option>
 				<c:forEach var="el"
@@ -364,7 +324,7 @@ div.eq_name {
 						<td width="100px">대여자</td>
 						<td width="100px">대여상태</td>
 						<td width="130px">대여시작일</td>
-						<td width="130px">대여종료일</td>
+						<td width="130px">반납예정일</td>
 						<td width="140px">대여목적</td>
 						<td width="130px">반납일</td>				
 						<td width="40px">수정</td>

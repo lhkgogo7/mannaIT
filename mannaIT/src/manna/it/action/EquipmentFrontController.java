@@ -97,6 +97,7 @@ public class EquipmentFrontController extends HttpServlet {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/equipment/ajax/eq_ca_list_ajax.jsp");
+
 		
 		}else if(command.equals("/rental.eq")){
 			forward = new ActionForward();
@@ -107,6 +108,12 @@ public class EquipmentFrontController extends HttpServlet {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/equipment/ajax/rental_list_ajax.jsp");
+
+		}else if(command.equals("/rentalAdd.eq")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./equipment/rental_add.jsp");
+			
 		}
 		
 		if(forward !=null){

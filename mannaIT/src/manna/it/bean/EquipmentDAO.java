@@ -498,8 +498,10 @@ public class EquipmentDAO {
 		}
 		return false;
 	}
+
 	
 	// 수정버튼눌러서 ajax통해 바로 수정
+
 	public boolean modifyFrontEquipment(EquipmentBean eb) {
 		try {
 			iscon = con.isClosed();
@@ -520,6 +522,7 @@ public class EquipmentDAO {
 					+ " EQ_MANUFACTURER = ?,"
 					+ " EQ_EQCACODE = ?,"
 					+ " EQ_DATE = ?"
+					+ " EQ_DATE = ?,"
 					+ " WHERE EQ_CODE=?";
 			
 			pstmt = con.prepareStatement(sql);
@@ -562,6 +565,7 @@ public class EquipmentDAO {
 		}
 		return false;
 	}
+
 	
 	public Vector<EquipmentBean> getRentalList() {
 
@@ -630,5 +634,6 @@ public class EquipmentDAO {
 
 		return null;
 	}
+
 
 }// end_class	
