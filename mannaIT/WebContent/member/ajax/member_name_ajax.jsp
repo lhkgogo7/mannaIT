@@ -20,7 +20,7 @@
 			JSONObject obj= new JSONObject();
 			obj.put("m_code", m_vector.get(i).getM_code());
 			obj.put("m_name", m_vector.get(i).getM_name());
-			System.out.println("obj"+i+obj);
+			//System.out.println("obj"+i+obj);
 			m_list.add(obj);
 			
 		}

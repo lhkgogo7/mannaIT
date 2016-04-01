@@ -15,12 +15,12 @@
 	try{
 		System.out.println("getResultList()");
 		dep_vector = memberDao.getdepartmentList();
-		System.out.println("dep_vector"+dep_vector);
+		//System.out.println("dep_vector"+dep_vector);
 		for(int i=0;i<dep_vector.size(); i++){
 			JSONObject obj= new JSONObject();
 			obj.put("m_depcode", dep_vector.get(i).getM_depcode());
 			obj.put("m_depname", dep_vector.get(i).getM_depname());
-			System.out.println("obj"+i+obj);
+			//System.out.println("obj"+i+obj);
 			dep_list.add(obj);
 			
 		}

@@ -51,7 +51,7 @@ function mem_list_ajax(dep_code, pos_code) {
 			mem_delete();			
 			mem_modify();
 			pos_ajax();
-			 dep_ajax();
+			dep_ajax();
 		},
 		error : function(err) {
 			alert(err + "--->오류발생");
@@ -96,7 +96,10 @@ function mem_modify(){
 				},
 				url : "/memberModifyAction.mb",
 				success : function(result) {				
-					mem_list_ajax();
+					var pos_search = $("#pos_search").val();
+					var dep_search = $("#dep_search").val();
+					alert(pos_serch+","+dep_search);
+					mem_list_ajax(pos_search, dep_search);
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					console.log("Status: " + textStatus);
@@ -117,8 +120,11 @@ function mem_delete(){
 				m_code : m_code
 			},
 			url : "/memberDeleteAction.mb",
-			success : function(result) {				
-				mem_list_ajax();
+			success : function(result) {			
+				var pos_search = $("#pos_search").val();
+				var dep_search = $("#dep_search").val();
+				alert(pos_serch+","+dep_search);
+				mem_list_ajax(pos_search, dep_search);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				console.log("Status: " + textStatus);
@@ -218,14 +224,14 @@ function dep_search() {
 		var pos_search = $("#pos_search").val();
 		var dep_search = $(this).val();
 		mem_list_ajax(dep_search, pos_search);
-		alert("pos:"+pos_search+",dep:"+dep_search);
+		//alert("pos:"+pos_search+",dep:"+dep_search);
 	});
 }
 function pos_search() {
 	$("#pos_search").change(function() {
 		var pos_search = $(this).val();
 		var dep_search = $("#dep_search").val();
-		alert("pos:"+pos_search+",dep:"+dep_search);
+		//alert("pos:"+pos_search+",dep:"+dep_search);
 		mem_list_ajax(dep_search, pos_search);
 
 	});

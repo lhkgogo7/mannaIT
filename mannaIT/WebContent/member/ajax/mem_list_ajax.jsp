@@ -33,7 +33,7 @@
 		}else{
 			mem_vector = memberDao.getMemberList(dep_code,pos_code);
 		}
-		System.out.println("mem_vector"+mem_vector);
+		//System.out.println("mem_vector"+mem_vector);
 		for(int i=0;i<mem_vector.size(); i++){
 			JSONObject obj= new JSONObject();
 			obj.put("m_code", mem_vector.get(i).getM_code());
@@ -49,7 +49,7 @@
 			obj.put("m_poscode", mem_vector.get(i).getM_poscode());
 			obj.put("m_id", mem_vector.get(i).getM_id());
 			obj.put("m_pwd", mem_vector.get(i).getM_pwd());
-			System.out.println("obj"+i+obj);
+			//System.out.println("obj"+i+obj);zz
 			mem_list.add(obj);
 			
 		}

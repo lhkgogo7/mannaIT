@@ -15,12 +15,12 @@
 	try{
 		System.out.println("getResultList()");
 		pos_vector = memberDao.getPositionList();
-		System.out.println("pos_vector"+pos_vector);
+		//System.out.println("pos_vector"+pos_vector);
 		for(int i=0;i<pos_vector.size(); i++){
 			JSONObject obj= new JSONObject();
 			obj.put("m_poscode", pos_vector.get(i).getM_poscode());
 			obj.put("m_posname", pos_vector.get(i).getM_posname());
-			System.out.println("obj"+i+obj);
+		//	System.out.println("obj"+i+obj);
 			pos_list.add(obj);
 			
 		}
