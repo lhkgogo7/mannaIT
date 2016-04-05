@@ -20,9 +20,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		add_click();
-		eq_list_ajax();
+		eq_list_ajax(10,5);
 		eq_ca_search();
 		eq_list_all();
+		var cur_page=1;
+		pageList(cur_page);
 		
 		$(".delete").click(function() {
 			var num = $(this).parent().parent().children('.no').html();
@@ -72,6 +74,31 @@
 			});
 		}; */
 
+		function pageList(cur_page){
+			$.ajax({
+				url : "/equipmentPage.eq",
+				dataType : "text",
+				data : {
+					cur_page : cur_page
+				},
+				success : function(eq_list) {
+					var page_obj = eval(page_obj);
+					var table = '';
+					var total_eq= page_obj.total_eq;
+					var limit_eq =  page_obj.limit_eq;
+					var start_page =  page_obj.start_page;
+					var end_page =  page_obj.end_page;
+					var total_page =  page_obj.total_page;
+					var page_section = "";
+					for(i=start_page;i<end_page; i++){
+						page_section += i;	
+					}
+					alert(page_section);
+					
+				}
+				
+			});
+		}
 	function add_click() {
 
 		$("#eq_add").click(function() {
@@ -95,13 +122,15 @@
 
 		});
 	}
-	function eq_list_ajax(eq_ca_code) {
+	function eq_list_ajax(eq_ca_code,cur_page,limit) {
 		$
 				.ajax({
 					url : "/equipmentListAjax.eq",
 					dataType : "text",
 					data : {
-						eq_ca_code : eq_ca_code
+						eq_ca_code : eq_ca_code,
+						cur_page : cur_page
+						
 					},
 					success : function(eq_list) {
 						var eqList = eval(eq_list);
@@ -374,6 +403,9 @@
 			</div>
 
 			<div id="tab_container" class="tab_content"></div>
+			<div id="page_section" class="page_section">
+				
+			</div>
 			<div id="modal_back">
 				<div id="modal">
 					<a href="javascript:closeModal()">Close</a>

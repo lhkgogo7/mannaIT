@@ -14,18 +14,24 @@
 	
 	try{
 		int eq_ca_code=0;
-		System.out.println("getEquipmentList("+request.getParameter("eq_ca_code"));
+		int cur_page=1;
+		int limit=10; 
+		
+		if(request.getParameter("cur_page")!=null){
+			cur_page= Integer.parseInt(request.getParameter("cur_page"));
+		}
 		if( request.getParameter("eq_ca_code")!=null){
 			System.out.println("getEquipmentList("+Integer.parseInt(request.getParameter("eq_ca_code")));
 			eq_ca_code = Integer.parseInt(request.getParameter("eq_ca_code"));
-			
 		}
-		System.out.println("dsssssgetEquipmentList("+eq_ca_code+")");
+		System.out.println("ajax request getEquipmentList(page:"+cur_page+",limit"+limit);
 		
-		if(eq_ca_code==0){
-			eq_vector = equipmentDao.getEquipmentList();
+		
+		if(eq_ca_code==0){			
+			eq_vector = equipmentDao.getEquipmentList(cur_page,limit);
+			System.out.println("eq_ca_code=0");
 		}else{
-			eq_vector = equipmentDao.getEquipmentList(eq_ca_code);
+			eq_vector = equipmentDao.getEquipmentList(eq_ca_code,cur_page,limit);
 		}
 		
 		System.out.println("eq_vector"+eq_vector);

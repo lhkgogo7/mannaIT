@@ -63,8 +63,36 @@ public class EquipmentDAO {
 			return;
 		}
 	}
+	
+	//장비 리스트 총 갯수 
+	public int getEquipmentTotal(){
+		String sql  ="SELECT COUNT(*) FROM EQUIPMENT";
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
+	
 	//장비 리스트 출력(
-	public Vector<EquipmentBean> getEquipmentList(int ca_code) {
+	public Vector<EquipmentBean> getEquipmentList(int ca_code,int page,int limit) {
 
 		String sql = "";
 		int k = 1;
@@ -129,7 +157,7 @@ public class EquipmentDAO {
 
 		return null;
 	}
-	public Vector<EquipmentBean> getEquipmentList() {
+	public Vector<EquipmentBean> getEquipmentList(int cur_page,int limit) {
 
 		String sql = "";
 		int k = 1;
@@ -146,19 +174,30 @@ public class EquipmentDAO {
 		}
 		try {
 			
+			int start_row = (cur_page-1)*limit+1;
+		      //page 가
+		        //  1일 경우 : 1번   (1-1)*10 +1
+		        //  2일 경우 : 11번(2-1)*10 +1
+		        //  3일 경우 : 21번
+		      
+		      //int end_row=start_row +limit-1;
+		      int end_row = cur_page*limit;
+		      System.out.println("endrow:"+end_row+"start_row:"+start_row);
 
-			sql = "SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd'), EQ_PICTURE"
+			sql = "SELECT * FROM (SELECT ROWNUM RNUM, EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD'), EQ_PICTURE"
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
-					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE ORDER BY EQ_CODE ASC";
+					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE ORDER BY EQ_CODE ASC)"
+					+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			// 해당 값을 얻는다.
+			int rownum=0;
 			while (rs.next()) {
 				k = 1;
 				EquipmentBean data = new EquipmentBean();
-
+				rownum = rs.getInt(k++);
 				data.setEq_code(rs.getInt(k++));
 				data.setEq_name(rs.getString(k++));
 				data.setManufacturer(rs.getString(k++));

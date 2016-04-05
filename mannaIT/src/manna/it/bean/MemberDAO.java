@@ -96,6 +96,7 @@ public class MemberDAO {
 						+ " ON M.M_DEPCODE= D.DEP1_CODE"
 						+ " INNER JOIN POSITION P"
 						+ " ON M.M_POSCODE = P.POS_CODE"
+						+ " WHERE M_STATE = 'Y'"
 						+ " ORDER BY M_NAME ASC";
 				
 			msg = sql;
@@ -121,7 +122,7 @@ public class MemberDAO {
 				data.setM_pwd(rs.getString(k++));
 
 				list.addElement(data);
-				System.out.println("list"+list);
+				//System.out.println("list"+list);
 			}
 
 			if (rs != null)
@@ -165,7 +166,8 @@ public class MemberDAO {
 						+ " ON M.M_DEPCODE= D.DEP1_CODE "
 						+ " INNER JOIN POSITION P "
 						+ " ON M.M_POSCODE = P.POS_CODE "
-						+ " WHERE D.DEP1_CODE = "+ code 
+						+ " WHERE M_STATE = 'Y'"						
+						+ " AND D.DEP1_CODE ="+ code
 						+ " OR P.POS_CODE =" +code
 						+ " ORDER BY M_NAME ASC";
 
@@ -235,6 +237,7 @@ public class MemberDAO {
 						+ " ON M.M_POSCODE = P.POS_CODE "
 						+ " WHERE D.DEP1_CODE = "+ dep_code 
 						+ " AND P.POS_CODE =" +pos_code
+						+ " AND M_STATE = 'Y'"
 						+ " ORDER BY M_NAME ASC";
 				
 			msg = sql;
@@ -447,7 +450,7 @@ public class MemberDAO {
 
 		try {
 			System.out.println("memberDelete(String m_code) 진입"+m_code);
-			sql = "DELETE FROM MEMBER WHERE M_CODE =?";
+			sql = "UPDATE MEMBER SET M_STATE='N' WHERE M_CODE =?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, m_code);
 			res = pstmt.executeUpdate();
