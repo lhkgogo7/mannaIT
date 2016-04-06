@@ -139,3 +139,7 @@ table.m_table  input.m_name{
 table.add{
 	margin :10px;
 }
+
+.page_num{
+	border: none;
+}

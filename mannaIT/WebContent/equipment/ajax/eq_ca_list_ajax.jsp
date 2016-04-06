@@ -20,7 +20,7 @@
 			JSONObject obj= new JSONObject();
 			obj.put("eq_ca_code", eq_vector.get(i).getEq_ca_code());
 			obj.put("eq_ca_name", eq_vector.get(i).getEq_ca_name());
-			System.out.println("obj"+i+obj);
+			//System.out.println("obj"+i+obj);
 			eq_ca_list.add(obj);
 			
 		}

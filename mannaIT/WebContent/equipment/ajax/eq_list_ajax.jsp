@@ -14,15 +14,18 @@
 	
 	try{
 		int eq_ca_code=0;
-		int cur_page=1;
-		int limit=10; 
+		int cur_page=1; //현재페이지 기본값설정
+		int limit=2; 
 		
-		if(request.getParameter("cur_page")!=null){
+		if(request.getParameter("cur_page")!=null){ //현재페이지 넘어오면 
 			cur_page= Integer.parseInt(request.getParameter("cur_page"));
+			System.out.println("cur_page== >"+cur_page);
+		
 		}
 		if( request.getParameter("eq_ca_code")!=null){
-			System.out.println("getEquipmentList("+Integer.parseInt(request.getParameter("eq_ca_code")));
+			
 			eq_ca_code = Integer.parseInt(request.getParameter("eq_ca_code"));
+			System.out.println("getEquipmentList(eq_ca_code-->"+eq_ca_code);
 		}
 		System.out.println("ajax request getEquipmentList(page:"+cur_page+",limit"+limit);
 		
@@ -37,6 +40,7 @@
 		System.out.println("eq_vector"+eq_vector);
 		for(int i=0;i<eq_vector.size(); i++){
 			JSONObject obj= new JSONObject();
+			obj.put("eq_rnum", eq_vector.get(i).getEq_rnum());
 			obj.put("eq_code", eq_vector.get(i).getEq_code());
 			obj.put("eq_name", eq_vector.get(i).getEq_name());
 			obj.put("manufacturer", eq_vector.get(i).getManufacturer());
@@ -44,7 +48,7 @@
 			obj.put("eq_ca_name", eq_vector.get(i).getEq_ca_name());			
 			obj.put("eq_date_s", eq_vector.get(i).getEq_date_s());
 			obj.put("eq_picture", eq_vector.get(i).getEq_picture());
-			System.out.println("obj"+i+obj);
+			//System.out.println("obj"+i+obj);
 			eq_list.add(obj);
 			
 		}

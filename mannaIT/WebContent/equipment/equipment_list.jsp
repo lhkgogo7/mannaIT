@@ -14,16 +14,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>장비리스트</title>
 <script type="text/javascript" src="/common/jquery/jquery-2.1.3.js"></script>
-<script type="text/javascript" src="/common/jquery/eq_jquery.js"></script>
+<!-- <script type="text/javascript" src="/common/jquery/eq_jquery.js"></script> -->
 <link rel="stylesheet" type="text/css" href="/common/css/common.css">
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var cur_page=1;
+		var prev_page=1;
+		var next_page=6;
+		var eq_ca_code=0;
 		add_click();
-		eq_list_ajax(10,5);
+		eq_list_ajax( eq_ca_code,cur_page);
 		eq_ca_search();
 		eq_list_all();
-		var cur_page=1;
+		
 		pageList(cur_page);
 		
 		$(".delete").click(function() {
@@ -81,24 +85,69 @@
 				data : {
 					cur_page : cur_page
 				},
-				success : function(eq_list) {
-					var page_obj = eval(page_obj);
-					var table = '';
-					var total_eq= page_obj.total_eq;
-					var limit_eq =  page_obj.limit_eq;
-					var start_page =  page_obj.start_page;
-					var end_page =  page_obj.end_page;
-					var total_page =  page_obj.total_page;
-					var page_section = "";
-					for(i=start_page;i<end_page; i++){
-						page_section += i;	
-					}
-					alert(page_section);
+				
+				success : function(page_obj) {
+					var pageObj =  eval('('+page_obj+')');
+					alert("pageObj.total_eq:"+pageObj.total_eq+"pageObj.limit_eq"+pageObj.limit_eq);
 					
+ 					var table = '';
+					var total_page ="";
+					var total_eq=0;
+					prev_page=pageObj.start_page-1;
+					next_page = pageObj.end_page+1;
+					
+
+					var page_section = ""; 
+					if(prev_page>1){
+						page_section += '<input type="button" class="page_num" id="prev_page"  value="[이전]"/>';
+					}
+					for(var i=pageObj.start_page;i<pageObj.end_page+1; i++){
+ 						page_section += '<input type="button" class="page_num" id="page'+i+'" value='+i+'/>';	
+ 					}
+ 					
+					if(next_page<pageObj.total_page){
+						page_section += '<input type="button" class="page_num" id="next_page" value="[다음]"/>';
+					}
+ 					alert("page_section:"+page_section);
+ 					$("#page_section").empty();
+					$("#page_section").append(page_section);
+					prev_page_click();
+					next_page_click();
+					page_num_click();
 				}
+				
 				
 			});
 		}
+		
+	function page_num_click(){
+		$(".page_num").click(function(){
+			var page_num = $(this).val();
+			
+			
+			cur_page=page_num;
+			pageList(cur_page);
+			
+			alert("click page_num ->> curPage: "+cur_page);
+			eq_list_ajax( eq_ca_code,cur_page );
+			
+		});
+		
+	}
+	function prev_page_click(){
+		$("#prev_page").click(function(){
+			alert("prev_page");
+			$("#page_section").empty();
+			pageList(prev_page);
+		});
+	}
+	function next_page_click(){
+		$("#next_page").click(function(){
+			alert("next_page");
+			$("#page_section").empty();
+			pageList(next_page);
+		});
+	}
 	function add_click() {
 
 		$("#eq_add").click(function() {
@@ -118,11 +167,11 @@
 		$("#eq_ca_search").change(function() {
 			var eq_ca_search = $("#eq_ca_search").val();
 			alert(eq_ca_search);
-			eq_list_ajax(eq_ca_search);
+			eq_list_ajax(eq_ca_search,cur_page);
 
 		});
 	}
-	function eq_list_ajax(eq_ca_code,cur_page,limit) {
+	function eq_list_ajax(eq_ca_code, cur_page) {
 		$
 				.ajax({
 					url : "/equipmentListAjax.eq",
@@ -143,7 +192,7 @@
 											var eq_obj = eqList[index];
 											table += "<tr>";
 											table += "<td>"
-													+ (index + 1)
+													+ eq_obj.eq_rnum
 													+ "<input type='hidden' name='eq_code' class='eq_code1'value='"+eq_obj.eq_code+"'></td>";
 											table += "<td class='eq_code'>" + eq_obj.eq_code	+ "</td>";
 											table += "<td ><input class='eq_name' type='text' value='" + eq_obj.eq_name + "'/></td>";
@@ -226,7 +275,7 @@
 			var eq_name = $(this).parent().parent().children().children('.eq_name').val();
 			var eq_manufacturer = $(this).parent().parent().children().children('.manufacturer').val();
 			var eq_date = $(this).parent().parent().children().children('.eq_date').val();
-			var eq_ca_code = $(this).parent().parent().children().children('.eq_ca_list').val();
+			eq_ca_code = $(this).parent().parent().children().children('.eq_ca_list').val();
 			
 			alert(eq_code+"/"+eq_name+"/"+manufacturer+"/"+eq_date+"/"+eq_ca_code);
 		

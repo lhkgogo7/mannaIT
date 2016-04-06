@@ -117,7 +117,7 @@ public class EquipmentFrontController extends HttpServlet {
 		}else if(command.equals("/equipmentPage.eq")){
 			forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("./equipment/eq_page_ajax.jsp");
+			forward.setPath("./equipment/ajax/eq_page_ajax.jsp");
 			
 		}
 		

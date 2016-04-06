@@ -25,11 +25,26 @@ public class EquipmentBean {
 	private String rt_purpose; //대여목적
 	private Date rt_duedate; //대여 반납예정일
 	private String rt_duedate_s; //대여 반납예정일 문자타입
+	private int eq_rnum; //장비 게시물 번호 
 	
 	
 	
-	
-	
+
+
+
+
+	public int getEq_rnum() {
+		return eq_rnum;
+	}
+
+
+
+	public void setEq_rnum(int eq_rnum) {
+		this.eq_rnum = eq_rnum;
+	}
+
+
+
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
 	

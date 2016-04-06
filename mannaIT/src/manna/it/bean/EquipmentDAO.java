@@ -93,7 +93,7 @@ public class EquipmentDAO {
 	
 	//장비 리스트 출력(
 	public Vector<EquipmentBean> getEquipmentList(int ca_code,int page,int limit) {
-
+		System.out.println(" getEquipmentList(int ca_code,int page,int limit)");
 		String sql = "";
 		int k = 1;
 		// 결과를 저정하는 벡터 변수
@@ -158,7 +158,7 @@ public class EquipmentDAO {
 		return null;
 	}
 	public Vector<EquipmentBean> getEquipmentList(int cur_page,int limit) {
-
+		System.out.println("getEquipmentList(int cur_page,int limit)");
 		String sql = "";
 		int k = 1;
 		// 결과를 저정하는 벡터 변수
@@ -197,7 +197,7 @@ public class EquipmentDAO {
 			while (rs.next()) {
 				k = 1;
 				EquipmentBean data = new EquipmentBean();
-				rownum = rs.getInt(k++);
+				data.setEq_rnum(rs.getInt(k++));
 				data.setEq_code(rs.getInt(k++));
 				data.setEq_name(rs.getString(k++));
 				data.setManufacturer(rs.getString(k++));
