@@ -285,6 +285,63 @@ public class MemberDAO {
 
 		return null;
 	}
+	
+	public Vector<MemberBean> getMemberSelect(){
+
+		reconnect();
+		String sql = "";
+
+		int k;
+		int max_num = 0; // 총수량
+		// 결과를 저정하는 벡터 변수
+		Vector<MemberBean> list = new Vector<MemberBean>();
+					
+		try {
+	
+				/*sql = "SELECT M_CODE, M_NAME  FROM MEMBER where M_DEPCODE ="+ code						
+						+ " ORDER BY M_NAME ASC";*/
+
+			sql = "SELECT M_CODE, M_NAME  FROM MEMBER"					
+					+ " ORDER BY M_NAME ASC";
+			msg = sql;
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			// 해당 값을 얻는다.
+			
+			while (rs.next()) {
+				k = 1;
+				MemberBean data = new MemberBean();
+
+				data.setM_code(rs.getString(k++));
+				data.setM_name(rs.getString(k++));
+
+				list.addElement(data);
+			}
+
+			if (rs != null)
+				rs.close();
+			return list;
+
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+			System.out.println("list e:"+ e);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+
+		return null;
+		
+	}
+	
 	public Vector<MemberBean> getdepartmentList() {
 		try {
 			iscon = con.isClosed();

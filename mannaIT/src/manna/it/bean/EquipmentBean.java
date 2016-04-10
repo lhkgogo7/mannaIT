@@ -26,6 +26,9 @@ public class EquipmentBean {
 	private Date rt_duedate; //대여 반납예정일
 	private String rt_duedate_s; //대여 반납예정일 문자타입
 	private int eq_rnum; //장비 게시물 번호 
+	private int eq_state_code;	// 장비 상태 코드
+	private String eq_state_name; // 장비 상태이름 
+	
 	
 	
 	
@@ -291,6 +294,30 @@ public class EquipmentBean {
 
 	public void setRt_duedate_s(String rt_duedate_s) {
 		this.rt_duedate_s = rt_duedate_s;
+	}
+
+
+
+	public String getEq_state_name() {
+		return eq_state_name;
+	}
+
+
+
+	public void setEq_state_name(String eq_state_name) {
+		this.eq_state_name = eq_state_name;
+	}
+
+
+
+	public int getEq_state_code() {
+		return eq_state_code;
+	}
+
+
+
+	public void setEq_state_code(int eq_state_code) {
+		this.eq_state_code = eq_state_code;
 	}
 	
 	

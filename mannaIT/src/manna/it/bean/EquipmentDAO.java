@@ -64,6 +64,35 @@ public class EquipmentDAO {
 		}
 	}
 	
+	//장비 리스트 카테고리검색후 갯수 
+	public int getEquipmentTotal(int eq_ca_code){
+		String sql  ="SELECT COUNT(*) FROM EQUIPMENT EQ "
+				+ " INNER JOIN EQ_CATEGORY EC"
+				+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE WHERE EQ_CA_CODE="+eq_ca_code;
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
+	
 	//장비 리스트 총 갯수 
 	public int getEquipmentTotal(){
 		String sql  ="SELECT COUNT(*) FROM EQUIPMENT";
@@ -91,9 +120,13 @@ public class EquipmentDAO {
 		return 0;
 	}
 	
-	//장비 리스트 출력(
-	public Vector<EquipmentBean> getEquipmentList(int ca_code,int page,int limit) {
-		System.out.println(" getEquipmentList(int ca_code,int page,int limit)");
+	
+	
+	
+	
+	//장비 리스트 출력 카테고리 검색 결과 출력 
+	public Vector<EquipmentBean> getEquipmentList(int ca_code, int cur_page, int limit) {
+		System.out.println("dao:  getEquipmentList(int ca_code, int page,int limit)"+ca_code+"::"+cur_page+":::"+limit);
 		String sql = "";
 		int k = 1;
 		// 결과를 저정하는 벡터 변수
@@ -108,13 +141,23 @@ public class EquipmentDAO {
 			e1.printStackTrace();
 		}
 		try {
-			
+			int start_row = (cur_page-1)*limit+1;
+		      int end_row = cur_page*limit;
 
-			sql = "SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd')"
+	/*	      sql = "SELECT * FROM (SELECT ROWNUM RNUM, EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd')"
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
 					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
-					+ " WHERE EQ_CA_CODE="+ca_code +" ORDER BY EQ_CODE ASC";
+					+ " WHERE EQ_CA_CODE="+ca_code +" ORDER BY EQ_CODE ASC)"
+					+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE DESC";*/
+		      
+		      sql = "SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, ES_NAME "
+		      		+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, ES.EQ_STATE_NAME ES_NAME "
+		    		+ " FROM EQUIPMENT EQ"
+		    	    + " INNER JOIN EQ_CATEGORY EC"
+		    		+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
+		    		+ " WHERE EQ_CA_CODE="+ca_code +"ORDER BY EQ_CODE DESC))"
+		    		+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row +" order by rnum asc";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -122,15 +165,15 @@ public class EquipmentDAO {
 			while (rs.next()) {
 				k = 1;
 				EquipmentBean data = new EquipmentBean();
-
+				
+				data.setEq_rnum(rs.getInt(k++));
 				data.setEq_code(rs.getInt(k++));
 				data.setEq_name(rs.getString(k++));
 				data.setManufacturer(rs.getString(k++));
 				data.setEq_ca_name(rs.getString(k++));
 				data.setEq_ca_code(rs.getInt(k++));
-				
 				data.setEq_date_s(rs.getString(k++));
-				
+				data.setEq_state_name(rs.getString(k++));
 		
 				list.addElement(data);
 			}
@@ -157,8 +200,10 @@ public class EquipmentDAO {
 
 		return null;
 	}
-	public Vector<EquipmentBean> getEquipmentList(int cur_page,int limit) {
-		System.out.println("getEquipmentList(int cur_page,int limit)");
+	
+	//장비 전체리스트 출력 
+	public Vector<EquipmentBean> getEquipmentList(int cur_page,int limit){
+		System.out.println("dao : getEquipmentList(int cur_page,int limit)");
 		String sql = "";
 		int k = 1;
 		// 결과를 저정하는 벡터 변수
@@ -182,13 +227,21 @@ public class EquipmentDAO {
 		      
 		      //int end_row=start_row +limit-1;
 		      int end_row = cur_page*limit;
-		      System.out.println("endrow:"+end_row+"start_row:"+start_row);
+		      System.out.println("getEquipmentList(int cur_page,int limit) endrow:"+end_row+"start_row:"+start_row);
 
-			sql = "SELECT * FROM (SELECT ROWNUM RNUM, EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD'), EQ_PICTURE"
+/*			sql = "SELECT * FROM (SELECT ROWNUM RNUM, EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME, EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD'), EQ_PICTURE"
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
-					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE ORDER BY EQ_CODE ASC)"
-					+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE ASC";
+					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE ORDER BY EQ_CODE )"
+					+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE DESC";*/
+		      sql ="SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, ES_NAME "
+		    	+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, ES.EQ_STATE_NAME ES_NAME "
+	    		+ " FROM EQUIPMENT EQ"
+	    	    + " INNER JOIN EQ_CATEGORY EC"
+	    		+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
+	    		+ " INNER JOIN EQ_STATE ES "
+	    		+ " ON EQ.EQ_STATE= ES.EQ_STATE_CODE ORDER BY EQ_CODE desc))"
+	    		+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row +"order by rnum asc";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -197,6 +250,7 @@ public class EquipmentDAO {
 			while (rs.next()) {
 				k = 1;
 				EquipmentBean data = new EquipmentBean();
+				
 				data.setEq_rnum(rs.getInt(k++));
 				data.setEq_code(rs.getInt(k++));
 				data.setEq_name(rs.getString(k++));
@@ -205,6 +259,7 @@ public class EquipmentDAO {
 				data.setEq_ca_code(rs.getInt(k++));
 				data.setEq_date_s(rs.getString(k++));
 				data.setEq_picture(rs.getString(k++));
+				data.setEq_state_name(rs.getString(k++));
 
 				list.addElement(data);
 			}

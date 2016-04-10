@@ -33,13 +33,11 @@ public class EquipmentFrontController extends HttpServlet {
 		if(command.equals("/equipment.eq")){
 			forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("./equipment/equipment_list.jsp");
-			
+			forward.setPath("./equipment/equipment_list.jsp");	
 		}else if(command.equals("/equipmentAdd.eq")){
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./equipment/equipment_add.jsp");
-			
 		}else if(command.equals("/equipmentAddAction.eq")){
 			action = new EquipmentAddAction();
 			try{

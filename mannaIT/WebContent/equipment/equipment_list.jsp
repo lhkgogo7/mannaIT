@@ -18,17 +18,21 @@
 <link rel="stylesheet" type="text/css" href="/common/css/common.css">
 
 <script type="text/javascript">
+	var eq_ca_code =0;
+	var cur_page=1;
+	var prev_page=1;
+	var next_page=6;
+	var eq_limit=10;
 	$(document).ready(function() {
-		var cur_page=1;
-		var prev_page=1;
-		var next_page=6;
-		var eq_ca_code=0;
+			
 		add_click();
-		eq_list_ajax( eq_ca_code,cur_page);
+		eq_list_ajax( eq_ca_code,cur_page,eq_limit);
+		pageList(eq_ca_code,cur_page,eq_limit);
+		
 		eq_ca_search();
 		eq_list_all();
+		rent_add_click();
 		
-		pageList(cur_page);
 		
 		$(".delete").click(function() {
 			var num = $(this).parent().parent().children('.no').html();
@@ -45,70 +49,33 @@
 
 	});
 
-			
-		/* function eq_list_ajax(eq_ca_code) {
-			$.ajax({
-				url : "/equipmentListAjax.eq",
-				dataType : "text",
-				data : {
-					eq_ca_code : eq_ca_code
-				},
-				success : function(eq_list) {
-					var eqList = eval(eq_list);
-					var table = '<table class="m_table"><tr class="title">'
-								+'<td>No</td><td>장비코드</td><td>장비명</td><td >제조사</td><td>장비분류</td><td>날짜</td><td>첨부파일</td><td>수정</td><td>삭제</td>'
-								+'</tr>';
-					$.each(eqList, function(index) {
-						var eq_obj = eqList[index];
-						table += "<tr>";
-						table += "<td>" + (index + 1) + "<input type='hidden' name='eq_code' class='eq_code'value='"+eq_obj.eq_code+"'></td>";
-						table += "<td >" + eq_obj.eq_code + "</td>";
-						table += "<td ><input class='eq_name' type='text' value='" + eq_obj.eq_name + "'/></td>";
-						table += "<td><input class='manufacturer' type='text' value='" + eq_obj.manufacturer + "'/></td>";
-						table += "<td><select name='eq_ca_list' class='eq_ca_list'>" 
-									+"<option value="+ eq_obj.eq_ca_code+" selected>"+ eq_obj.eq_ca_name+ "</option></td>";
-						table += "<td ><input class='eq_date' type='text' value='" + eq_obj.eq_date_s + "'/></td>";
-						table += "<td>"+eq_obj.eq_picture+"</td>";
-						
-						table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
-									+"<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
-					});
-					
-				}
-			});
-		}; */
-
-		function pageList(cur_page){
+		function pageList(eq_ca_code, cur_page, eq_limit){
 			$.ajax({
 				url : "/equipmentPage.eq",
 				dataType : "text",
 				data : {
-					cur_page : cur_page
+					
+					eq_ca_code :eq_ca_code,
+					cur_page : cur_page,
+					eq_limit : eq_limit
 				},
 				
 				success : function(page_obj) {
 					var pageObj =  eval('('+page_obj+')');
-					alert("pageObj.total_eq:"+pageObj.total_eq+"pageObj.limit_eq"+pageObj.limit_eq);
-					
- 					var table = '';
-					var total_page ="";
-					var total_eq=0;
 					prev_page=pageObj.start_page-1;
 					next_page = pageObj.end_page+1;
-					
-
 					var page_section = ""; 
 					if(prev_page>1){
-						page_section += '<input type="button" class="page_num" id="prev_page"  value="[이전]"/>';
+						page_section += '<input type="button" class="prev_page" id="prev_page"  value="[이전]">';
 					}
 					for(var i=pageObj.start_page;i<pageObj.end_page+1; i++){
- 						page_section += '<input type="button" class="page_num" id="page'+i+'" value='+i+'/>';	
+ 						page_section += '<input type="button" class="page_num" id="page'+i+'" value='+i+'>';	
  					}
  					
 					if(next_page<pageObj.total_page){
-						page_section += '<input type="button" class="page_num" id="next_page" value="[다음]"/>';
+						page_section += '<input type="button" class="next_page" id="next_page" value="[다음]">';
 					}
- 					alert("page_section:"+page_section);
+ 					//alert("page_section:"+page_section);
  					$("#page_section").empty();
 					$("#page_section").append(page_section);
 					prev_page_click();
@@ -123,13 +90,10 @@
 	function page_num_click(){
 		$(".page_num").click(function(){
 			var page_num = $(this).val();
-			
-			
-			cur_page=page_num;
-			pageList(cur_page);
-			
-			alert("click page_num ->> curPage: "+cur_page);
-			eq_list_ajax( eq_ca_code,cur_page );
+			cur_page=page_num;		
+			//alert("click page_num ->> curPage: "+cur_page);
+			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
+			pageList(eq_ca_code,cur_page,eq_limit);
 			
 		});
 		
@@ -138,20 +102,23 @@
 		$("#prev_page").click(function(){
 			alert("prev_page");
 			$("#page_section").empty();
-			pageList(prev_page);
+			pageList(prev_page,eq_limit);
+			cur_page=prev_page;
+			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
 		});
 	}
 	function next_page_click(){
 		$("#next_page").click(function(){
 			alert("next_page");
 			$("#page_section").empty();
-			pageList(next_page);
+			pageList(next_page,eq_limit);
+			cur_page=next_page;
+			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
 		});
 	}
 	function add_click() {
 
 		$("#eq_add").click(function() {
-			alert('dd');
 			add_load();
 		});
 
@@ -162,29 +129,44 @@
 		// div_slide();
 
 	};
+	
+	function rent_add_click() {
+
+		$("#rent_add").click(function() {
+			rent_add_load();
+		});
+
+	};
+	function rent_add_load() {
+		$("#content_body").load("/rentalAdd.eq");
+		$("#content_body").slideDown(100);
+		// div_slide();
+
+	};
 	// 요청결과에selector 변경에 따라 실시간 list 재호출
 	function eq_ca_search() {
 		$("#eq_ca_search").change(function() {
-			var eq_ca_search = $("#eq_ca_search").val();
-			alert(eq_ca_search);
-			eq_list_ajax(eq_ca_search,cur_page);
-
+			eq_ca_code = $("#eq_ca_search").val();
+			alert(eq_ca_code);
+			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
+			pageList(eq_ca_code,cur_page,eq_limit);
 		});
 	}
-	function eq_list_ajax(eq_ca_code, cur_page) {
+	function eq_list_ajax(eq_ca_code, cur_page, eq_limit) {
 		$
 				.ajax({
 					url : "/equipmentListAjax.eq",
 					dataType : "text",
 					data : {
 						eq_ca_code : eq_ca_code,
-						cur_page : cur_page
+						cur_page : cur_page,
+						eq_limit : eq_limit
 						
 					},
 					success : function(eq_list) {
 						var eqList = eval(eq_list);
 						var table = '<table class="m_table">'
-								+ '<tr class="title"><td width="20px"></td><td width="140px"></td>	<td width="180px"></td><td width="150px"></td><td width="130px"></td><td width="130px"></td><td width="40px"></td><td width="40px"></td></tr>';
+								+ '<tr class="title"><td width="20px"></td><td width="140px"></td>	<td width="180px"></td><td width="150px"></td><td width="130px"></td><td width="130px"></td><td width="80px"></td><td width="40px"></td><td width="40px"></td></tr>';
 						$
 								.each(
 										eqList,
@@ -204,7 +186,7 @@
 											table += "<td ><input class='eq_date' type='text' value='" + eq_obj.eq_date_s + "'/></td>";
 											/* 											table += "<td>" + eq_obj.eq_picture
 											 + "</td>"; */
-
+											table += "<td ><span class='eq_state'style ='font-size:8pt'>" + eq_obj.eq_state +"</span></td>";
 											table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
 													+ "<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
 										});
@@ -318,7 +300,10 @@
 	function eq_list_all(){
 		$("#eq_list_all").click(function(){
 			alert("all");
-			eq_list_ajax();
+			eq_ca_code=0;
+			cur_page=1;
+			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
+			pageList(eq_ca_code,cur_page,eq_limit);
 			
 		});
 	}
@@ -421,7 +406,8 @@
 	<div class="main">
 		<div class="search_box">
 			<button id="eq_add">추가</button>
-			<button id="eq_list_all">전체보기</button>
+			<button id="rent_add">사용등록</button>
+						<button id="eq_list_all">전체보기</button>
 			<select name="eq_ca_search" id="eq_ca_search">
 				<option value="0" selected>장비 분류별</option>
 				<c:forEach var="el"
@@ -444,6 +430,7 @@
 						<td width="130px">장비분류</td>
 						<td width="130px">날짜</td>
 						<!-- <td width="100px">첨부파일</td> -->
+						<td width="80px">상태</td>
 						<td width="40px">수정</td>
 						<td width="40px">삭제</td>
 					</tr>

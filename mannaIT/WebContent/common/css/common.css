@@ -143,3 +143,12 @@ table.add{
 .page_num{
 	border: none;
 }
+.page_num_clicked{
+	border: none;
+	color: red;
+}
+
+.eq_state{
+	font-size: 8pt;
+	
+}

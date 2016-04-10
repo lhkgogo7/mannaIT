@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>만나전산관리시스템</title>
 <script type="text/javascript" src="/common/jquery/jquery-2.1.3.js"></script>
+
 <style>
 #div_root {
 	margin: auto;
@@ -69,34 +70,42 @@
 </style>
 
 <script>
+var content = "/equipment.eq";
+<%
+if(request.getParameter("content")!=null){ String cont =request.getParameter("content"); System.out.println(cont);
+	%>content ="<%=cont%>"; alert(content); <%
+};
+
+%>
+
+
 $(document).ready(function(){
  	$("#div_con").load("/equipment.eq"); 
 	
+ 	
 	$("#eq").click(function(){
-		
-		$("#div_con").load("/equipment.eq");
+		content="/equipment.eq";
+		$("#div_con").load(content);
 		
 	});
 	$("#req").click(function(){
-		
-		$("#div_con").load("/request.rq");
+		content="/request.rq";
+		$("#div_con").load(content);
 		
 	});
 
 	$("#mem").click(function(){
-		
-		$("#div_con").load("/member.mb");
+		content="/member.mb";
+		$("#div_con").load(content);
 		
 	});
 	
 
 	$("#rt").click(function(){
-		
-		$("#div_con").load("/rental.eq");
+		content="/rental.eq";
+		$("#div_con").load(content);
 
-	$("#test").click(function(){
-		
-		$("#div_con").load("http://life.church");
+
 
 		
 	});
@@ -107,7 +116,7 @@ $(document).ready(function(){
 		$(this).css('color','#E9Dddd');
 	}
 	);
-	});
+	
 });
 </script>
 </head>
@@ -127,9 +136,8 @@ $(document).ready(function(){
 				<li id="req">지출결의서</li>
 				<li id="req">기안서</li>
 				<li id="rep">업무일지</li>
-				<li id="mem">Member
-				<li>
-				<li id="test">테스트</li>
+				<li id="mem">Member</li>
+				
 			</ul>
 
 		</nav>
