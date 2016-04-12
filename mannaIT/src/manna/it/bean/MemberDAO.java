@@ -77,7 +77,7 @@ public class MemberDAO {
 	
 	
 	
-	public Vector<MemberBean> getMemberList() {
+	public Vector<MemberBean> getMemberList(int start, int end) {
 		System.out.println("getmemeberlist()");
 		reconnect();
 		String sql = "";
@@ -90,14 +90,14 @@ public class MemberDAO {
 					
 		try {
 	
-				sql = "SELECT M_CODE, M_NAME, D.DEP1_NAME,D.DEP1_CODE, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME,P.POS_CODE, M_ID, M_PWD"
-						+ " FROM MEMBER M"
-						+ " INNER JOIN DEPARTMENT1 D"
+				sql = "SELECT * FROM(SELECT ROWNUM RNUM, M_CODE, M_NAME, DEP_NAME, M_EXTENSION, M_PHONE,M_MOBILE,M_MAIL, POS_NAME, M_ID, M_PWD "
+						+ " FROM(SELECT  M_CODE, M_NAME, D.DEP1_NAME dep_name, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME pos_name, M_ID, M_PWD, M_STATE "
+						+ " FROM MEMBER M "
+						+ " INNER JOIN DEPARTMENT1 D "
 						+ " ON M.M_DEPCODE= D.DEP1_CODE"
-						+ " INNER JOIN POSITION P"
-						+ " ON M.M_POSCODE = P.POS_CODE"
-						+ " WHERE M_STATE = 'Y'"
-						+ " ORDER BY M_NAME ASC";
+						+ " INNER JOIN POSITION P "
+						+ " ON M.M_POSCODE = P.POS_CODE "
+						+ " WHERE M_STATE = 'Y' ORDER BY M_NAME ASC)) WHERE RNUM >=1 AND RNUM<=20 ORDER BY RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -107,17 +107,17 @@ public class MemberDAO {
 			while (rs.next()) {
 				k = 1;
 				MemberBean data = new MemberBean();
-
+				data.setRnum(rs.getInt(k++));
 				data.setM_code(rs.getString(k++));
 				data.setM_name(rs.getString(k++));
 				data.setM_depname(rs.getString(k++));
-				data.setM_depcode(rs.getInt(k++));
+				//data.setM_depcode(rs.getInt(k++));
 				data.setM_extension(rs.getString(k++));
 				data.setM_phone(rs.getString(k++));
 				data.setM_mobile(rs.getString(k++));
 				data.setM_mail(rs.getString(k++));
 				data.setM_posname(rs.getString(k++));
-				data.setM_poscode(rs.getInt(k++));
+				//data.setM_poscode(rs.getInt(k++));
 				data.setM_id(rs.getString(k++));
 				data.setM_pwd(rs.getString(k++));
 
@@ -148,7 +148,7 @@ public class MemberDAO {
 		return null;
 	}
 
-	public Vector<MemberBean> getMemberList(int code) {
+	public Vector<MemberBean> getMemberList(int start, int end, int code) {
 		
 		reconnect();
 		String sql = "";
@@ -160,16 +160,17 @@ public class MemberDAO {
 					
 		try {
 	
-				sql = "SELECT M_CODE, M_NAME, D.DEP1_NAME, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME, M_ID, M_PWD "
+				sql = " SELECT * FROM(SELECT ROWNUM RNUM, M_CODE, M_NAME, DEP_NAME, M_EXTENSION, M_PHONE,M_MOBILE,M_MAIL, POS_NAME, M_ID, M_PWD"
+						+ " FROM(SELECT  M_CODE, M_NAME, D.DEP1_NAME DEP_NAME, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME POS_NAME, M_ID, M_PWD, M_STATE"
 						+ " FROM MEMBER M "
-						+ " INNER JOIN DEPARTMENT1 D "
+						+ " INNER JOIN DEPARTMENT1 D  "
 						+ " ON M.M_DEPCODE= D.DEP1_CODE "
 						+ " INNER JOIN POSITION P "
 						+ " ON M.M_POSCODE = P.POS_CODE "
-						+ " WHERE M_STATE = 'Y'"						
-						+ " AND D.DEP1_CODE ="+ code
-						+ " OR P.POS_CODE =" +code
-						+ " ORDER BY M_NAME ASC";
+						+ " WHERE D.DEP1_CODE ="+code
+						+ " OR P.POS_CODE = "+code
+						+ " ORDER BY M_NAME ASC)WHERE M_STATE = 'Y')WHERE RNUM >="+start+" AND RNUM<="+end+" ORDER BY RNUM ASC";
+				
 
 				
 			msg = sql;
@@ -180,7 +181,7 @@ public class MemberDAO {
 			while (rs.next()) {
 				k = 1;
 				MemberBean data = new MemberBean();
-
+				data.setRnum(rs.getInt(k++));
 				data.setM_code(rs.getString(k++));
 				data.setM_name(rs.getString(k++));
 				data.setM_depname(rs.getString(k++));
@@ -217,7 +218,7 @@ public class MemberDAO {
 
 		return null;
 	}
-	public Vector<MemberBean> getMemberList(int dep_code,int pos_code) {
+	public Vector<MemberBean> getMemberList(int start, int end,int dep_code,int pos_code) {
 		
 		reconnect();
 		String sql = "";
@@ -229,16 +230,17 @@ public class MemberDAO {
 					
 		try {
 	
-				sql = "SELECT M_CODE, M_NAME, D.DEP1_NAME, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME, M_ID, M_PWD "
+				sql = "SELECT * FROM(SELECT ROWNUM RNUM, M_CODE, M_NAME, D.DEP1_NAME, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME, M_ID, M_PWD "
 						+ " FROM MEMBER M "
 						+ " INNER JOIN DEPARTMENT1 D "
 						+ " ON M.M_DEPCODE= D.DEP1_CODE "
 						+ " INNER JOIN POSITION P "
 						+ " ON M.M_POSCODE = P.POS_CODE "
-						+ " WHERE D.DEP1_CODE = "+ dep_code 
-						+ " AND P.POS_CODE =" +pos_code
-						+ " AND M_STATE = 'Y'"
-						+ " ORDER BY M_NAME ASC";
+						+ " WHERE D.DEP1_CODE ="+ dep_code
+						+ " OR P.POS_CODE = "+ pos_code
+						+ " ORDER BY M_NAME ASC)	WHERE M_STATE = 'Y')WHERE RNUM >="+start+" AND RNUM<="+end+" ORDER BY RNUM ASC";
+				
+			
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -248,7 +250,7 @@ public class MemberDAO {
 			while (rs.next()) {
 				k = 1;
 				MemberBean data = new MemberBean();
-
+				data.setRnum(rs.getInt(k++));
 				data.setM_code(rs.getString(k++));
 				data.setM_name(rs.getString(k++));
 				data.setM_depname(rs.getString(k++));

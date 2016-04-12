@@ -13,6 +13,14 @@ public class MemberBean {
 	private String m_posname;//직책이름
 	private String m_id;//회원 아이디
 	private String m_pwd;//회원 패스워드 
+	private int rnum; //row num
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 	public String getM_code() {
 		return m_code;
 	}

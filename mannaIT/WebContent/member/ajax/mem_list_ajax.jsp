@@ -36,6 +36,7 @@
 		//System.out.println("mem_vector"+mem_vector);
 		for(int i=0;i<mem_vector.size(); i++){
 			JSONObject obj= new JSONObject();
+			obj.put("rnum", mem_vector.get(i).getRnum());
 			obj.put("m_code", mem_vector.get(i).getM_code());
 			obj.put("m_name", mem_vector.get(i).getM_name());
 			obj.put("m_depname", mem_vector.get(i).getM_depname());

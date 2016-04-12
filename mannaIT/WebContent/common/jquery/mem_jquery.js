@@ -25,7 +25,7 @@ function mem_list_ajax(dep_code, pos_code) {
 			$.each(memList, function(index) {
 				var mem_obj = memList[index];
 				table += "<tr>";
-				table += "<td>" + (index + 1) + "<input type='hidden' name='m_code' class='m_code'value='"+mem_obj.m_code+"'></td>";
+				table += "<td>" + mem_obj.rnum + "<input type='hidden' name='m_code' class='m_code'value='"+mem_obj.m_code+"'></td>";
 				/* table += "<td class='no'>" + mem_obj.m_code + "</td>"; */
 				table += "<td ><input class='m_name' type='text' value='" + mem_obj.m_name + "'/></td>";
 				table += "<td><select name='m_depcode' class='m_deplist'>" 
