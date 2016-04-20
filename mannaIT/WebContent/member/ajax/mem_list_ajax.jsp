@@ -15,23 +15,38 @@
 	try{
 		int dep_code=0;
 		int pos_code=0;
+		
+		int eq_ca_code=0;
+		int cur_page=1; //현재페이지 기본값설정
+		int mem_limit=1; 
+		if(request.getParameter("cur_page")!=null){ //현재페이지 넘어오면 
+			cur_page= Integer.parseInt(request.getParameter("cur_page"));
+			System.out.println("cur_page== >"+cur_page);
+		
+		}
+		if(request.getParameter("mem_limit")!=null){
+			mem_limit = Integer.parseInt(request.getParameter("mem_limit"));		
+			System.out.println("mem_list_ajax.jsp::: mem_limit:::"+mem_limit);
+		}
+		
 		if( request.getParameter("dep_code")!=null){
 			dep_code = Integer.parseInt(request.getParameter("dep_code"));
 			pos_code = Integer.parseInt(request.getParameter("pos_code"));
 		}
 		
-		System.out.println("getMemberList("+dep_code+","+pos_code+")");
-		
+		System.out.println("ajax.jsp :::: getMemberList("+dep_code+","+pos_code+")");
+		int start_row = (cur_page-1)*mem_limit+1;
+		int end_row = cur_page*mem_limit;
 		if(dep_code==0){
 			if(pos_code==0){
-				mem_vector = memberDao.getMemberList();
+				mem_vector = memberDao.getMemberList(start_row,end_row);
 			}else{
-				mem_vector = memberDao.getMemberList(pos_code);
+				mem_vector = memberDao.getMemberList(start_row,end_row,pos_code);
 			}
 		}else if(pos_code==0){
-			mem_vector = memberDao.getMemberList(dep_code);
+			mem_vector = memberDao.getMemberList(start_row,end_row,dep_code);
 		}else{
-			mem_vector = memberDao.getMemberList(dep_code,pos_code);
+			mem_vector = memberDao.getMemberList(start_row,end_row,dep_code,pos_code);
 		}
 		//System.out.println("mem_vector"+mem_vector);
 		for(int i=0;i<mem_vector.size(); i++){

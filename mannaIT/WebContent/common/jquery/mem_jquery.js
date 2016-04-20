@@ -1,21 +1,28 @@
-
+var cur_page=1;
+var prev_page=1;
+var next_page=6;
+var mem_limit=10;
+var dep_code = 0;
+var pos_code = 0;
 $(document).ready(function(){
 	
-	mem_list_ajax();
+	 mem_list_ajax(dep_code, pos_code,cur_page, mem_limit) ;
 	mem_add();
 	dep_search();
 	pos_search();
-
+	pageList(dep_code, pos_code,cur_page, mem_limit);
 	
 });
 //mem_list 불러오는 ajax
-function mem_list_ajax(dep_code, pos_code) {
+function mem_list_ajax(dep_code, pos_code, cur_page, mem_limit) {
 	$.ajax({
 		url : "/memberListSearchAjax.mb",
 		dataType : "text",
 		data : {
 			dep_code : dep_code,
-			pos_code : pos_code
+			pos_code : pos_code,
+			cur_page : cur_page,
+			mem_limit : mem_limit
 		},
 		success : function(mem_list) {
 			var memList = eval(mem_list);
@@ -166,6 +173,81 @@ function checkSubmit(){
 }
 
 
+function pageList(dep_code, pos_code,cur_page, mem_limit){
+	$.ajax({
+		url : "/memberPage.mb",
+		dataType : "text",
+		data : {
+			
+			dep_code : dep_code,
+			pos_code : pos_code,
+			cur_page : cur_page,
+			mem_limit : mem_limit
+		},
+		
+		success : function(page_obj) {
+			var pageObj =  eval('('+page_obj+')');
+			//alert(cur_page+"prev_page"+prev_page);
+			prev_page=pageObj.start_page-1;
+			next_page = pageObj.end_page+1;
+			//alert(cur_page+"prev_page::"+prev_page+"next_page::"+next_page);
+			var page_section = ""; 
+			if(prev_page>1){
+				page_section += '<input type="button" class="prev_page" id="prev_page"  value="[이전]">';
+			}
+			for(var i=pageObj.start_page;i<pageObj.end_page+1; i++){
+					page_section += '<input type="button" class="page_num" id="page'+i+'" value='+i+'>';	
+				}
+				
+			if(next_page<pageObj.total_page){
+				page_section += '<input type="button" class="next_page" id="next_page" value="[다음]">';
+			}
+				//alert("page_section:"+page_section);
+				$("#page_section").empty();
+			$("#page_section").append(page_section);
+			prev_page_click();
+			next_page_click();
+			page_num_click();
+		}
+		
+		
+	});
+}
+
+function page_num_click(){
+	$(".page_num").click(function(){
+		var page_num = $(this).val();
+		cur_page=page_num;		
+		//alert("click page_num ->> curPage: "+cur_page);
+		
+		mem_list_ajax(dep_code, pos_code,cur_page, mem_limit);
+		pageList(dep_code, pos_code,cur_page, mem_limit);
+		
+	});
+	
+}
+function prev_page_click(){
+	$("#prev_page").click(function(){
+		//alert("prev_page");
+		$("#page_section").empty();
+		pageList(dep_code, pos_code,prev_page,mem_limit);
+		cur_page=prev_page;
+		//alert(" prev_page_click("+cur_page);
+		mem_list_ajax(dep_code, pos_code,cur_page, mem_limit);
+	});
+}
+function next_page_click(){
+	$("#next_page").click(function(){
+		//alert("next_page");
+		$("#page_section").empty();
+		pageList(dep_code, pos_code,next_page,mem_limit);
+		cur_page=next_page;
+		//alert("next_page_click"+cur_page);
+		mem_list_ajax(dep_code, pos_code, cur_page, mem_limit);
+	});
+}
+
+
 function pos_ajax() {
 		$.ajax({
 			url : "/memberPositionAjax.mb",
@@ -221,18 +303,23 @@ function dep_ajax() {
 
 function dep_search() {
 	$("#dep_search").change(function() {
-		var pos_search = $("#pos_search").val();
-		var dep_search = $(this).val();
-		mem_list_ajax(dep_search, pos_search);
+		pos_code = $("#pos_search").val();
+		dep_code = $(this).val();
+		mem_list_ajax(dep_code, pos_code,cur_page, mem_limit);
 		//alert("pos:"+pos_search+",dep:"+dep_search);
+		cur_page=1;
+		pageList(dep_code, pos_code,next_page,mem_limit);
 	});
 }
 function pos_search() {
 	$("#pos_search").change(function() {
-		var pos_search = $(this).val();
-		var dep_search = $("#dep_search").val();
-		//alert("pos:"+pos_search+",dep:"+dep_search);
-		mem_list_ajax(dep_search, pos_search);
+		pos_code = $(this).val();
+		dep_code = $("#dep_search").val();
+		mem_list_ajax(dep_code, pos_code,cur_page, mem_limit);
+		alert("pos:"+pos_code+",dep:"+dep_code);
+		cur_page=1;
+		
+		pageList(dep_code, pos_code,next_page,mem_limit);
 
 	});
 }

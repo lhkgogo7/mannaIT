@@ -141,8 +141,8 @@ public class EquipmentDAO {
 			e1.printStackTrace();
 		}
 		try {
-			int start_row = (cur_page-1)*limit+1;
-		      int end_row = cur_page*limit;
+				int start_row = (cur_page-1)*limit+1;
+				int end_row = cur_page*limit;
 
 	/*	      sql = "SELECT * FROM (SELECT ROWNUM RNUM, EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'yyyy-mm-dd')"
 					+ " FROM EQUIPMENT EQ"

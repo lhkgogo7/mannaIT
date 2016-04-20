@@ -73,10 +73,106 @@ public class MemberDAO {
 	
 	
 	
+	public int getMemberTotal(){
+		String sql  ="SELECT count(*) "
+						+ " FROM MEMBER M "
+						+ " INNER JOIN DEPARTMENT1 D "
+						+ " ON M.M_DEPCODE= D.DEP1_CODE"
+						+ " INNER JOIN POSITION P "
+						+ " ON M.M_POSCODE = P.POS_CODE "
+						+ " WHERE M_STATE = 'Y'";
+		
+		
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
 	
 	
+	public int getMemberTotal( int code){
+		String sql  =" select count(*) from(SELECT  m_state "
+				+ "	FROM MEMBER M "
+				+ " INNER JOIN DEPARTMENT1 D "
+				+ " ON M.M_DEPCODE= D.DEP1_CODE "
+				+ " INNER JOIN POSITION P "
+				+ " ON M.M_POSCODE = P.POS_CODE "
+				+ "WHERE D.DEP1_CODE ="+code
+				+ " OR P.POS_CODE = "+code +")where M_STATE = 'Y'";
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
 	
-	
+	public int getMemberTotal(int dep_code,int pos_code){
+		String sql  =" select count(*) from(SELECT  m_state "
+				+ "	FROM MEMBER M "
+				+ " INNER JOIN DEPARTMENT1 D "
+				+ " ON M.M_DEPCODE= D.DEP1_CODE "
+				+ " INNER JOIN POSITION P "
+				+ " ON M.M_POSCODE = P.POS_CODE "
+				+ "WHERE D.DEP1_CODE ="+dep_code
+				+ " AND P.POS_CODE = "+pos_code +")where M_STATE = 'Y'";
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
 	public Vector<MemberBean> getMemberList(int start, int end) {
 		System.out.println("getmemeberlist()");
 		reconnect();
@@ -97,7 +193,7 @@ public class MemberDAO {
 						+ " ON M.M_DEPCODE= D.DEP1_CODE"
 						+ " INNER JOIN POSITION P "
 						+ " ON M.M_POSCODE = P.POS_CODE "
-						+ " WHERE M_STATE = 'Y' ORDER BY M_NAME ASC)) WHERE RNUM >=1 AND RNUM<=20 ORDER BY RNUM ASC";
+						+ " WHERE M_STATE = 'Y' ORDER BY M_NAME ASC)) WHERE RNUM >="+start+" AND RNUM<="+end+" ORDER BY RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -230,14 +326,15 @@ public class MemberDAO {
 					
 		try {
 	
-				sql = "SELECT * FROM(SELECT ROWNUM RNUM, M_CODE, M_NAME, D.DEP1_NAME, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME, M_ID, M_PWD "
+				sql = "SELECT * FROM(SELECT ROWNUM RNUM, M_CODE, M_NAME, DEP_NAME, M_EXTENSION, M_PHONE,M_MOBILE,M_MAIL, POS_NAME, M_ID, M_PWD"
+						+ " FROM(SELECT  M_CODE, M_NAME, D.DEP1_NAME DEP_NAME, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL, P.POS_NAME POS_NAME, M_ID, M_PWD, M_STATE "
 						+ " FROM MEMBER M "
 						+ " INNER JOIN DEPARTMENT1 D "
 						+ " ON M.M_DEPCODE= D.DEP1_CODE "
 						+ " INNER JOIN POSITION P "
 						+ " ON M.M_POSCODE = P.POS_CODE "
 						+ " WHERE D.DEP1_CODE ="+ dep_code
-						+ " OR P.POS_CODE = "+ pos_code
+						+ " AND P.POS_CODE = "+ pos_code
 						+ " ORDER BY M_NAME ASC)	WHERE M_STATE = 'Y')WHERE RNUM >="+start+" AND RNUM<="+end+" ORDER BY RNUM ASC";
 				
 			

@@ -80,7 +80,7 @@ table tr.title{
 				</table>
 			</div> -->
 			<div id="tab_container" class="tab_content" ></div>
-
+			<div id="page_section" class="page_section">
 
 		</div>
 	</div>

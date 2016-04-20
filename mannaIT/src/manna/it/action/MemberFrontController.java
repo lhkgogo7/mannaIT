@@ -55,15 +55,15 @@ public class MemberFrontController extends HttpServlet {
 			
 		}else if(command.equals("/memberNameAjax.mb")){
 			forward = new ActionForward();
-			forward.setRedirect(true);
+			forward.setRedirect(false);
 			forward.setPath("/member/ajax/member_name_ajax.jsp");
 		}else if(command.equals("/memberPositionAjax.mb")){
 			forward = new ActionForward();
-			forward.setRedirect(true);
+			forward.setRedirect(false);
 			forward.setPath("/member/ajax/pos_list_ajax.jsp");
 		}else if(command.equals("/memberDepartmentjax.mb")){
 			forward = new ActionForward();
-			forward.setRedirect(true);
+			forward.setRedirect(false);
 			forward.setPath("/member/ajax/dep_list_ajax.jsp");
 		}else if(command.equals("/memberDeleteAction.mb")){
 			action = new MemberDeleteAction();
@@ -79,6 +79,10 @@ public class MemberFrontController extends HttpServlet {
 			}catch(Exception e){
 				e.printStackTrace();
 			}
+		}else if(command.equals("/memberPage.mb")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("/member/ajax/mem_page_ajax.jsp");
 		}
 		
 		
