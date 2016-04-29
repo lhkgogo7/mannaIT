@@ -20,13 +20,11 @@
 		rt_add_click();
 		rt_list_ajax();
 		eq_ca_search();
-		eq_list_all();
+		rt_list_all();
 		
-		$(".delete").click(function() {
-			var num = $(this).parent().parent().children('.no').html();
-			var loc = "/equipmentDeleteAction.eq?eq_code=" + num;
-			location.href(loc);
-		});
+		var eq_ca_code =0;
+		
+		
 		$(".modify").click(function() {
 			var num = $(this).parent().parent().children('.no').html();
 			var loc = "/equipmentModifyView.eq?eq_code=" + num;
@@ -36,8 +34,30 @@
 
 
 	});
-
+	function del_click(){
+		$(".delete").click(function() {
+			var rent_code = $(this).parent().parent().children().children('.rt_code').val();
+			alert(rent_code);
 			
+			$.ajax({
+				type : "POST",
+				data : {
+					rent_code : rent_code
+				},
+				url : "/eqRentalDelAction.eq",
+				success : function(result) {
+					rt_list_ajax();
+				},
+				error : function(XMLHttpRequest, textStatus,
+						errorThrown) {
+					console.log("Status: " + textStatus);
+				},
+				timeout : 3000
+			});
+		});
+				
+	}
+	
 		/* function eq_list_ajax(eq_ca_code) {
 			$.ajax({
 				url : "/equipmentListAjax.eq",
@@ -85,22 +105,15 @@
 
 	};
 	// 요청결과에selector 변경에 따라 실시간 list 재호출
-	function eq_ca_search() {
-		$("#eq_ca_search").change(function() {
-			var eq_ca_search = $("#eq_ca_search").val();
-			alert(eq_ca_search);
-			eq_list_ajax(eq_ca_search);
 
-		});
-	}
-	function rt_list_ajax() {
+	function rt_list_ajax(eq_ca_search) {
 		$
 				.ajax({
 					url : "/rentalListAjax.eq",
 					dataType : "text",
-				/* 	data : {
+				 	data : {
 						eq_ca_code : eq_ca_code
-					}, */
+					}, 
 					success : function(rt_list) {
 						var rtList = eval(rt_list);
 						var table = '<table class="m_table">'
@@ -117,9 +130,9 @@
 											table += "<td >" + rt_obj.rt_m_name + "</td>";
 											table += "<td>" + rt_obj.rs_name + "</td>";
 											table += "<td>" + rt_obj.rt_sdate + "</td>";
-											table += "<td>" + rt_obj.rt_edate + "</td>";
-											table += "<td>" + rt_obj.rt_purpose + "</td>";
 											table += "<td>" + rt_obj.rt_duedate + "</td>";
+											table += "<td>" + rt_obj.rt_purpose + "</td>";
+											table += "<td>" + rt_obj.rt_edate  + "</td>";
 
 											table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
 													+ "<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
@@ -129,6 +142,7 @@
 						$("#tab_container").empty();
 						$("#tab_container").append(table);
 						rt_view();
+						del_click();
 	/* 					eq_delete();
 						//eq_modify();
 						eq_view();
@@ -142,6 +156,16 @@
 					}
 				});
 	};
+	
+	
+	function eq_ca_search() {
+		$("#eq_ca_search").change(function() {
+			eq_ca_code = $("#eq_ca_search").val();
+			alert(eq_ca_search);
+			rt_list_ajax(eq_ca_code);
+
+		});
+	}
 	function eq_delete() {
 		$(".delete").click(
 				function() {
@@ -231,10 +255,12 @@
 		});
 	}
 				
-	function eq_list_all(){
-		$("#eq_list_all").click(function(){
+	function rt_list_all(){
+		$("#rt_list_all").click(function(){
 			alert("all");
-			eq_list_ajax();
+			eq_ca_code=0;
+			rt_list_ajax(eq_ca_code);
+			
 			
 		});
 	}

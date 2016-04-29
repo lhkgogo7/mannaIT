@@ -112,10 +112,26 @@ public class EquipmentFrontController extends HttpServlet {
 			forward.setRedirect(false);
 			forward.setPath("./equipment/rental_add.jsp");
 			
+		}else if(command.equals("/rentalAddAction.eq")){
+			action = new EquipmentRentalAddAction();
+			try{
+				forward=action.execute(request,response);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 		}else if(command.equals("/equipmentPage.eq")){
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./equipment/ajax/eq_page_ajax.jsp");
+			
+		}else if(command.equals("/eqRentalDelAction.eq")){
+			action = new EquipmentRentalDeleteAction();
+			try{
+				forward =action.execute(request,response);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			
 		}
 		

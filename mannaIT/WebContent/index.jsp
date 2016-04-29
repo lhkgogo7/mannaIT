@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>만나전산관리시스템</title>
-<script type="text/javascript" src="/common/jquery/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="../common/jquery/jquery-2.1.3.js"></script>
 
 <style>
 #div_root {

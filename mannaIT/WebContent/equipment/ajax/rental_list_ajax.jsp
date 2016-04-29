@@ -25,9 +25,9 @@
 		if(eq_ca_code==0){
 			rt_vector = equipmentDao.getRentalList();
 		}
-		/* else{
+		 else{
 			rt_vector = equipmentDao.getRentalList(eq_ca_code);
-		} */
+		} 
 		
 		System.out.println("rt_vector"+rt_vector);
 		for(int i=0;i<rt_vector.size(); i++){

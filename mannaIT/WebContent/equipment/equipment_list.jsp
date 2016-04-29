@@ -13,7 +13,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>장비리스트</title>
-<script type="text/javascript" src="/common/jquery/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="../common/jquery/jquery-2.1.3.js"></script>
 <!-- <script type="text/javascript" src="/common/jquery/eq_jquery.js"></script> -->
 <link rel="stylesheet" type="text/css" href="/common/css/common.css">
 
@@ -34,11 +34,6 @@
 		rent_add_click();
 		
 		
-		$(".delete").click(function() {
-			var num = $(this).parent().parent().children('.no').html();
-			var loc = "/equipmentDeleteAction.eq?eq_code=" + num;
-			location.href(loc);
-		});
 		$(".modify").click(function() {
 			var num = $(this).parent().parent().children('.no').html();
 			var loc = "/equipmentModifyView.eq?eq_code=" + num;
@@ -141,8 +136,19 @@
 		$("#content_body").load("/rentalAdd.eq");
 		$("#content_body").slideDown(100);
 		// div_slide();
+		eq_name_click();
+		
 
 	};
+	function eq_name_click(){
+		$(".eq_name").click(function(){
+			var eq_code = $(this).parent().parent().children('.eq_code').html();
+			alert("eq_code::: "+eq_code);
+			$("#rent_eqcode").val(eq_code);
+			
+			
+		});
+	}
 	// 요청결과에selector 변경에 따라 실시간 list 재호출
 	function eq_ca_search() {
 		$("#eq_ca_search").change(function() {
@@ -405,7 +411,8 @@
 <body>
 	<div class="main">
 		<div class="search_box">
-			<button id="eq_add">추가</button>
+			<button id="eq_rent">대여등록</button>
+			<button id="eq_add">장비추가</button>
 			<button id="rent_add">사용등록</button>
 						<button id="eq_list_all">전체보기</button>
 			<select name="eq_ca_search" id="eq_ca_search">

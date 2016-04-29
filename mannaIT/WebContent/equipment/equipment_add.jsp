@@ -9,7 +9,7 @@
 <!doctype html>
 <html>
 <head>
-<script type="text/javascript" src="../jquery/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="../common/jquery/jquery-2.1.3.js"></script>
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 <!-- // jQuery 기본 js파일  -->
@@ -21,13 +21,17 @@
 
 <script type="text/javascript">
 	 $(document).ready(function(){
+		 $('#eq_date').val($.datepicker.formatDate($.datepicker.ATOM, new Date()));
+
+
+
 		$('#eq_category').change(function(){
 			alert(this.value);
 		});
 		
-	    $( "#eq_date" ).datepicker({
+/* 	    $( "#eq_date" ).datepicker({
 	    	dateFormat: "yymmdd"
-	    });
+	    }); */
 	    $("#back").click(function(){
 	     	history.go(-1);	
 	    });
@@ -69,7 +73,7 @@
 					<tr>
 						<th>구입날짜</th>
 						<td>
-							<input type="text" id="eq_date" name= "eq_date">
+							<input type="date" id="eq_date" name= "eq_date">
 						</td>
 					</tr>
 					<tr>
