@@ -433,14 +433,15 @@ public class RequestDAO {
 			try {
 				System.out.println("insertRequest(RequestBean rb) 진입");
 				sql = "INSERT INTO REQUEST (REQ_CODE, REQ_CACODE, REQ_MCODE, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, REQ_RESCODE) "
-						+ " VALUES (to_char(sysdate,'yyyy')||LPAD(REQCODE_SEQ.NEXTVAL,5,0), ?, ?, ?, ?,SYSDATE,?, '401')";
+						+ " VALUES (REQCODE_NEXT_SEQ , ?, ?, ?, ?,?,?, '401')";
 				
 				pstmt = con.prepareStatement(sql);
 				
 				pstmt.setInt(1, rb.getCa_code());
 				pstmt.setString(2, rb.getM_code());
 				pstmt.setString(3, rb.getReq_subject());
-				pstmt.setString(4, rb.getReq_content());			
+				pstmt.setString(4, rb.getReq_content());	
+				pstmt.setString(4, rb.getReq_date_s());	
 				pstmt.setString(5,rb.getReq_report());		
 
 				res = pstmt.executeUpdate();
@@ -524,7 +525,7 @@ public class RequestDAO {
 		try {
 			
 
-			sql = "SELECT M_CODE, M_NAME FROM MEMBER";
+			sql = "SELECT M_CODE, M_NAME FROM MEMBER  WHERE M_STATE = 'Y' ORDER BY M_NAME ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();

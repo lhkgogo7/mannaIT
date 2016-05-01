@@ -1,7 +1,7 @@
 var cur_page=1;
 var prev_page=1;
 var next_page=6;
-var mem_limit=10;
+var mem_limit=20;
 var dep_code = 0;
 var pos_code = 0;
 $(document).ready(function(){
@@ -11,6 +11,7 @@ $(document).ready(function(){
 	dep_search();
 	pos_search();
 	pageList(dep_code, pos_code,cur_page, mem_limit);
+	view_num_change();
 	
 });
 //mem_list 불러오는 ajax
@@ -300,6 +301,16 @@ function dep_ajax() {
 		}
 	});
 };
+
+function view_num_change(){
+	$("#view_num").change(function(){
+		mem_limit=$(this).val();
+		pageList(dep_code, pos_code,next_page,mem_limit);
+		mem_list_ajax(dep_code, pos_code, cur_page, mem_limit);
+	});
+	
+}
+
 
 function dep_search() {
 	$("#dep_search").change(function() {

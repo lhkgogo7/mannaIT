@@ -42,6 +42,12 @@ table tr.title{
 		<!-- <input type="text" id="mem_search"><button id="mem_search_button">search</button> -->
 			<button id="mem_add">추가</button>
 			<button id="mem_list_all">전체보기</button>
+			<select name = "view_num" id ="view_num">
+				<option value="10" >10개씩</option>
+				<option value="20" selected>20개씩</option>
+				<option value="30" >30개씩</option>
+				
+			</select>
 			<select name="dep_search" id="dep_search">
 				<option value="0" selected>부서별</option>
 				<c:forEach var="dl" items="<%=Member.getdepartmentList()%>"

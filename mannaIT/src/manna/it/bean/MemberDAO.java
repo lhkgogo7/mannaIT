@@ -400,8 +400,7 @@ public class MemberDAO {
 				/*sql = "SELECT M_CODE, M_NAME  FROM MEMBER where M_DEPCODE ="+ code						
 						+ " ORDER BY M_NAME ASC";*/
 
-			sql = "SELECT M_CODE, M_NAME  FROM MEMBER"					
-					+ " ORDER BY M_NAME ASC";
+			sql = "SELECT M_CODE, M_NAME FROM MEMBER  where M_STATE = 'Y' ORDER BY M_NAME ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();

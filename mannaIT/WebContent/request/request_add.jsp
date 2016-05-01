@@ -6,6 +6,13 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:useBean id="req" scope="page" class="manna.it.bean.RequestDAO" />
+<style>
+input{
+ border:0;
+ 
+}
+
+</style>
 
 <!-- 	<div id="title"
 		style="float: center; margin-top: 15px; font-family: 굴림; font-size: 10pt;">
@@ -31,21 +38,25 @@
 								</c:forEach>
 						</select>
 					</td>
+					<th>요청일</th>
+					<td class="req_date">
+						<input type="date" id="req_date" name="req_date">
+					</td>
 				</tr>
 
 				<tr>
 					<th>제목</th>
-					<td style="text-align: left" colspan=3><input type="text" id="req_subject" name="req_subject"
+					<td style="text-align: left" colspan=5><input type="text" id="req_subject" name="req_subject"
 						style=" width: 98.5%; margin-left: 3px;"></td>
 				</tr>
 				<tr>
 					<th>요청내용</th>
-					<td colspan=3><TEXTAREA rows="10" cols="100%" id="req_content"
+					<td colspan=5><TEXTAREA rows="10" cols="100%" id="req_content"
 							name="req_content"></TEXTAREA></td>
 				</tr>
 				<tr>
 					<th>처리내용</th>
-					<td colspan=3><TEXTAREA rows="20" cols="100%" id="req_report"
+					<td colspan=5><TEXTAREA rows="20" cols="100%" id="req_report"
 							name="req_report"></TEXTAREA></td>
 				</tr>
 
