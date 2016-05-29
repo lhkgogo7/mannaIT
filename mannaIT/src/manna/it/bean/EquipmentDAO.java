@@ -430,7 +430,7 @@ public class EquipmentDAO {
 				try {
 					System.out.println("진입");
 					sql = "INSERT INTO EQUIPMENT (EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_EQCACODE, EQ_DATE, EQ_PICTURE)"
-							+ " VALUES RENT_GET_NEXT_SEQ, ?, ?, ?, ?,?)";
+							+ " VALUES (EQCODE_NEXT_SEQ, ?, ?, ?, ?,?)";
 					
 					System.out.println("sql1"+sql);
 					
@@ -443,11 +443,10 @@ public class EquipmentDAO {
 					System.out.println("man"+eb.getManufacturer());
 					pstmt.setInt(3, eb.getEq_ca_code());
 					System.out.println("ca_code"+eb.getEq_ca_code());
-					java.util.Date uDate = eb.getEq_date();
-					java.sql.Date sDate  = new java.sql.Date(uDate.getTime());
-					pstmt.setDate(4,sDate);
+					
+					pstmt.setString(4,eb.getEq_date_s());
 					pstmt.setString(5, eb.getEq_picture());
-					System.out.println("date"+sDate);
+					System.out.println("date"+eb.getEq_date_s());
 					System.out.println(" eb.getEq_picture()"+ eb.getEq_picture());
 					System.out.println("sql1"+sql);
 

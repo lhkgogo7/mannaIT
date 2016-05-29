@@ -96,7 +96,7 @@ function content_body_remove() {
 
 ////요청 제목 클릭하며 요청 상세보기 loading 
 function req_view() {
-	$(".name").click(function() {
+	$(".subject").click(function() {
 		$("#exit").remove();
 		var num = $(this).parent().children('.no').html();
 		var loc = "/requestView.rq?num=" + num;
@@ -133,14 +133,14 @@ function req_list_ajax(res_code, req_code) {
 		},
 		success : function(req_list) {
 			var reqList = eval(req_list);
-			var table = "<table>";
+			var table = "<table> <td width='30px'></td><td width='80px'></td><td width='100px'></td><td width='290px'></td><td width='100px'></td><td width='100px'></td><td></td>";
 			$.each(reqList, function(index) {
 				var req_obj = reqList[index];
 				table += "<tr>";
 				table += "<td>" + (index + 1) + "</td>";
 				table += "<td class='no'>" + req_obj.req_code + "</td>";
 				table += "<td>" + req_obj.Ca_name + "</td>";
-				table += "<td class='name'>" + req_obj.Req_subject + "</td>";
+				table += "<td class='subject'>" + req_obj.Req_subject + "</td>";
 				table += "<td>" + req_obj.M_name + "</td>";
 				table += "<td>" + req_obj.Req_date + "</td>";
 				table += "<td><select name='req_result' class='req_result'>"
@@ -154,6 +154,7 @@ function req_list_ajax(res_code, req_code) {
 			$("#tab_container").append(table);
 			res_ajax();
 			req_view();
+			req_list_css();
 
 		},
 		error : function(err) {
@@ -161,6 +162,17 @@ function req_list_ajax(res_code, req_code) {
 		}
 	});
 };
+
+function req_list_css(){
+	$('.subject').css('text-align','left');
+	
+	$('.subject').css('cursor','pointer');
+	$('.subject').on("mouseover",function(){
+		$(this).css('font-weignt','bold');
+		$(this).css('font-color','red');
+	});
+		
+}
 
 // 요청 결과 실시간 변경 Ajax 사용
 function res_change() {

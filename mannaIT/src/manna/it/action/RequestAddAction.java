@@ -31,6 +31,8 @@ public class RequestAddAction implements Action{
 		requestBean.setCa_code(Integer.parseInt(request.getParameter("rq_category")));
 		requestBean.setReq_subject(request.getParameter("req_subject"));
 		requestBean.setReq_content(request.getParameter("req_content"));
+		requestBean.setReq_date_s(request.getParameter("req_date"));
+		System.out.println("req_date"+request.getParameter("req_date"));
 		requestBean.setReq_report(request.getParameter("req_report"));
 
 		result = requestDao.insertRequest(requestBean);
@@ -40,7 +42,7 @@ public class RequestAddAction implements Action{
 			return null;
 		}
 		forward.setRedirect(true);
-		forward.setPath("/request.rq");
+		forward.setPath("/index.jsp?content=/request.rq");
 		return forward;
 		
 		

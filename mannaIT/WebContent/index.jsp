@@ -73,14 +73,15 @@
 var content = "/equipment.eq";
 <%
 if(request.getParameter("content")!=null){ String cont =request.getParameter("content"); System.out.println(cont);
-	%>content ="<%=cont%>"; alert(content); <%
+	%>content ="<%=cont%>";<%
 };
 
 %>
 
 
 $(document).ready(function(){
- 	$("#div_con").load("/equipment.eq"); 
+	
+ 	$("#div_con").load(content); 
 	
  	
 	$("#eq").click(function(){

@@ -13,6 +13,7 @@
 <head>
 <script type="text/javascript" src="/common/jquery/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="/common/jquery/req_jquery.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/common/css/common.css">
 <link rel="stylesheet" type="text/css" href="/common/css/req_css.css">
@@ -48,15 +49,15 @@
 			<div>
 				<table>
 					<tr id="title">
-						<td width="25px">No</td>
-						<td width="100px">요청코드</td>
+						<td width="30px">No</td>
+						<td width="80px">요청코드</td>
 						<td width="100px">요청분류명</td>
-						<td width="200px">요청제목</td>
+						<td width="290px">요청제목</td>
 						<td width="100px">요청자명</td>
 						<!-- 				<td width="100px">요청내용</td> -->
 						<td width="100px">요청날짜</td>
 						<!-- 				<td width="100px">요청처리내용</td> -->
-						<td width="100px">요청결과</td>
+						<td width="">요청결과</td>
 
 					</tr>
 				</table>

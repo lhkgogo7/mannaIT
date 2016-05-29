@@ -50,7 +50,7 @@ public class MemberAddAction implements Action{
 			return null;
 		}
 		forward.setRedirect(true);
-		forward.setPath("member.mb");
+		forward.setPath("/index.jsp?content=/member.mb");
 		return forward;
 		
 		

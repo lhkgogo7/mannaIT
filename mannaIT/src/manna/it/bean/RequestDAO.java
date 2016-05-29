@@ -441,8 +441,8 @@ public class RequestDAO {
 				pstmt.setString(2, rb.getM_code());
 				pstmt.setString(3, rb.getReq_subject());
 				pstmt.setString(4, rb.getReq_content());	
-				pstmt.setString(4, rb.getReq_date_s());	
-				pstmt.setString(5,rb.getReq_report());		
+				pstmt.setString(5, rb.getReq_date_s());	
+				pstmt.setString(6,rb.getReq_report());		
 
 				res = pstmt.executeUpdate();
 				

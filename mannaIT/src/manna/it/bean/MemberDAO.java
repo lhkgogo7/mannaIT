@@ -560,8 +560,8 @@ public class MemberDAO {
 
 		try {
 			System.out.println("insertMember(MemberBean rb) 진입");
-			sql = "INSERT INTO MEMBER(M_CODE, M_NAME, M_DEPCODE, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL,M_POSCODE, M_ID, M_PWD) "
-					+ " VALUES('M'||LPAD(MCODE_SEQ.NEXTVAL,4,0),?,?,?,?,?,?,?,?,?)";
+			sql = "INSERT INTO MEMBER(M_CODE, M_NAME, M_DEPCODE, M_EXTENSION, M_PHONE, M_MOBILE, M_MAIL,M_POSCODE, M_ID, M_PWD,M_STATE) "
+					+ " VALUES('M'||LPAD(MCODE_SEQ.NEXTVAL,4,0),?,?,?,?,?,?,?,?,?,'Y')";
 			
 			pstmt = con.prepareStatement(sql);
 			

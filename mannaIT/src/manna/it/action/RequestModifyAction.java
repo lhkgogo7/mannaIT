@@ -48,7 +48,7 @@ public class RequestModifyAction implements Action{
 			System.out.println("게시판 수정완료");
 			
 			forward.setRedirect(true);
-			forward.setPath("/request_list.rq");
+			forward.setPath("/index.jsp?content=/request.rq");
 			return forward;
 		}catch(Exception ex){
 			ex.printStackTrace();

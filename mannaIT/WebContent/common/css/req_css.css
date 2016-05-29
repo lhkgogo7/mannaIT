@@ -1,11 +1,12 @@
 
-table .name {
-	width: 200px;
+table td.subject {
+	text-align: left;
+	
 }
 
 
 
-.name:hover {
+.subject:hover {
 	font-weight: bold;
 	cursor: pointer;
 }

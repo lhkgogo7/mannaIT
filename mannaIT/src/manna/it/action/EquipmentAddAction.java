@@ -56,7 +56,8 @@ public class EquipmentAddAction implements Action {
 		equipment.setManufacturer(multi.getParameter("eq_manufacturer"));
 		equipment.setEq_ca_code(Integer.parseInt(multi
 				.getParameter("eq_category")));
-		equipment.setEq_date(date);
+		equipment.setEq_date_s((multi
+				.getParameter("eq_date")));
 		equipment.setEq_picture(multi.getFilesystemName("eq_picture"));
 		result = equipmentDao.insertEquipment(equipment);
 
