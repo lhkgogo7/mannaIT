@@ -79,17 +79,14 @@ public class RequestFrontController extends HttpServlet {
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-		}else if(command.equals("/requestListSearch.rq")){
-			action = new RequestListSearchAction();
-			try{
-				forward= action.execute(request,response);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
 		}else if(command.equals("/resultListAjax.rq")){
 			forward = new ActionForward();
 			forward.setRedirect(true);
 			forward.setPath("/request/ajax/res_list_ajax.jsp");
+		}else if(command.equals("/requestPage.rq")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("/request/ajax/req_page_ajax.jsp");
 		}
 		
 		

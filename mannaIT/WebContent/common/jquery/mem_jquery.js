@@ -6,7 +6,7 @@ var dep_code = 0;
 var pos_code = 0;
 $(document).ready(function(){
 	
-	 mem_list_ajax(dep_code, pos_code,cur_page, mem_limit) ;
+	mem_list_ajax(dep_code, pos_code,cur_page, mem_limit) ;
 	mem_add();
 	dep_search();
 	pos_search();

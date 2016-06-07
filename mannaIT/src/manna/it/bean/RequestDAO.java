@@ -68,7 +68,7 @@ public class RequestDAO {
 
 	// 요청 리스트 출력
 
-	public Vector<RequestBean> getRequestList() {
+	public Vector<RequestBean> getRequestList(int start, int end) {
 		try {
 			iscon = con.isClosed();
 			if(iscon){
@@ -88,16 +88,16 @@ public class RequestDAO {
 					
 		try {
 	
-				sql = "SELECT REQ_CODE, RC.CA_NAME, M.M_NAME, R.REQ_SUBJECT,R.REQ_CONTENT ,TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd'), R.REQ_REPORT, RR.RES_NAME "
-						+ "FROM REQUEST R "
-						+ "INNER JOIN REQ_CATEGORY RC "
-						+ "ON RC.CA_CODE = R.REQ_CACODE "
-						+ "INNER JOIN MEMBER M "
-						+ "ON M.M_CODE = R.REQ_MCODE "
-						+ "INNER JOIN REQ_RESULT RR "
-						+ "ON RR.RES_CODE = R.REQ_RESCODE "
-					
-						+ "ORDER BY R.REQ_CODE DESC";
+				sql = "SELECT * FROM (SELECT ROWNUM RNUM,REQ_CODE,CA_NAME, M_NAME, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, RES_NAME"
+						+ " FROM(SELECT REQ_CODE, RC.CA_NAME CA_NAME, M.M_NAME M_NAME, R.REQ_SUBJECT REQ_SUBJECT,R.REQ_CONTENT REQ_CONTENT, TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd') REQ_DATE, R.REQ_REPORT REQ_REPORT, RR.RES_NAME RES_NAME "
+						+ " FROM REQUEST R"
+						+ " INNER JOIN REQ_CATEGORY RC"
+						+ " ON RC.CA_CODE = R.REQ_CACODE"
+						+ " INNER JOIN MEMBER M"
+						+ " ON M.M_CODE = R.REQ_MCODE"
+						+ " INNER JOIN REQ_RESULT RR "
+						+ " ON RR.RES_CODE = R.REQ_RESCODE"
+						+ " ORDER BY R.REQ_CODE DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -107,7 +107,7 @@ public class RequestDAO {
 			while (rs.next()) {
 				k = 1;
 				RequestBean data = new RequestBean();
-
+				data.setRnum(rs.getInt(k++));
 				data.setReq_code(rs.getString(k++));
 				data.setCa_name(rs.getString(k++));
 				data.setM_name(rs.getString(k++));
@@ -144,7 +144,7 @@ public class RequestDAO {
 		return null;
 	}
 	
-	public Vector<RequestBean> getRequestList(int res, String req) {
+	public Vector<RequestBean> getRequestList(int res, String req, int start, int end) {
 		try {
 			iscon = con.isClosed();
 			if(iscon){
@@ -220,7 +220,7 @@ public class RequestDAO {
 		return null;
 	}
 	
-	public Vector<RequestBean> getRequestList(String req) {
+	public Vector<RequestBean> getRequestList(String req, int start, int end) {
 		try {
 			iscon = con.isClosed();
 			if(iscon){
@@ -240,7 +240,9 @@ public class RequestDAO {
 					
 		try {
 	
-				sql = "SELECT REQ_CODE, RC.CA_NAME, M.M_NAME, R.REQ_SUBJECT,R.REQ_CONTENT , TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd'), R.REQ_REPORT, RR.RES_NAME "
+				sql = "SELECT * FROM (SELECT ROWNUM RNUM,REQ_CODE,CA_NAME, M_NAME, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, RES_NAME "
+						+ " FROM("
+						+ " SELECT  REQ_CODE, RC.CA_NAME CA_NAME, M.M_NAME M_NAME, R.REQ_SUBJECT REQ_SUBJECT,R.REQ_CONTENT REQ_CONTENT ,TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd') REQ_DATE, R.REQ_REPORT REQ_REPORT, RR.RES_NAME RES_NAME"
 						+ " FROM REQUEST R "
 						+ " INNER JOIN REQ_CATEGORY RC "
 						+ " ON RC.CA_CODE = R.REQ_CACODE "
@@ -248,8 +250,8 @@ public class RequestDAO {
 						+ " ON M.M_CODE = R.REQ_MCODE "
 						+ " INNER JOIN REQ_RESULT RR "
 						+ " ON RR.RES_CODE = R.REQ_RESCODE "
-						+ " where R.REQ_CACODE ="+req+""
-						+ " ORDER BY R.REQ_CODE DESC";
+						+ " WHERE R.REQ_CACODE ="+req
+						+ " ORDER BY R.REQ_CODE DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -259,7 +261,7 @@ public class RequestDAO {
 			while (rs.next()) {
 				k = 1;
 				RequestBean data = new RequestBean();
-
+				data.setRnum(rs.getInt(k++));
 				data.setReq_code(rs.getString(k++));
 				data.setCa_name(rs.getString(k++));
 				data.setM_name(rs.getString(k++));
@@ -269,7 +271,6 @@ public class RequestDAO {
 				data.setReq_date_s(rs.getString(k++));
 				data.setReq_report(rs.getString(k++));
 				data.setRes_name(rs.getString(k++));
-				data.setCount(max_num);
 				list.addElement(data);
 			}
 
@@ -297,7 +298,107 @@ public class RequestDAO {
 	}
 	
 
-
+	public int getRequestTotal(){
+		String sql  ="SELECT COUNT(*) FROM REQUEST R"
+				+ " INNER JOIN REQ_CATEGORY RC"
+				+ " ON RC.CA_CODE = R.REQ_CACODE "
+				+ " INNER JOIN MEMBER M"
+				+ " ON M.M_CODE = R.REQ_MCODE"
+				+ " INNER JOIN REQ_RESULT RR "
+				+ " ON RR.RES_CODE = R.REQ_RESCODE";
+		
+		
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
+	public int getRequestTotal(String req){
+		String sql  ="SELECT COUNT(*) FROM REQUEST R"
+				+ " INNER JOIN REQ_CATEGORY RC"
+				+ " ON RC.CA_CODE = R.REQ_CACODE "
+				+ " INNER JOIN MEMBER M"
+				+ " ON M.M_CODE = R.REQ_MCODE"
+				+ " INNER JOIN REQ_RESULT RR "
+				+ " ON RR.RES_CODE = R.REQ_RESCODE"
+				+ " WHERE R.REQ_CACODE ="+req;
+		
+		
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
+	public int getRequestTotal(int res, String req){
+		String sql  ="SELECT COUNT(*) FROM REQUEST R"
+				+ " INNER JOIN REQ_CATEGORY RC"
+				+ " ON RC.CA_CODE = R.REQ_CACODE "
+				+ " INNER JOIN MEMBER M"
+				+ " ON M.M_CODE = R.REQ_MCODE"
+				+ " INNER JOIN REQ_RESULT RR "
+				+ " ON RR.RES_CODE = R.REQ_RESCODE"
+				+ " where R.REQ_RESCODE ="+res+" and R.REQ_CACODE ="+req;
+		
+		
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
 	//Request Category 목록 불러오는 코드
 	public Vector<RequestBean> getRequestCategoryList() {
 		try {

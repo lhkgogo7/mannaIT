@@ -3,26 +3,75 @@ $(document).ready(function() {
 	add_click();
 	res_search();
 	req_search();
-	req_list_ajax();
+	req_list_ajax(res_code, req_code, cur_page, req_limit);
 	res_change();
 	list_all();
-	
+	view_num_change();
+	pageList(res_code, req_code, cur_page, req_limit);
 });
 
+var cur_page=1;
+var prev_page=1;
+var next_page=6;
+var req_limit=20;
+var res_code = 0;
+var req_code= 0;
 
+//req_list 불러오는 ajax
+function req_list_ajax(res_code, req_code, cur_page, req_limit) {
+	$.ajax({
+		url : "/requestListSearchAjax.rq",
+		dataType : "text",
+		data : {
+			res_code : res_code,
+			req_code : req_code,
+			cur_page : cur_page,
+			req_limit : req_limit
+		},
+		success : function(req_list) {
+			var reqList = eval(req_list);
+			var table = "<table> <td width='30px'></td><td width='80px'></td><td width='100px'></td><td width='290px'></td><td width='100px'></td><td width='100px'></td><td></td>";
+			$.each(reqList, function(index) {
+				var req_obj = reqList[index];
+				table += "<tr>";
+				table += "<td>" + req_obj.rnum + "</td>";
+				table += "<td class='no'>" + req_obj.req_code + "</td>";
+				table += "<td>" + req_obj.Ca_name + "</td>";
+				table += "<td class='subject'>" + req_obj.Req_subject + "</td>";
+				table += "<td>" + req_obj.M_name + "</td>";
+				table += "<td>" + req_obj.Req_date + "</td>";
+				table += "<td><select name='req_result' class='req_result'>"
+						+ "<option>" + req_obj.Res_name + "</option></td>";
+				table += "</tr>";
 
+			});
+
+			table += "</table>";
+			$("#tab_container").empty();
+			$("#tab_container").append(table);
+			res_ajax();
+			req_view();
+			req_list_css();
+
+		},
+		error : function(err) {
+			alert(err + "--->오류발생req_list_ajax(res_code, req_code)");
+		}
+	});
+};
 //전체보기 버튼 클릭시 전체 List불러옴
 function list_all() {
 	$('#list_all').click(function() {
-		req_list_ajax();
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
 	});
 }
 // 요청결과에selector 변경에 따라 실시간 list 재호출
 function res_search() {
 	$("#res_search").change(function() {
-		var req_search = $("#req_search").val();
-		var res_search = $(this).val();
-		req_list_ajax(res_search, req_search);
+		var req_code = $("#req_search").val();
+		var res_code = $(this).val();
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
+		pageList(res_code, req_code, cur_page, req_limit);
 
 	});
 }
@@ -30,9 +79,10 @@ function res_search() {
 // 요청카테고리 selector 변경에 따라 검색된 실시간 list재 호출 / select box로 search된 list 보기
 function req_search() {
 	$("#req_search").change(function() {
-		var res_search = $("#res_search").val();
-		var req_search = $(this).val();
-		req_list_ajax(res_search, req_search);
+		var res_code = $("#res_search").val();
+		var req_code = $(this).val();
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
+		pageList(res_code, req_code, cur_page, req_limit);
 	});
 }
 
@@ -122,46 +172,7 @@ function div_slide() {
 
 
 
-//req_list 불러오는 ajax
-function req_list_ajax(res_code, req_code) {
-	$.ajax({
-		url : "/requestListSearchAjax.rq",
-		dataType : "text",
-		data : {
-			res_code : res_code,
-			req_code : req_code
-		},
-		success : function(req_list) {
-			var reqList = eval(req_list);
-			var table = "<table> <td width='30px'></td><td width='80px'></td><td width='100px'></td><td width='290px'></td><td width='100px'></td><td width='100px'></td><td></td>";
-			$.each(reqList, function(index) {
-				var req_obj = reqList[index];
-				table += "<tr>";
-				table += "<td>" + (index + 1) + "</td>";
-				table += "<td class='no'>" + req_obj.req_code + "</td>";
-				table += "<td>" + req_obj.Ca_name + "</td>";
-				table += "<td class='subject'>" + req_obj.Req_subject + "</td>";
-				table += "<td>" + req_obj.M_name + "</td>";
-				table += "<td>" + req_obj.Req_date + "</td>";
-				table += "<td><select name='req_result' class='req_result'>"
-						+ "<option>" + req_obj.Res_name + "</option></td>";
-				table += "</tr>";
 
-			});
-
-			table += "</table>";
-			$("#tab_container").empty();
-			$("#tab_container").append(table);
-			res_ajax();
-			req_view();
-			req_list_css();
-
-		},
-		error : function(err) {
-			alert(err + "--->오류발생req_list_ajax(res_code, req_code)");
-		}
-	});
-};
 
 function req_list_css(){
 	$('.subject').css('text-align','left');
@@ -277,3 +288,85 @@ function m_name_ajax() {
 		}
 	});
 };
+
+function pageList(res_code, req_code, cur_page, req_limit){
+	$.ajax({
+		url : "/requestPage.rq",
+		dataType : "text",
+		data : {
+			res_code : res_code,
+			req_code : req_code,
+			cur_page : cur_page,
+			req_limit : req_limit
+		},
+		
+		success : function(page_obj) {
+			var pageObj =  eval('('+page_obj+')');
+			//alert(cur_page+"prev_page"+prev_page);
+			prev_page=pageObj.start_page-1;
+			next_page = pageObj.end_page+1;
+			//alert(cur_page+"prev_page::"+prev_page+"next_page::"+next_page);
+			var page_section = ""; 
+			if(prev_page>1){
+				page_section += '<input type="button" class="prev_page" id="prev_page"  value="[이전]">';
+			}
+			for(var i=pageObj.start_page;i<pageObj.end_page+1; i++){
+					page_section += '<input type="button" class="page_num" id="page'+i+'" value='+i+'>';	
+				}
+				
+			if(next_page<pageObj.total_page){
+				page_section += '<input type="button" class="next_page" id="next_page" value="[다음]">';
+			}
+				//alert("page_section:"+page_section);
+				$("#page_section").empty();
+			$("#page_section").append(page_section);
+			prev_page_click();
+			next_page_click();
+			page_num_click();
+		}
+		
+		
+	});
+}
+
+function page_num_click(){
+	$(".page_num").click(function(){
+		var page_num = $(this).val();
+		cur_page=page_num;		
+		//alert("click page_num ->> curPage: "+cur_page);
+		
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
+		pageList(res_code, req_code, cur_page, req_limit);
+		
+	});
+	
+}
+function prev_page_click(){
+	$("#prev_page").click(function(){
+		//alert("prev_page");
+		$("#page_section").empty();
+		pageList(res_code, req_code, cur_page, req_limit);
+		cur_page=prev_page;
+		//alert(" prev_page_click("+cur_page);
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
+	});
+}
+function next_page_click(){
+	$("#next_page").click(function(){
+		//alert("next_page");
+		$("#page_section").empty();
+		pageList(res_code, req_code, cur_page, req_limit);
+		cur_page=next_page;
+		//alert("next_page_click"+cur_page);
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
+	});
+}
+function view_num_change(){
+	$("#view_num").change(function(){
+		req_limit=$(this).val();
+		pageList(res_code, req_code, cur_page, req_limit);
+		req_list_ajax(res_code, req_code, cur_page, req_limit);
+	});
+	
+}
+

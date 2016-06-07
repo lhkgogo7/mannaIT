@@ -18,8 +18,22 @@ public class RequestBean {
 	private int count; //총갯수
 	private String search; //검색어
 	private String req_date_s;
+	private int rnum;
+
 	
 	
+	public int getRnum() {
+		return rnum;
+	}
+
+
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
+
+
+
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
 

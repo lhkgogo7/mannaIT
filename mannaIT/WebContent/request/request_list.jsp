@@ -26,7 +26,12 @@
 		<div class="search_box">
 			<button id="add">추가</button>
 			<button id="list_all">전체보기</button>
-			<select name="res_search" id="res_search">
+			<select name="view_num" id="view_num">
+				<option value="10">10개씩</option>
+				<option value="20" selected>20개씩</option>
+				<option value="30">30개씩</option>
+
+			</select> <select name="res_search" id="res_search">
 				<option value="400">전체</option>
 				<c:forEach var="rrl" items="<%=Request.getRequestResultList()%>"
 					varStatus="status">
@@ -39,12 +44,12 @@
 				</c:forEach>
 			</select>
 		</div>
-	
-	
-	
-	
+
+
+
+
 		<div id="content_body"></div>
-	
+
 		<div id="content_list">
 			<div>
 				<table>
@@ -63,10 +68,7 @@
 				</table>
 			</div>
 			<div id="tab_container" class="tab_content"></div>
-	
+			<div id="page_section" class="page_section"></div>
 		</div>
-	</div>
-
-
 </body>
 </html>

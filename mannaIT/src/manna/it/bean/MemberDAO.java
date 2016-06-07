@@ -115,7 +115,7 @@ public class MemberDAO {
 				+ " ON M.M_DEPCODE= D.DEP1_CODE "
 				+ " INNER JOIN POSITION P "
 				+ " ON M.M_POSCODE = P.POS_CODE "
-				+ "WHERE D.DEP1_CODE ="+code
+				+ " WHERE D.DEP1_CODE ="+code
 				+ " OR P.POS_CODE = "+code +")where M_STATE = 'Y'";
 		try{
 			pstmt=con.prepareStatement(sql);

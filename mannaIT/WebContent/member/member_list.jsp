@@ -19,43 +19,43 @@
 <title>member</title>
 
 <style>
-tr.title{
+tr.title {
 	text-align: center;
-	background-color:  #E9DDDD;
-}
-td {
- 	padding: 3px;
-}
-table.mem_add td {
-	text-align:left;
+	background-color: #E9DDDD;
 }
 
-table tr.title{
-	font-size:10px;
+td {
+	padding: 3px;
+}
+
+table.mem_add td {
+	text-align: left;
+}
+
+table tr.title {
+	font-size: 10px;
 }
 </style>
 </head>
 <body>
 	<div class="main">
 		<div class="search_box">
-		
-		<!-- <input type="text" id="mem_search"><button id="mem_search_button">search</button> -->
+
+			<!-- <input type="text" id="mem_search"><button id="mem_search_button">search</button> -->
 			<button id="mem_add">추가</button>
 			<button id="mem_list_all">전체보기</button>
-			<select name = "view_num" id ="view_num">
-				<option value="10" >10개씩</option>
+			<select name="view_num" id="view_num">
+				<option value="10">10개씩</option>
 				<option value="20" selected>20개씩</option>
-				<option value="30" >30개씩</option>
-				
-			</select>
-			<select name="dep_search" id="dep_search">
+				<option value="30">30개씩</option>
+
+			</select> <select name="dep_search" id="dep_search">
 				<option value="0" selected>부서별</option>
 				<c:forEach var="dl" items="<%=Member.getdepartmentList()%>"
 					varStatus="status">
 					<option value="${dl.m_depcode}">${dl.m_depname}</option>
 				</c:forEach>
-			</select>
-			 <select name="pos_search" id="pos_search">
+			</select> <select name="pos_search" id="pos_search">
 				<option value="0" selected>직위별</option>
 				<c:forEach var="pl" items="<%=Member.getPositionList()%>"
 					varStatus="status">
@@ -63,14 +63,14 @@ table tr.title{
 				</c:forEach>
 			</select>
 		</div>
+	</div>
 
 
 
+	<div id="content_body" class="content_body"></div>
 
-		<div id="content_body" class="content_body"></div>
-
-		<div id="content_list">
-<!-- 			<div>
+	<div id="content_list">
+		<!-- 			<div>
 				<table>
 					<tr id="title">
 						<td>No</td>
@@ -85,10 +85,8 @@ table tr.title{
 					</tr>
 				</table>
 			</div> -->
-			<div id="tab_container" class="tab_content" ></div>
-			<div id="page_section" class="page_section">
-
-		</div>
+		<div id="tab_container" class="tab_content"></div>
+		<div id="page_section" class="page_section"></div>
 	</div>
 
 

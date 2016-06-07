@@ -19,6 +19,8 @@
 		int eq_ca_code=0;
 		int cur_page=1; //현재페이지 기본값설정
 		int mem_limit=1; 
+		
+		
 		if(request.getParameter("cur_page")!=null){ //현재페이지 넘어오면 
 			cur_page= Integer.parseInt(request.getParameter("cur_page"));
 			System.out.println("cur_page== >"+cur_page);
@@ -37,6 +39,7 @@
 		System.out.println("ajax.jsp :::: getMemberList("+dep_code+","+pos_code+")");
 		int start_row = (cur_page-1)*mem_limit+1;
 		int end_row = cur_page*mem_limit;
+		
 		if(dep_code==0){
 			if(pos_code==0){
 				mem_vector = memberDao.getMemberList(start_row,end_row);
