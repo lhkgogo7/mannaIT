@@ -414,7 +414,7 @@ public class EquipmentDAO {
 	
 	
 	// 장비 입력 proc 쿼리
-		public boolean insertEquipment(EquipmentBean eb) {
+	public boolean insertEquipment(EquipmentBean eb) {
 			try {
 				iscon = con.isClosed();
 				if(iscon){
@@ -476,80 +476,7 @@ public class EquipmentDAO {
 		}
 
 	
-	// 장비 입력 proc 쿼리
-	public boolean insertEquipmentRental(EquipmentBean eb, int r) {
-		try {
-			iscon = con.isClosed();
-			if(iscon){
-				connect();
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-			String sql = "";
-			int res = 0;
-
-			try {
-				System.out.println("진입");
-				if(r==801){ // 대여일때 
-					sql = "INSERT INTO RENTAL (RENT_CODE, RENT_EQCODE, RENT_MCODE, RENT_RSCODE, RENT_SDATE, RENT_PURPOSE, RENT_DUEDATE) "
-							+ "VALUES (RENT_GET_NEXT_SEQ, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, TO_DATE(?, 'YYYY-MM-DD'))";
-				}else{ 		
-					sql = "INSERT INTO RENTAL (RENT_CODE, RENT_EQCODE, RENT_MCODE, RENT_RSCODE, RENT_EDATE, RENT_PURPOSE) "
-							+ "VALUES (RENT_GET_NEXT_SEQ, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)";
-				}
-				System.out.println("sql1"+sql);
-				
-				
-				pstmt = con.prepareStatement(sql);
-				System.out.println("sql1");
-				pstmt.setInt(1, eb.getEq_code());
-				System.out.println("eq_code"+eb.getEq_code());
-				
-				pstmt.setString(2, eb.getRt_m_code());
-				System.out.println("rt_m_code"+eb.getRt_m_code());
-				pstmt.setInt(3, r);
-				System.out.println("rs_code"+r);
-				//java.util.Date uDate = eb.getRt_sdate();
-				//java.sql.Date sDate  = new java.sql.Date(uDate.getTime());
-				pstmt.setString(4,eb.getRt_sdate_s());
-				System.out.println("getRt_sdate"+eb.getRt_sdate_s());
-				pstmt.setString(5, eb.getRt_purpose());
-				System.out.println("purpose"+eb.getRt_purpose());
-				if(r==801){
-					//uDate = eb.getRt_duedate();
-					//sDate  = new java.sql.Date(uDate.getTime());
-					pstmt.setString(6,eb.getRt_duedate_s());
-					System.out.println("duedate"+eb.getRt_duedate_s());
-				}
-			
-				System.out.println("date"+eb.getRt_duedate_s());
-			
-				res = pstmt.executeUpdate();
-				
-				System.out.println("res : "+res);
-				if(res == 0){ return false;}
-
-				msg = sql;
-				
-				return true;
-			} catch (Exception e) {
-				Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
-			} finally {
-				if (pstmt != null)
-					try {
-						pstmt.close();
-					} catch (Exception e) {
-					}
-				if (con != null)
-					try {
-						con.close();
-					} catch (Exception e) {
-					}
-			}
-			return false;
-	}
+	
 
 	// 장비 입력 proc 쿼리
 	public boolean updateEquipmentReturn(EquipmentBean eb) {
@@ -664,46 +591,7 @@ public class EquipmentDAO {
 			// TODO Auto-generated method stub
 						return false;
 		}
-	public boolean equipmentRentalDelete(String code) {
-		try {
-			iscon = con.isClosed();
-			if(iscon){
-				connect();
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-			String sql = "";
-			int res = 0;
-
-			try {
-				System.out.println("진입");
-				sql = "DELETE FROM RENTAL WHERE RENT_CODE = ?";
-				System.out.println("RentalDelete sql1"+sql);
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, code);
-				res = pstmt.executeUpdate();
-				System.out.println("res"+res);
-				if (res != 0) return true;
-			} catch (Exception e) {
-				Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
-			} finally {
-				if (pstmt != null)
-					try {
-						pstmt.close();
-					} catch (Exception e) {
-					}
-				if (con != null)
-					try {
-						con.close();
-					} catch (Exception e) {
-					}
-			}
-			// TODO Auto-generated method stub
-						return false;
-		}
-
+	
 	//장비  view
 	public EquipmentBean getEquipmentView(int code) {
 		try {
@@ -916,14 +804,12 @@ public class EquipmentDAO {
 		try {
 			
 
-			sql = "SELECT RENT_CODE, EQ_NAME, M_NAME, RS_NAME, TO_CHAR(RENT_SDATE, 'yyyy-mm-dd'), TO_CHAR(RENT_EDATE, 'yyyy-mm-dd'), RENT_PURPOSE, TO_CHAR(RENT_DUEDATE, 'yyyy-mm-dd')  "
+			sql = "SELECT RENT_CODE, EQ_NAME, M_NAME,  TO_CHAR(RENT_SDATE, 'yyyy-mm-dd'), TO_CHAR(RENT_EDATE, 'yyyy-mm-dd')"
 					+ " FROM RENTAL R"
 					+ " INNER JOIN EQUIPMENT E"
 					+ " ON R.RENT_EQCODE=E.EQ_CODE"
 					+ " INNER JOIN MEMBER M "
-					+ " ON M.M_CODE = R.RENT_MCODE"
-					+ " INNER JOIN RENTAL_STATE RS"
-					+ " ON R.RENT_RSCODE = RS.RS_CODE";
+					+ " ON M.M_CODE = R.RENT_MCODE";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -935,11 +821,11 @@ public class EquipmentDAO {
 				data.setRt_code(rs.getString(k++));
 				data.setEq_name(rs.getString(k++));
 				data.setRt_m_name(rs.getString(k++));
-				data.setRs_name(rs.getString(k++));
+				//data.setRs_name(rs.getString(k++));
 				data.setRt_sdate_s(rs.getString(k++));
 				data.setRt_edate_s(rs.getString(k++));
-				data.setRt_purpose(rs.getString(k++));
-				data.setRt_duedate_s(rs.getString(k++));
+				//data.setRt_purpose(rs.getString(k++));
+				//data.setRt_duedate_s(rs.getString(k++));
 				list.addElement(data);
 			}
 
@@ -984,15 +870,13 @@ public class EquipmentDAO {
 		try {
 			
 
-			sql = "SELECT RENT_CODE, EQ_NAME, M_NAME, RS_NAME, TO_CHAR(RENT_SDATE, 'yyyy-mm-dd'), TO_CHAR(RENT_EDATE, 'yyyy-mm-dd'), RENT_PURPOSE, TO_CHAR(RENT_DUEDATE, 'yyyy-mm-dd')  "
+			sql = "SELECT RENT_CODE, EQ_NAME, M_NAME,  TO_CHAR(RENT_SDATE, 'yyyy-mm-dd'), TO_CHAR(RENT_EDATE, 'yyyy-mm-dd')"
 					+ " FROM RENTAL R"
 					+ " INNER JOIN EQUIPMENT E"
 					+ " ON R.RENT_EQCODE=E.EQ_CODE"
 					+ " INNER JOIN MEMBER M "
 					+ " ON M.M_CODE = R.RENT_MCODE"
-					+ " INNER JOIN RENTAL_STATE RS"
-					+ " ON R.RENT_RSCODE = RS.RS_CODE"
-					+ " WHERE E.EQ_EQCACODE =? ";
+					+ " WHERE E.EQ_EQCACODE=? ";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, ca_code);
@@ -1005,11 +889,11 @@ public class EquipmentDAO {
 				data.setRt_code(rs.getString(k++));
 				data.setEq_name(rs.getString(k++));
 				data.setRt_m_name(rs.getString(k++));
-				data.setRs_name(rs.getString(k++));
+				//data.setRs_name(rs.getString(k++));
 				data.setRt_sdate_s(rs.getString(k++));
 				data.setRt_edate_s(rs.getString(k++));
-				data.setRt_purpose(rs.getString(k++));
-				data.setRt_duedate_s(rs.getString(k++));
+				//data.setRt_purpose(rs.getString(k++));
+				//data.setRt_duedate_s(rs.getString(k++));
 				list.addElement(data);
 			}
 
@@ -1035,5 +919,109 @@ public class EquipmentDAO {
 
 		return null;
 	}
+	
+	
+	// 장비 입력 proc 쿼리
+		public boolean insertEquipmentRental(EquipmentBean eb) {
+			try {
+				iscon = con.isClosed();
+				if(iscon){
+					connect();
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+				String sql = "";
+				int res = 0;
+
+				try {
+					System.out.println("진입");
+						sql = "INSERT INTO RENTAL (RENT_CODE, RENT_EQCODE, RENT_MCODE, RENT_SDATE) "
+								+ " VALUES (RENT_GET_NEXT_SEQ, ?, ?, TO_DATE(?, 'YYYY-MM-DD'))";
+					
+					System.out.println("sql1"+sql);
+					
+					
+					pstmt = con.prepareStatement(sql);
+					System.out.println("sql1");
+					
+					pstmt.setInt(1, eb.getEq_code());
+					System.out.println("eq_code"+eb.getEq_code());
+					
+					pstmt.setString(2, eb.getRt_m_code());
+					System.out.println("rt_m_code"+eb.getRt_m_code());
+
+					pstmt.setString(3,eb.getRt_sdate_s());
+					System.out.println("getRt_sdate"+eb.getRt_sdate_s());
+
+
+
+				
+					res = pstmt.executeUpdate();
+					
+					System.out.println("res : "+res);
+					if(res == 0){ return false;}
+
+					msg = sql;
+					
+					return true;
+				} catch (Exception e) {
+					Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+				} finally {
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (Exception e) {
+						}
+					if (con != null)
+						try {
+							con.close();
+						} catch (Exception e) {
+						}
+				}
+				return false;
+		}
+	
+	public boolean equipmentRentalDelete(String code) {
+		try {
+			iscon = con.isClosed();
+			if(iscon){
+				connect();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			String sql = "";
+			int res = 0;
+
+			try {
+				System.out.println("진입");
+				sql = "DELETE FROM RENTAL WHERE RENT_CODE = ?";
+				System.out.println("RentalDelete sql1"+sql);
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, code);
+				res = pstmt.executeUpdate();
+				System.out.println("res"+res);
+				if (res != 0) return true;
+			} catch (Exception e) {
+				Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+			} finally {
+				if (pstmt != null)
+					try {
+						pstmt.close();
+					} catch (Exception e) {
+					}
+				if (con != null)
+					try {
+						con.close();
+					} catch (Exception e) {
+					}
+			}
+			// TODO Auto-generated method stub
+						return false;
+		}
+
 
 }// end_class	

@@ -57,38 +57,6 @@
 		});
 				
 	}
-	
-		/* function eq_list_ajax(eq_ca_code) {
-			$.ajax({
-				url : "/equipmentListAjax.eq",
-				dataType : "text",
-				data : {
-					eq_ca_code : eq_ca_code
-				},
-				success : function(eq_list) {
-					var eqList = eval(eq_list);
-					var table = '<table class="m_table"><tr class="title">'
-								+'<td>No</td><td>장비코드</td><td>장비명</td><td >제조사</td><td>장비분류</td><td>날짜</td><td>첨부파일</td><td>수정</td><td>삭제</td>'
-								+'</tr>';
-					$.each(eqList, function(index) {
-						var eq_obj = eqList[index];
-						table += "<tr>";
-						table += "<td>" + (index + 1) + "<input type='hidden' name='eq_code' class='eq_code'value='"+eq_obj.eq_code+"'></td>";
-						table += "<td >" + eq_obj.eq_code + "</td>";
-						table += "<td ><input class='eq_name' type='text' value='" + eq_obj.eq_name + "'/></td>";
-						table += "<td><input class='manufacturer' type='text' value='" + eq_obj.manufacturer + "'/></td>";
-						table += "<td><select name='eq_ca_list' class='eq_ca_list'>" 
-									+"<option value="+ eq_obj.eq_ca_code+" selected>"+ eq_obj.eq_ca_name+ "</option></td>";
-						table += "<td ><input class='eq_date' type='text' value='" + eq_obj.eq_date_s + "'/></td>";
-						table += "<td>"+eq_obj.eq_picture+"</td>";
-						
-						table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
-									+"<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
-					});
-					
-				}
-			});
-		}; */
 
 	function rt_add_click() {
 
@@ -117,7 +85,7 @@
 					success : function(rt_list) {
 						var rtList = eval(rt_list);
 						var table = '<table class="m_table">'
-								+ '	<tr><td width="20px"></td>	<td width="150px"></td>	<td width="100px"></td><td width="100px"></td><td width="130px"></td> <td width="130px"></td> <td width="140px"></td> <td width="130px"></td>		<td width="40px"></td><td width="40px"></td></tr>';
+								+ '	<tr><td width="20px"></td>	<td width="180px"></td>	<td width="100px"></td> <td width="130px"></td><td width="130px"></td><td width="40px"></td><td width="40px"></td></tr>';
 						$.each(
 										rtList,
 										function(index) {
@@ -128,10 +96,7 @@
 											table += "<td  ><div class='rt_name'>" + rt_obj.eq_name	
 													+ "</div>"+ "<input type='hidden' name='rt_code' class='rt_code'value='"+rt_obj.rt_code+"'></td>";
 											table += "<td >" + rt_obj.rt_m_name + "</td>";
-											table += "<td>" + rt_obj.rs_name + "</td>";
-											table += "<td>" + rt_obj.rt_sdate + "</td>";
-											table += "<td>" + rt_obj.rt_duedate + "</td>";
-											table += "<td>" + rt_obj.rt_purpose + "</td>";
+											table += "<td>" + rt_obj.rt_sdate + "</td>";									
 											table += "<td>" + rt_obj.rt_edate  + "</td>";
 
 											table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
@@ -143,13 +108,7 @@
 						$("#tab_container").append(table);
 						rt_view();
 						del_click();
-	/* 					eq_delete();
-						//eq_modify();
-						eq_view();
-						eq_category_ajax();
-						eq_front_modify();
-						//pos_ajax();
-						//dep_ajax(); */
+
 					},
 					error : function(err) {
 						alert(err + "--->오류발생");
@@ -348,10 +307,7 @@ div.eq_name {
 						<td width="20px">No</td>
 						<td width="180px">장비명</td>
 						<td width="100px">대여자</td>
-						<td width="100px">대여상태</td>
 						<td width="130px">대여시작일</td>
-						<td width="130px">반납예정일</td>
-						<td width="140px">대여목적</td>
 						<td width="130px">반납일</td>				
 						<td width="40px">수정</td>
 						<td width="40px">삭제</td>

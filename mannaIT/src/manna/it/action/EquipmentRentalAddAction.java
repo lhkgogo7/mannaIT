@@ -25,19 +25,11 @@ public class EquipmentRentalAddAction implements Action {
 
 		boolean result = false;
 
-		Date date = null;/*
-						 * String savePath = request.getRealPath("/upload");
-						 */
+		Date date = null;
 
 		System.out.println("equipmentRentalAddAction.java")	;
-		int r = 0;
-		if (request.getParameter("eq_state")!=null){
-			System.out.println("eq_state");
-			r=Integer.parseInt(request.getParameter("eq_state"));
-			System.out.println("eq_state::::"+r);
-			
-		}
-		
+
+
 		if(request.getParameter("eq_code")!=null){
 			equipment.setEq_code(Integer.parseInt(request.getParameter("eq_code")));
 			System.out.println("eq_code::::"+Integer.parseInt(request.getParameter("eq_code")));
@@ -45,28 +37,11 @@ public class EquipmentRentalAddAction implements Action {
 		equipment.setRt_m_code(request.getParameter("rent_mname"));
 		System.out.println("rent_mname::::"+request.getParameter("rent_mname"));
 		
-		//date = equipmentDao.stringToDateConversion(request.getParameter("rent_date"));
 		equipment.setRt_sdate_s(request.getParameter("rent_date"));
 		System.out.println("rent_date::::"+request.getParameter("rent_date"));
+
 		
-		equipment.setRt_purpose(request.getParameter("rent_purpose"));
-		System.out.println("rent_purpose::::"+request.getParameter("rent_purpose"));
-		
-		if(request.getParameter("rent_purpose")!=null){
-			equipment.setRt_purpose(request.getParameter("rent_purpose"));
-		}else{
-			equipment.setRt_purpose("대여");
-		}
-		
-		
-		if(request.getParameter("rent_duedate")!=null){
-			//date=equipmentDao.stringToDateConversion(request.getParameter("rent_duedate"));
-			equipment.setRt_duedate_s(request.getParameter("rent_duedate"));
-			System.out.println("rent_duedate::::"+request.getParameter("rent_duedate"));
-		}
-		
-		
-		result = equipmentDao.insertEquipmentRental(equipment, r);
+		result = equipmentDao.insertEquipmentRental(equipment);
 
 		if (result == false) {
 			System.out.println("입력실패");

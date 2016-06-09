@@ -63,6 +63,7 @@ function req_list_ajax(res_code, req_code, cur_page, req_limit) {
 function list_all() {
 	$('#list_all').click(function() {
 		req_list_ajax(res_code, req_code, cur_page, req_limit);
+		pageList(res_code, req_code, cur_page, req_limit);
 	});
 }
 // 요청결과에selector 변경에 따라 실시간 list 재호출

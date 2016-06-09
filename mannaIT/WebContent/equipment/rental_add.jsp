@@ -66,7 +66,7 @@
 						<td><input type="text" id="rent_eqcode" name="eq_code" ></td>
 					</tr>
 					<tr>
-						<th>(사용자)대여자</th>
+						<th>사용자(대여자)</th>
 						<td>
 							<select name="rent_mname" id="rent_mname" >
 							 	<option>선택하세요</option>
@@ -76,37 +76,12 @@
 							</select>
 						</td>
 					</tr>
+					
 					<tr>
-						<th>대여/반납</th>
-						<td>
-							<select name="eq_state" id="eq_state" >
-							 	<option>선택하세요</option>
-								<c:forEach var="es" items="<%=Equipment.getEquipmentStateList()%>" varStatus="status">
-		 							<option value="${es.eq_state_code}" >${es.eq_state_name}</option>
-								</c:forEach>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th>대여시작일/반납일</th>
+						<th>등록일</th>
 						<td>
 							<input type="date" id="rent_date" name= "rent_date">
 						</td>
-					</tr>
-<!-- 					<tr>
-						<th>대여 반납일</th>
-						<td>
-							<input type="date" id="rent_edate" name= "rent_edate">
-						</td>
-					</tr> -->
-					<tr>
-						<th>목적</th>
-						<td>
-							<input type="text" id="rent_purpose" name= "rent_purpose">
-						</td>
-					</tr>
-					<tr id="duedate">
-						
 					</tr>
 					<tr>
 						<td colspan=11 style="text-align: center">

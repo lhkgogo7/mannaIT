@@ -411,7 +411,6 @@
 <body>
 	<div class="main">
 		<div class="search_box">
-			<button id="eq_rent">대여등록</button>
 			<button id="eq_add">장비추가</button>
 			<button id="rent_add">사용등록</button>
 						<button id="eq_list_all">전체보기</button>
