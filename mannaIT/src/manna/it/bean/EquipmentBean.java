@@ -27,7 +27,7 @@ public class EquipmentBean {
 	private String rt_duedate_s; //대여 반납예정일 문자타입
 	private int eq_rnum; //장비 게시물 번호 
 	private int eq_state_code;	// 장비 상태 코드
-	private String eq_state_name; // 장비 상태이름 
+	private String eq_user; // 장비 상태이름 
 	
 	
 	
@@ -298,14 +298,14 @@ public class EquipmentBean {
 
 
 
-	public String getEq_state_name() {
-		return eq_state_name;
+	public String getEq_user() {
+		return eq_user;
 	}
 
 
 
-	public void setEq_state_name(String eq_state_name) {
-		this.eq_state_name = eq_state_name;
+	public void setEq_user(String eq_user) {
+		this.eq_user = eq_user;
 	}
 
 

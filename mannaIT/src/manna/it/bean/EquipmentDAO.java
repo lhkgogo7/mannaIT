@@ -151,13 +151,13 @@ public class EquipmentDAO {
 					+ " WHERE EQ_CA_CODE="+ca_code +" ORDER BY EQ_CODE ASC)"
 					+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE DESC";*/
 		      
-		      sql = "SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, ES_NAME "
-		      		+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, ES.EQ_STATE_NAME ES_NAME "
+		      sql = "SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, EQ_USER "
+		      		+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, EQ_USER "
 		    		+ " FROM EQUIPMENT EQ"
 		    	    + " INNER JOIN EQ_CATEGORY EC"
 		    		+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
 		    		+ " WHERE EQ_CA_CODE="+ca_code +"ORDER BY EQ_CODE DESC))"
-		    		+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row +" order by rnum asc";
+		    		+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row +" ORDER BY RNUM ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -173,7 +173,7 @@ public class EquipmentDAO {
 				data.setEq_ca_name(rs.getString(k++));
 				data.setEq_ca_code(rs.getInt(k++));
 				data.setEq_date_s(rs.getString(k++));
-				data.setEq_state_name(rs.getString(k++));
+				data.setEq_user(rs.getString(k++));
 		
 				list.addElement(data);
 			}
@@ -234,14 +234,13 @@ public class EquipmentDAO {
 					+ " INNER JOIN EQ_CATEGORY EC"
 					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE ORDER BY EQ_CODE )"
 					+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE DESC";*/
-		      sql ="SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, ES_NAME "
-		    	+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, ES.EQ_STATE_NAME ES_NAME "
-	    		+ " FROM EQUIPMENT EQ"
-	    	    + " INNER JOIN EQ_CATEGORY EC"
-	    		+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
-	    		+ " INNER JOIN EQ_STATE ES "
-	    		+ " ON EQ.EQ_STATE= ES.EQ_STATE_CODE ORDER BY EQ_CODE desc))"
-	    		+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row +"order by rnum asc";
+		      sql =" SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, EQ_USER "
+		      		+ "FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, EQ_USER" 
+		      		+ " FROM EQUIPMENT EQ"
+		      		+ " INNER JOIN EQ_CATEGORY EC"
+		      		+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
+		      		+ " ORDER BY EQ_CODE DESC))"
+		      		+ " WHERE RNUM >="+start_row+" AND RNUM<="+end_row +"ORDER BY RNUM ASC";
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -259,7 +258,7 @@ public class EquipmentDAO {
 				data.setEq_ca_code(rs.getInt(k++));
 				data.setEq_date_s(rs.getString(k++));
 				data.setEq_picture(rs.getString(k++));
-				data.setEq_state_name(rs.getString(k++));
+				data.setEq_user(rs.getString(k++));
 
 				list.addElement(data);
 			}
@@ -299,62 +298,6 @@ public class EquipmentDAO {
 	
 	
 
-	//Equipment STATE 목록 불러오는 코드
-	public Vector<EquipmentBean> getEquipmentStateList() {
-		try {
-			iscon = con.isClosed();
-			if(iscon){
-				connect();
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		String sql = "";
-		int k = 1;
-		int max_num = 0; // 총수량
-		// 결과를 저정하는 벡터 변수
-		Vector<EquipmentBean> list = new Vector<EquipmentBean>();
-
-		try {
-			
-
-			sql = "SELECT RS_CODE, RS_NAME FROM RENTAL_STATE";
-			msg = sql;
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			// 해당 값을 얻는다.
-			while (rs.next()) {
-				k = 1;
-				EquipmentBean data = new EquipmentBean();
- 
-				data.setEq_state_code(rs.getInt(k++));
-				data.setEq_state_name(rs.getString(k++));
-			
-				list.addElement(data);
-			}
-
-			if (rs != null)
-				rs.close();
-			return list;
-
-		} catch (Exception e) {
-			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
-		} finally {
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (Exception e) {
-				}
-			if (con != null)
-				try {
-					con.close();
-				} catch (Exception e) {
-				}
-		}
-
-		return null;
-	}
 	//Equipment Category 목록 불러오는 코드
 	public Vector<EquipmentBean> getEquipmentCategoryList() {
 		try {

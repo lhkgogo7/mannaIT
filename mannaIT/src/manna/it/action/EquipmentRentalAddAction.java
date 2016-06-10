@@ -42,6 +42,8 @@ public class EquipmentRentalAddAction implements Action {
 
 		
 		result = equipmentDao.insertEquipmentRental(equipment);
+		
+		
 
 		if (result == false) {
 			System.out.println("입력실패");

@@ -30,23 +30,9 @@
 	     	history.go(-1);	
 	    });
 	    
-	    eq_state_change();
 	 });
 	 
-	 function eq_state_change() {
-		$("#eq_state").change(function() {
-			eq_state = $("#eq_state").val();
-			if(eq_state==801){//대여
-			    var duedate ='<th>대여 반납예정일</th><td><input type="date" id="rent_duedate" name= "rent_duedate"></td>';
-				$("#duedate").append(duedate);
-			}else{//반납
-				$("#duedate").empty();
-				
-			}
-			
-			
 
-		});
 	};
 </script>
 

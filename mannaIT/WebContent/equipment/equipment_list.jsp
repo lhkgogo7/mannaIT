@@ -192,7 +192,7 @@
 											table += "<td ><input class='eq_date' type='text' value='" + eq_obj.eq_date_s + "'/></td>";
 											/* 											table += "<td>" + eq_obj.eq_picture
 											 + "</td>"; */
-											table += "<td ><span class='eq_state'style ='font-size:8pt'>" + eq_obj.eq_state +"</span></td>";
+											table += "<td ><span class='eq_state'style ='font-size:8pt'>" + eq_obj.eq_user+"</span></td>";
 											table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
 													+ "<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
 										});

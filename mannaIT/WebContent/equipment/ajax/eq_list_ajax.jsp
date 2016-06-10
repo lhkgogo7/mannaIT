@@ -51,7 +51,7 @@
 			obj.put("eq_ca_name", eq_vector.get(i).getEq_ca_name());			
 			obj.put("eq_date_s", eq_vector.get(i).getEq_date_s());
 			obj.put("eq_picture", eq_vector.get(i).getEq_picture());
-			obj.put("eq_state", eq_vector.get(i).getEq_state_name());
+			obj.put("eq_user", eq_vector.get(i).getEq_user());
 			//System.out.println("obj"+i+obj);
 			eq_list.add(obj);
 			
