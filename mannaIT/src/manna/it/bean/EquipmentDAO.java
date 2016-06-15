@@ -728,7 +728,93 @@ public class EquipmentDAO {
 		return false;
 	}
 
-	
+	//equipment list 에서 사용자 수정
+	public boolean updateEquipmentUser(int eq_code, String m_code) {
+		try {
+			iscon = con.isClosed();
+			if(iscon){
+				connect();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			String sql = "";
+			int res = 0;
+
+			try {
+				System.out.println("updateEquipmentUser 진입");
+				
+					sql = "update equipment set eq_user = ? where eq_code = ?";
+				
+				System.out.println("sql1"+sql);
+				
+				
+				pstmt = con.prepareStatement(sql);
+				
+				
+				
+				pstmt.setString(1,m_code);
+				pstmt.setInt(2, eq_code);
+				
+				
+				res = pstmt.executeUpdate();
+				
+				System.out.println("updateEquipmentUser res : "+res);
+				if(res == 0){ return false;}
+
+				msg = sql;
+				
+				return true;
+			} catch (Exception e) {
+				Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+			} finally {
+				if (pstmt != null)
+					try {
+						pstmt.close();
+					} catch (Exception e) {
+					}
+				if (con != null)
+					try {
+						con.close();
+					} catch (Exception e) {
+					}
+			}
+			return false;
+	}
+
+	//장비 사용자 가져오기 
+		public String getUserName(String m_code){
+				String sql  ="SELECT M_NAME FROM MEMBER WHERE M_CODE = ?";
+				try{
+					pstmt=con.prepareStatement(sql);
+					System.out.println(m_code+"user name:::::: mname");
+					pstmt.setString(1, m_code);
+					
+			        rs=pstmt.executeQuery();
+			        
+			        rs.next();
+					return rs.getString(1);
+				} catch (Exception e) {
+					Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+				} finally {
+					if (pstmt != null)
+						try {
+							pstmt.close();
+						} catch (Exception e) {
+							 System.out.println("ListCount 에러:"+e);
+						}
+					if (con != null)
+						try {
+							con.close();
+						} catch (Exception e) {
+							 System.out.println("ListCount con 에러:"+e);
+						}
+				}
+				return null;
+			}
+			
+	///////////////////////////////////////rental ///////////////
 	public Vector<EquipmentBean> getRentalList() {
 
 		String sql = "";

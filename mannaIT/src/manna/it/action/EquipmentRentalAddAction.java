@@ -29,30 +29,43 @@ public class EquipmentRentalAddAction implements Action {
 
 		System.out.println("equipmentRentalAddAction.java")	;
 
-
+		int eq_code=0;
 		if(request.getParameter("eq_code")!=null){
-			equipment.setEq_code(Integer.parseInt(request.getParameter("eq_code")));
+			eq_code= Integer.parseInt(request.getParameter("eq_code"));
+			equipment.setEq_code(eq_code);
 			System.out.println("eq_code::::"+Integer.parseInt(request.getParameter("eq_code")));
 		}
-		equipment.setRt_m_code(request.getParameter("rent_mname"));
+		String m_code = request.getParameter("rent_mname");
+		equipment.setRt_m_code(m_code);
 		System.out.println("rent_mname::::"+request.getParameter("rent_mname"));
 		
 		equipment.setRt_sdate_s(request.getParameter("rent_date"));
 		System.out.println("rent_date::::"+request.getParameter("rent_date"));
 
+	
 		
-		result = equipmentDao.insertEquipmentRental(equipment);
-		
-		
-
+		result= equipmentDao.insertEquipmentRental(equipment);
 		if (result == false) {
-			System.out.println("입력실패");
+			System.out.println("EquipmentRental입력실패");
 			return null;
-		}
-		forward.setRedirect(true);
+		}else{
 		
-		forward.setPath("/index.jsp?content=/equipment.eq");
-		return forward;
+			String m_name = "";
+			m_name = equipmentDao.getUserName(m_code);
+			
+			System.out.println("m_name :::::::::::::::: "+m_name);
+			result =  equipmentDao.updateEquipmentUser(eq_code, m_name);
+		
+			if (result == false) {
+				System.out.println("updateEquipmentUser실패");
+				return null;
+			}else	
+				forward.setRedirect(true);			
+				forward.setPath("/index.jsp?content=/equipment.eq");
+				return forward;
+		}
+	
 	}
-
 }
+
+
