@@ -21,19 +21,7 @@
 
 
 <script type="text/javascript">
-	 $(document).ready(function(){
-		$('#eq_category').change(function(){
-			alert(this.value);
-		});
 
-	    $("#back").click(function(){
-	     	history.go(-1);	
-	    });
-	    
-	 });
-	 
-
-	};
 </script>
 
 </head>

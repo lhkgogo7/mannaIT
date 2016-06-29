@@ -97,7 +97,7 @@ public class RequestDAO {
 						+ " ON M.M_CODE = R.REQ_MCODE"
 						+ " INNER JOIN REQ_RESULT RR "
 						+ " ON RR.RES_CODE = R.REQ_RESCODE"
-						+ " ORDER BY R.REQ_CODE DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
+						+ " ORDER BY R.req_date DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -154,7 +154,6 @@ public class RequestDAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println("getRequestList(int res, String req) res:"+res+"req:"+req);
 		String sql = "";
 
 		int k;
@@ -173,7 +172,7 @@ public class RequestDAO {
 						+ " INNER JOIN REQ_RESULT RR "
 						+ " ON RR.RES_CODE = R.REQ_RESCODE "
 						+ " where R.REQ_RESCODE ="+res+" and R.REQ_CACODE ="+req
-						+ " ORDER BY R.REQ_CODE DESC";
+						+ " ORDER BY R.req_date DESC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -230,7 +229,6 @@ public class RequestDAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println("getRequestList(String req) req:"+req);
 		String sql = "";
 
 		int k;
@@ -251,7 +249,7 @@ public class RequestDAO {
 						+ " INNER JOIN REQ_RESULT RR "
 						+ " ON RR.RES_CODE = R.REQ_RESCODE "
 						+ " WHERE R.REQ_CACODE ="+req
-						+ " ORDER BY R.REQ_CODE DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
+						+ " ORDER BY R.req_date DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);

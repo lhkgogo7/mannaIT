@@ -95,18 +95,18 @@
 	}
 	function prev_page_click(){
 		$("#prev_page").click(function(){
-			alert("prev_page");
+			//alert("prev_page");
 			$("#page_section").empty();
-			pageList(prev_page,eq_limit);
+			pageList(eq_ca_code,prev_page,eq_limit);
 			cur_page=prev_page;
 			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
 		});
 	}
 	function next_page_click(){
 		$("#next_page").click(function(){
-			alert("next_page");
+			//alert("next_page");
 			$("#page_section").empty();
-			pageList(next_page,eq_limit);
+			pageList(eq_ca_code,next_page,eq_limit);
 			cur_page=next_page;
 			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
 		});
@@ -143,7 +143,7 @@
 	function eq_name_click(){
 		$(".eq_name").click(function(){
 			var eq_code = $(this).parent().parent().children('.eq_code').html();
-			alert("eq_code::: "+eq_code);
+			//alert("eq_code::: "+eq_code);
 			$("#rent_eqcode").val(eq_code);
 			
 			
@@ -153,7 +153,7 @@
 	function eq_ca_search() {
 		$("#eq_ca_search").change(function() {
 			eq_ca_code = $("#eq_ca_search").val();
-			alert(eq_ca_code);
+			//alert(eq_ca_code);
 			eq_list_ajax(eq_ca_code,cur_page,eq_limit);
 			pageList(eq_ca_code,cur_page,eq_limit);
 		});
@@ -219,7 +219,7 @@
 				function() {
 					var eq_code = $(this).parent().parent().children()
 							.children('.eq_code').val();
-					alert(eq_code);
+					//alert(eq_code);
 					$.ajax({
 						type : "POST",
 						data : {
@@ -241,12 +241,12 @@
 	function eq_modify() {
 		$(".mod").click(
 				function() {
-					alert("modify");
+					//alert("modify");
 					var eq_code = $(this).parent().parent().children()
 							.children('.eq_code').val();
 
 					
-					alert(eq_code);
+					//alert(eq_code);
 					var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
 					
 					window.open(eq_mod, "_blank", "width=450, height=400, toolbar=no,location=no, menubar=no, scrollbars=no, resizable=yes" );
@@ -257,7 +257,7 @@
 	function eq_front_modify(){
 		
 		$(".mod").click(function(){
-			alert("modify eq_front_modify(");
+			//alert("modify eq_front_modify(");
 			/* var eq_code = $(this).parent().parent().children().children('.eq_code').val(); */
 			var eq_code = $(this).parent().parent().children('.eq_code').html(); 
 			var eq_name = $(this).parent().parent().children().children('.eq_name').val();
@@ -265,7 +265,7 @@
 			var eq_date = $(this).parent().parent().children().children('.eq_date').val();
 			eq_ca_code = $(this).parent().parent().children().children('.eq_ca_list').val();
 			
-			alert(eq_code+"/"+eq_name+"/"+manufacturer+"/"+eq_date+"/"+eq_ca_code);
+			//alert(eq_code+"/"+eq_name+"/"+manufacturer+"/"+eq_date+"/"+eq_ca_code);
 		
 		
 				$.ajax({
@@ -293,9 +293,9 @@
 	
 	function eq_view(){
 		$(".eq_code").click(function() {
-			alert("click");
+			//alert("click");
 			var eq_code = $(this).parent().children('.eq_code').html(); 
-			alert(eq_code);
+			//alert(eq_code);
 		
 			var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
 			
@@ -305,7 +305,7 @@
 				
 	function eq_list_all(){
 		$("#eq_list_all").click(function(){
-			alert("all");
+			//alert("all");
 			eq_ca_code=0;
 			cur_page=1;
 			eq_list_ajax(eq_ca_code,cur_page,eq_limit);

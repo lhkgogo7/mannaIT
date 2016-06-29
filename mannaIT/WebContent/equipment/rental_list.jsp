@@ -15,6 +15,8 @@
 <title>장비리스트</title>
 <script type="text/javascript" src="/common/jquery/jquery-2.1.3.js"></script>
 <link rel="stylesheet" type="text/css" href="/common/css/common.css">
+
+</style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		rt_add_click();
@@ -24,13 +26,7 @@
 		
 		var eq_ca_code =0;
 		
-		
-		$(".modify").click(function() {
-			var num = $(this).parent().parent().children('.no').html();
-			var loc = "/equipmentModifyView.eq?eq_code=" + num;
-			location.href(loc);
-		});
-	
+
 
 
 	});
@@ -74,7 +70,7 @@
 	};
 	// 요청결과에selector 변경에 따라 실시간 list 재호출
 
-	function rt_list_ajax(eq_ca_search) {
+	function rt_list_ajax(eq_ca_code) {
 		$
 				.ajax({
 					url : "/rentalListAjax.eq",
@@ -85,7 +81,7 @@
 					success : function(rt_list) {
 						var rtList = eval(rt_list);
 						var table = '<table class="m_table">'
-								+ '	<tr><td width="20px"></td>	<td width="180px"></td>	<td width="100px"></td> <td width="130px"></td><td width="130px"></td><td width="40px"></td><td width="40px"></td></tr>';
+								+ '	<tr><td width="20px"></td>	<td width="180px"></td>	<td width="100px"></td> <td width="180px"></td><td width="180px"></td><td width="40px"></td><td width="40px"></td></tr>';
 						$.each(
 										rtList,
 										function(index) {
@@ -97,7 +93,7 @@
 													+ "</div>"+ "<input type='hidden' name='rt_code' class='rt_code'value='"+rt_obj.rt_code+"'></td>";
 											table += "<td >" + rt_obj.rt_m_name + "</td>";
 											table += "<td>" + rt_obj.rt_sdate + "</td>";									
-											table += "<td>" + rt_obj.rt_edate  + "</td>";
+											table += "<td><input type='date' class='rt_edate' name='rt_edate' value='" + rt_obj.rt_edate  +"'> </td>";
 
 											table += "<td ><button class='mod'><img  src='/common/img/ok.png'></button></td>"
 													+ "<td><button class='delete'><img src='/common/img/delete.png'></button></td></tr>";
@@ -108,6 +104,7 @@
 						$("#tab_container").append(table);
 						rt_view();
 						del_click();
+						 rt_modify();
 
 					},
 					error : function(err) {
@@ -149,55 +146,32 @@
 				});
 
 	};
-	function eq_modify() {
-		$(".mod").click(
-				function() {
-					alert("modify");
-					var eq_code = $(this).parent().parent().children()
-							.children('.eq_code').val();
 
-					
-					alert(eq_code);
-					var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
-					
-					window.open(eq_mod, "_blank", "width=450, height=400, toolbar=no,location=no, menubar=no, scrollbars=no, resizable=yes" );
-
-				});
-
-	};
-	function eq_front_modify(){
+	function rt_modify(){
 		
 		$(".mod").click(function(){
-			//alert("modify eq_front_modify(");
-			/* var eq_code = $(this).parent().parent().children().children('.eq_code').val(); */
-			var eq_code = $(this).parent().parent().children('.eq_code').html(); 
-			var eq_name = $(this).parent().parent().children().children('.eq_name').val();
-			var eq_manufacturer = $(this).parent().parent().children().children('.manufacturer').val();
-			var eq_date = $(this).parent().parent().children().children('.eq_date').val();
-			var eq_ca_code = $(this).parent().parent().children().children('.eq_ca_list').val();
+			var rt_code = $(this).parent().parent().children().children('.rt_code').val();
+			alert("rt_code"+rt_code);
 			
 			//alert(eq_code+"/"+eq_name+"/"+eq_manufacturer+"/"+eq_date+"/"+eq_ca_code);
-		
+		 
 		
 				$.ajax({
 					type : "POST",
 					data : {
-						eq_code : eq_code,
-						eq_name : eq_name,
-						eq_manufacturer : eq_manufacturer,
-						eq_date : eq_date,
-						eq_ca_code : eq_ca_code	
+						rt_code :rt_code,
+						e_date : e_date
 					},
-					url : "/equipmentFrontModifyAction.eq",
+					url : "/eqRentalModifyAction.eq",
 					success : function(result) {				
-						eq_list_ajax();
+						rt_list_ajax();
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
 						console.log("Status: " + textStatus);
 					},
 					timeout : 3000
 			
-			});
+			}); 
 		});
 		
 	};

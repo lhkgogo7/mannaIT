@@ -116,6 +116,11 @@ table.m_table input{
 	border: none;
 	
 }
+table.m_table input.rt_edate{
+	width :130px;
+	border: none;
+		
+}
 table.m_table input.m_extension{
 	width :50px;
 	border: none;
