@@ -28,7 +28,6 @@
 		add_click();
 		eq_list_ajax( eq_ca_code,cur_page,eq_limit);
 		pageList(eq_ca_code,cur_page,eq_limit);
-		
 		eq_ca_search();
 		eq_list_all();
 		rent_add_click();
@@ -217,8 +216,7 @@
 	function eq_delete() {
 		$(".delete").click(
 				function() {
-					var eq_code = $(this).parent().parent().children()
-							.children('.eq_code').val();
+					var eq_code = $(this).parent().parent().children().children('.eq_code').val();
 					//alert(eq_code);
 					$.ajax({
 						type : "POST",
@@ -241,14 +239,10 @@
 	function eq_modify() {
 		$(".mod").click(
 				function() {
-					//alert("modify");
-					var eq_code = $(this).parent().parent().children()
-							.children('.eq_code').val();
-
-					
-					//alert(eq_code);
-					var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
-					
+					alert("modify");
+					var eq_code = $(this).parent().parent().children().children('.eq_code').val();	
+					alert(eq_code);
+					var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;					
 					window.open(eq_mod, "_blank", "width=450, height=400, toolbar=no,location=no, menubar=no, scrollbars=no, resizable=yes" );
 
 				});
@@ -263,8 +257,7 @@
 			var eq_name = $(this).parent().parent().children().children('.eq_name').val();
 			var eq_manufacturer = $(this).parent().parent().children().children('.manufacturer').val();
 			var eq_date = $(this).parent().parent().children().children('.eq_date').val();
-			eq_ca_code = $(this).parent().parent().children().children('.eq_ca_list').val();
-			
+			var eq_ca_code_m = $(this).parent().parent().children().children('.eq_ca_list').val();
 			//alert(eq_code+"/"+eq_name+"/"+manufacturer+"/"+eq_date+"/"+eq_ca_code);
 		
 		
@@ -275,11 +268,12 @@
 						eq_name : eq_name,
 						eq_manufacturer : eq_manufacturer,
 						eq_date : eq_date,
-						eq_ca_code : eq_ca_code	
+						eq_ca_code : eq_ca_code_m
 					},
 					url : "/equipmentFrontModifyAction.eq",
 					success : function(result) {				
-						eq_list_ajax();
+						eq_list_ajax(eq_ca_code,cur_page,eq_limit);
+						pageList(eq_ca_code,cur_page,eq_limit);
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
 						console.log("Status: " + textStatus);
@@ -296,9 +290,7 @@
 			//alert("click");
 			var eq_code = $(this).parent().children('.eq_code').html(); 
 			//alert(eq_code);
-		
 			var eq_mod = "/equipmentView.eq?eq_code=" + eq_code;
-			
 			window.open(eq_mod, "_blank", "width=450, height=400, toolbar=no,location=no, menubar=no, scrollbars=no, resizable=yes" );
 		});
 	}

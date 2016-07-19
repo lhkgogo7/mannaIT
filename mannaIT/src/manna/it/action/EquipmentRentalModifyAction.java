@@ -12,7 +12,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import manna.it.bean.EquipmentBean;
 import manna.it.bean.EquipmentDAO;
 
-public class EquimentFrontModifyAction implements Action{
+public class EquipmentRentalModifyAction implements Action{
 	
 	
 	public ActionForward execute(HttpServletRequest request,HttpServletResponse response) throws Exception{
@@ -26,20 +26,21 @@ public class EquimentFrontModifyAction implements Action{
 
 		
 		EquipmentDAO equipmentDao = new EquipmentDAO();
-		EquipmentBean equipment = new EquipmentBean();
-		/*
-		Date date = null;
-		date = equipmentDao.stringToDateConversion(request.getParameter("eq_date"));*/
+		System.out.println("modify 진입");
+		String e_date = null;
 		
+
+
 		try{
-			equipment.setEq_code(Integer.parseInt(request.getParameter("eq_code")));
-			equipment.setEq_name(request.getParameter("eq_name"));
-			System.out.println(request.getParameter("eq_name"));
-			equipment.setManufacturer(request.getParameter("eq_manufacturer"));
 			
-			equipment.setEq_ca_code(Integer.parseInt(request.getParameter("eq_ca_code")));
-			equipment.setEq_date_s(request.getParameter("eq_date"));
-			result = equipmentDao.modifyFrontEquipment(equipment);
+
+			int rt_code=Integer.parseInt(request.getParameter("rt_code"));
+			e_date = request.getParameter("e_date");
+
+			System.out.println("rt_code::::::::"+rt_code);
+			System.out.println("e_date:::::::"+e_date);
+			result = equipmentDao.updateRentalDate(rt_code,e_date);
+			
 			if(result==false){
 				System.out.println("수정실패");
 				return null;
@@ -48,13 +49,11 @@ public class EquimentFrontModifyAction implements Action{
 			System.out.println("게시판 수정완료");
 			
 			forward.setRedirect(true);
-			forward.setPath("/equipment.eq");
+			forward.setPath("/index.jsp?content=/rental.eq");
 			return forward;
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-			
-		
 		
 		return null;
 		

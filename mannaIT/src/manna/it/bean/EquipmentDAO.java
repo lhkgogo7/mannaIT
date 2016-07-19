@@ -123,8 +123,7 @@ public class EquipmentDAO {
 	}
 
 	// 장비 리스트 출력 카테고리 검색 결과 출력
-	public Vector<EquipmentBean> getEquipmentList(int ca_code, int cur_page,
-			int limit) {
+	public Vector<EquipmentBean> getEquipmentList(int ca_code, int cur_page, int limit) {
 		System.out
 				.println("dao:  getEquipmentList(int ca_code, int page,int limit)"
 						+ ca_code + "::" + cur_page + ":::" + limit);
@@ -679,7 +678,7 @@ public class EquipmentDAO {
 			System.out.println("진입");
 			sql = " UPDATE EQUIPMENT" + " set EQ_NAME = ? ,"
 					+ " EQ_MANUFACTURER = ?," + " EQ_EQCACODE = ?,"
-					+ " EQ_DATE = ?" + " EQ_DATE = ?," + " WHERE EQ_CODE=?";
+					+ " EQ_DATE = ?" + " WHERE EQ_CODE=?";
 
 			pstmt = con.prepareStatement(sql);
 
@@ -690,10 +689,9 @@ public class EquipmentDAO {
 					+ eb.getManufacturer());
 			pstmt.setInt(3, eb.getEq_ca_code());
 			System.out.println(" eb.getEq_ca_code()" + eb.getEq_ca_code());
-			java.util.Date uDate = eb.getEq_date();
-			java.sql.Date sDate = new java.sql.Date(uDate.getTime()); // utilDate->sqlDate
-			pstmt.setDate(4, sDate);
-			System.out.println(" sDate::" + sDate);
+			
+			pstmt.setString(4, eb.getEq_date_s());
+			System.out.println(" sDate::" + eb.getEq_date_s());
 			pstmt.setInt(5, eb.getEq_code());
 			System.out.println("Eq_code():::" + eb.getEq_code());
 
