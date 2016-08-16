@@ -68,7 +68,11 @@
 				</table>
 			</div>
 			<div id="tab_container" class="tab_content"></div>
+			<div id="search_bar" class="search_bar">
+				<input type="text" id="search_text"><button id="search_button">검색</button>
+			</div>
 			<div id="page_section" class="page_section"></div>
+		</div>
 		</div>
 </body>
 </html>

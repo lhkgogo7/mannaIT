@@ -163,8 +163,9 @@ public class RequestDAO {
 					
 		try {
 	
-				sql = "SELECT REQ_CODE, RC.CA_NAME, M.M_NAME, R.REQ_SUBJECT,R.REQ_CONTENT , TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd'), R.REQ_REPORT, RR.RES_NAME "
-						+ " FROM REQUEST R "
+				sql = "SELECT * FROM (SELECT ROWNUM RNUM,REQ_CODE,CA_NAME, M_NAME, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, RES_NAME"
+						+ " FROM(SELECT REQ_CODE, RC.CA_NAME CA_NAME, M.M_NAME M_NAME, R.REQ_SUBJECT REQ_SUBJECT,R.REQ_CONTENT REQ_CONTENT, TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd') REQ_DATE, R.REQ_REPORT REQ_REPORT, RR.RES_NAME RES_NAME "
+						+ " FROM REQUEST R"
 						+ " INNER JOIN REQ_CATEGORY RC "
 						+ " ON RC.CA_CODE = R.REQ_CACODE "
 						+ " INNER JOIN MEMBER M "
@@ -172,7 +173,7 @@ public class RequestDAO {
 						+ " INNER JOIN REQ_RESULT RR "
 						+ " ON RR.RES_CODE = R.REQ_RESCODE "
 						+ " where R.REQ_RESCODE ="+res+" and R.REQ_CACODE ="+req
-						+ " ORDER BY R.req_date DESC";
+						+ " ORDER BY R.req_date DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
 				
 			msg = sql;
 			pstmt = con.prepareStatement(sql);
@@ -238,10 +239,9 @@ public class RequestDAO {
 					
 		try {
 	
-				sql = "SELECT * FROM (SELECT ROWNUM RNUM,REQ_CODE,CA_NAME, M_NAME, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, RES_NAME "
-						+ " FROM("
-						+ " SELECT  REQ_CODE, RC.CA_NAME CA_NAME, M.M_NAME M_NAME, R.REQ_SUBJECT REQ_SUBJECT,R.REQ_CONTENT REQ_CONTENT ,TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd') REQ_DATE, R.REQ_REPORT REQ_REPORT, RR.RES_NAME RES_NAME"
-						+ " FROM REQUEST R "
+				sql = "SELECT * FROM (SELECT ROWNUM RNUM,REQ_CODE,CA_NAME, M_NAME, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, RES_NAME"
+						+ " FROM(SELECT REQ_CODE, RC.CA_NAME CA_NAME, M.M_NAME M_NAME, R.REQ_SUBJECT REQ_SUBJECT,R.REQ_CONTENT REQ_CONTENT, TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd') REQ_DATE, R.REQ_REPORT REQ_REPORT, RR.RES_NAME RES_NAME "
+						+ " FROM REQUEST R"
 						+ " INNER JOIN REQ_CATEGORY RC "
 						+ " ON RC.CA_CODE = R.REQ_CACODE "
 						+ " INNER JOIN MEMBER M "
@@ -397,6 +397,118 @@ public class RequestDAO {
 		}
 		return 0;
 	}
+	
+	public int getRequestSearchTotal(String search){
+		String sql  ="SELECT COUNT(*) FROM REQUEST R"
+				+ " INNER JOIN REQ_CATEGORY RC"
+				+ " ON RC.CA_CODE = R.REQ_CACODE "
+				+ " INNER JOIN MEMBER M"
+				+ " ON M.M_CODE = R.REQ_MCODE"
+				+ " INNER JOIN REQ_RESULT RR "
+				+ " ON RR.RES_CODE = R.REQ_RESCODE"
+				+ " WHERE  R.REQ_CONTENT LIKE '%"+search+"%' OR R.REQ_SUBJECT LIKE'%"+search+"%'";
+		
+		
+		try{
+			pstmt=con.prepareStatement(sql);
+	        rs=pstmt.executeQuery();
+	        rs.next();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount 에러:"+e);
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+					 System.out.println("ListCount con 에러:"+e);
+				}
+		}
+		return 0;
+	}
+	public Vector<RequestBean> getRequestSearchList(String search, int start, int end) {
+		try {
+			iscon = con.isClosed();
+			if(iscon){
+				connect();
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String sql = "";
+
+		int k;
+		int max_num = 0; // 총수량
+		// 결과를 저정하는 벡터 변수
+		Vector<RequestBean> list = new Vector<RequestBean>();
+					
+		try {
+	
+				sql = "SELECT * FROM (SELECT ROWNUM RNUM,REQ_CODE,CA_NAME, M_NAME, REQ_SUBJECT, REQ_CONTENT, REQ_DATE, REQ_REPORT, RES_NAME"
+						+ " FROM(SELECT REQ_CODE, RC.CA_NAME CA_NAME, M.M_NAME M_NAME, R.REQ_SUBJECT REQ_SUBJECT,R.REQ_CONTENT REQ_CONTENT, TO_CHAR(R.REQ_DATE, 'yyyy-mm-dd') REQ_DATE, R.REQ_REPORT REQ_REPORT, RR.RES_NAME RES_NAME "
+						+ " FROM REQUEST R"
+						+ " INNER JOIN REQ_CATEGORY RC"
+						+ " ON RC.CA_CODE = R.REQ_CACODE"
+						+ " INNER JOIN MEMBER M"
+						+ " ON M.M_CODE = R.REQ_MCODE"
+						+ " INNER JOIN REQ_RESULT RR "
+						+ " ON RR.RES_CODE = R.REQ_RESCODE "
+						+ " WHERE  R.REQ_CONTENT LIKE '%"+search+"%' OR R.REQ_SUBJECT LIKE'%"+search+"%'"
+						+ " ORDER BY R.req_date DESC))WHERE RNUM >="+start+" AND RNUM <="+end+" order by RNUM ASC";
+				
+			msg = sql;
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			// 해당 값을 얻는다.
+			
+			while (rs.next()) {
+				k = 1;
+				RequestBean data = new RequestBean();
+				data.setRnum(rs.getInt(k++));
+				data.setReq_code(rs.getString(k++));
+				data.setCa_name(rs.getString(k++));
+				data.setM_name(rs.getString(k++));
+				data.setReq_subject(rs.getString(k++));
+				data.setReq_content(rs.getString(k++));
+				data.setReq_date_s(rs.getString(k++));
+				data.setReq_report(rs.getString(k++));
+				data.setRes_name(rs.getString(k++));
+				data.setCount(max_num);
+				list.addElement(data);
+			}
+
+			if (rs != null)
+				rs.close();
+			return list;
+
+		} catch (Exception e) {
+			Error_msg = "<br>sql : " + sql + "<br>Error " + e.toString();
+			System.out.println("list e:"+ e);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+
+		return null;
+	}
+	
+	
 	//Request Category 목록 불러오는 코드
 	public Vector<RequestBean> getRequestCategoryList() {
 		try {

@@ -49,16 +49,14 @@ public class EquipmentAddAction implements Action {
 			e.printStackTrace();
 		} finally {
 		}
-		date = equipmentDao.stringToDateConversion(multi
-				.getParameter("eq_date"));
+		//date = equipmentDao.stringToDateConversion(multi.getParameter("eq_date"));
 		equipment.setEq_name(multi.getParameter("eq_name"));
 		System.out.println(multi.getParameter("eq_name"));
 		equipment.setManufacturer(multi.getParameter("eq_manufacturer"));
 		equipment.setEq_ca_code(Integer.parseInt(multi
 				.getParameter("eq_category")));
-		equipment.setEq_date_s((multi
-				.getParameter("eq_date")));
-		equipment.setEq_picture(multi.getFilesystemName("eq_picture"));
+		equipment.setEq_date_s(multi.getParameter("eq_date"));
+		//equipment.setEq_picture(multi.getFilesystemName("eq_picture"));
 		result = equipmentDao.insertEquipment(equipment);
 
 		if (result == false) {

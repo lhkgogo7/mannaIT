@@ -216,8 +216,8 @@
 	function eq_delete() {
 		$(".delete").click(
 				function() {
-					var eq_code = $(this).parent().parent().children().children('.eq_code').val();
-					//alert(eq_code);
+					var eq_code =$(this).parent().parent().children('.eq_code').html(); 
+					alert(eq_code);
 					$.ajax({
 						type : "POST",
 						data : {
@@ -225,7 +225,8 @@
 						},
 						url : "/equipmentDeleteAction.eq",
 						success : function(result) {
-							eq_list_ajax();
+							eq_list_ajax(eq_ca_code,cur_page,eq_limit);
+							pageList(eq_ca_code,cur_page,eq_limit);
 						},
 						error : function(XMLHttpRequest, textStatus,
 								errorThrown) {

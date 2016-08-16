@@ -17,13 +17,7 @@
 		String req_code="";
 		int cur_page=1; //현재페이지 기본값설정
 		int req_limit=1; 
-		
-		
-		if( request.getParameter("res_code")!=null){
-			res_code = Integer.parseInt(request.getParameter("res_code"));
-			req_code= request.getParameter("req_code");
-		}
-		
+		String req_search="";
 		if(request.getParameter("cur_page")!=null){ //현재페이지 넘어오면 
 			cur_page= Integer.parseInt(request.getParameter("cur_page"));
 			System.out.println("cur_page== >"+cur_page);
@@ -37,14 +31,27 @@
 		int start_row = (cur_page-1)*req_limit+1;
 		int end_row = cur_page*req_limit;
 		
-		System.out.println("getRequestList("+res_code+","+req_code+")");
-		
-		if(res_code==400){
-			req_vector = requestDao.getRequestList(req_code,start_row,end_row);
-		}else if(res_code==0){
-			req_vector = requestDao.getRequestList(start_row,end_row);
+		if( request.getParameter("req_search")!=null){
+			req_search =  request.getParameter("req_search");	
+			System.out.println("req_search");
+			req_vector = requestDao.getRequestSearchList(req_search,start_row,end_row);
+			
 		}else{
-			req_vector = requestDao.getRequestList(res_code,req_code,start_row,end_row);
+			if( request.getParameter("res_code")!=null){
+				res_code = Integer.parseInt(request.getParameter("res_code"));
+				req_code= request.getParameter("req_code");
+			}
+			
+			
+			System.out.println("getRequestList("+res_code+","+req_code+")");
+			
+			if(res_code==400){
+				req_vector = requestDao.getRequestList(req_code,start_row,end_row);
+			}else if(res_code==0){
+				req_vector = requestDao.getRequestList(start_row,end_row);
+			}else{
+				req_vector = requestDao.getRequestList(res_code,req_code,start_row,end_row);
+			}
 		}
 		System.out.println("req_vector"+req_vector);
 		for(int i=0;i<req_vector.size(); i++){

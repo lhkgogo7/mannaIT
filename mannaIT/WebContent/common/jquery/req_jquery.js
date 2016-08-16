@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+	req_search();
 	add_click();
 	res_search();
 	req_search();
@@ -8,6 +8,7 @@ $(document).ready(function() {
 	list_all();
 	view_num_change();
 	pageList(res_code, req_code, cur_page, req_limit);
+	
 });
 
 var cur_page=1;
@@ -17,8 +18,58 @@ var req_limit=20;
 var res_code = 0;
 var req_code= 0;
 
+
+function req_search(){
+	$('#search_button').click(function() {
+		aleart('searchbutton');
+		var search= $('#search_text').val();
+		aleart(search);
+	});
+};
 //req_list 불러오는 ajax
 function req_list_ajax(res_code, req_code, cur_page, req_limit) {
+	$.ajax({
+		url : "/requestListSearchAjax.rq",
+		dataType : "text",
+		data : {
+			res_code : res_code,
+			req_code : req_code,
+			cur_page : cur_page,
+			req_limit : req_limit
+		},
+		success : function(req_list) {
+			var reqList = eval(req_list);
+			var table = "<table> <td width='30px'></td><td width='80px'></td><td width='100px'></td><td width='290px'></td><td width='100px'></td><td width='100px'></td><td></td>";
+			$.each(reqList, function(index) {
+				var req_obj = reqList[index];
+				table += "<tr>";
+				table += "<td>" + req_obj.rnum + "</td>";
+				table += "<td class='no'>" + req_obj.req_code + "</td>";
+				table += "<td>" + req_obj.Ca_name + "</td>";
+				table += "<td class='subject'>" + req_obj.Req_subject + "</td>";
+				table += "<td>" + req_obj.M_name + "</td>";
+				table += "<td>" + req_obj.Req_date + "</td>";
+				table += "<td><select name='req_result' class='req_result'>"
+						+ "<option>" + req_obj.Res_name + "</option></td>";
+				table += "</tr>";
+
+			});
+
+			table += "</table>";
+			$("#tab_container").empty();
+			$("#tab_container").append(table);
+			res_ajax();
+			req_view();
+			req_list_css();
+
+		},
+		error : function(err) {
+			alert(err + "--->오류발생req_list_ajax(res_code, req_code)");
+		}
+	});
+};
+
+function req_search_list_ajax(res_code, req_code, cur_page, req_limit) {
 	$.ajax({
 		url : "/requestListSearchAjax.rq",
 		dataType : "text",
@@ -132,15 +183,15 @@ function exit_remove_add() {
 // 추가 창 불러오기 
 function add_load() {
 	$("#content_body").load("/requestAdd.rq");
-	$("#content_body").slideDown(100);
+	//$("#content_body").slideDown(100);
 	// div_slide();
 	
 }
 
 // div 비우기 
 function content_body_remove() {
-	//$("#content_body").empty();
-	$("#content_body").slideUp(1000);
+	$("#content_body").empty();
+	//$("#content_body").slideUp(1000);
 	// div_slide();
 }
 

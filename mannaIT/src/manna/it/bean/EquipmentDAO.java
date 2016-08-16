@@ -154,8 +154,8 @@ public class EquipmentDAO {
 			 * +start_row+" AND RNUM<="+end_row+" ORDER BY EQ_CODE DESC";
 			 */
 
-			sql = "SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE , EQ_PICTURE, EQ_USER "
-					+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE , EQ_PICTURE, EQ_USER "
+			sql = "SELECT * FROM (SELECT ROWNUM RNUM,EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_CA_NAME,EQ_CA_CODE,E_DATE, EQ_USER "
+					+ " FROM(SELECT EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EC.EQ_CA_NAME EQ_CA_NAME,EQ_CA_CODE, TO_CHAR(EQ_DATE, 'YYYY-MM-DD') E_DATE, EQ_USER "
 					+ " FROM EQUIPMENT EQ"
 					+ " INNER JOIN EQ_CATEGORY EC"
 					+ " ON EC.EQ_CA_CODE = EQ.EQ_EQCACODE"
@@ -382,8 +382,8 @@ public class EquipmentDAO {
 
 		try {
 			System.out.println("진입");
-			sql = "INSERT INTO EQUIPMENT (EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_EQCACODE, EQ_DATE, EQ_PICTURE)"
-					+ " VALUES (EQCODE_NEXT_SEQ, ?, ?, ?, ?,?)";
+			sql = "INSERT INTO EQUIPMENT (EQ_CODE, EQ_NAME, EQ_MANUFACTURER, EQ_EQCACODE, EQ_DATE)"
+					+ " VALUES (EQCODE_NEXT_SEQ, ?, ?, ?, ?)";
 
 			System.out.println("sql1" + sql);
 
@@ -397,9 +397,9 @@ public class EquipmentDAO {
 			System.out.println("ca_code" + eb.getEq_ca_code());
 
 			pstmt.setString(4, eb.getEq_date_s());
-			pstmt.setString(5, eb.getEq_picture());
+			//pstmt.setString(5, eb.getEq_picture());
 			System.out.println("date" + eb.getEq_date_s());
-			System.out.println(" eb.getEq_picture()" + eb.getEq_picture());
+			///System.out.println(" eb.getEq_picture()" + eb.getEq_picture());
 			System.out.println("sql1" + sql);
 
 			res = pstmt.executeUpdate();
